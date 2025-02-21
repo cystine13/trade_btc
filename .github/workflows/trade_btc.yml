@@ -24,3 +24,9 @@ jobs:
           UPBIT_ACCESS_KEY: ${{ secrets.UPBIT_ACCESS_KEY }}
           UPBIT_SECRET_KEY: ${{ secrets.UPBIT_SECRET_KEY }}
         run: python trade_btc.py
+
+      - name: 로그 파일 저장 (Artifacts)
+        uses: actions/upload-artifact@v3
+        with:
+          name: trade-log
+          path: trade_log.txt
