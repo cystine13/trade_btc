@@ -1,0 +1,26 @@
+name: Daily BTC Trade
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # UTC 00:00 → 한국 09:00 실행
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v3
+
+      - name: Python 환경 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 라이브러리 설치
+        run: pip install requests jwt uuid hashlib
+
+      - name: 자동 매매 실행
+        env:
+          UPBIT_ACCESS_KEY: ${{ secrets.UPBIT_ACCESS_KEY }}
+          UPBIT_SECRET_KEY: ${{ secrets.UPBIT_SECRET_KEY }}
+        run: python trade_btc.py
