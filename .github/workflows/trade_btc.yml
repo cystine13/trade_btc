@@ -3,6 +3,7 @@ name: Daily BTC Trade
 on:
   schedule:
     - cron: '0 0 * * *'  # UTC 00:00 → 한국 09:00 실행
+  workflow_dispatch:  # ✅ 수동 실행 기능 추가
 
 jobs:
   trade:
@@ -26,7 +27,7 @@ jobs:
         run: python trade_btc.py
 
       - name: 로그 파일 저장 (Artifacts)
-        uses: actions/upload-artifact@v4  # ✅ 최신 버전으로 변경
+        uses: actions/upload-artifact@v4
         with:
           name: trade-log
           path: trade_log.txt
