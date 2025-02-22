@@ -109,7 +109,7 @@ def sell_btc(trade_id):
     query = {
         "market": "KRW-BTC",
         "side": "ask",
-        "volume": str(btc_amount),
+        "volume": str(btc_amount),  # 해당 순번이 보유한 BTC만큼 매도
         "ord_type": "market"
     }
 
@@ -126,10 +126,7 @@ def sell_btc(trade_id):
 
 # 🔹 자동 매매 실행 (매수 & 수익 확인 후 매도)
 def auto_trade():
-    now = datetime.datetime.now()
-
-    if now.hour == 9 and now.minute == 0:
-        buy_btc()
+    buy_btc()
     
     trade_data = load_trade_data()
     current_price = get_btc_price()
