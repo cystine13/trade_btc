@@ -18,7 +18,7 @@ jobs:
           python-version: '3.9'
 
       - name: 라이브러리 설치
-        run: pip install requests jwt uuid hashlib
+        run: pip install requests pyjwt  # ✅ 수정된 패키지 설치
 
       - name: 자동 매매 실행
         env:
