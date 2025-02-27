@@ -16,6 +16,7 @@
     <table id="trade-table">
         <thead>
             <tr>
+                <th>순번</th>
                 
                 <th>매수일</th>
                 <th>BTC 수량</th>
@@ -37,20 +38,21 @@
                 let data = await response.json();
                 let table = document.getElementById("trade-table").getElementsByTagName("tbody")[0];
 
+                let index = 1;
                 Object.keys(data).forEach(key => {
                     let trade = data[key];
                     let row = table.insertRow();
                     row.innerHTML = `
-                        <td>${key}</td>
-                        <td>${trade.uuid}</td>
-                        <td>${trade.date}</td>
-                        <td>${trade.btc_amount}</td>
+                        
+                        
+                        <td>\${new Date(trade.date).toISOString().replace('T', ' ').substring(0, 19)}</td>
+                        <td>\${parseFloat(trade.btc_amount).toFixed(8)}</td>
                         <td>${trade.buy_price.toLocaleString()} KRW</td>
                         <td>${trade.buy_total.toLocaleString()} KRW</td>
                         <td>${trade.status}</td>
                         <td>${trade.sell_price ? trade.sell_price.toLocaleString() + " KRW" : "-"}</td>
                         <td>${trade.sell_total ? trade.sell_total.toLocaleString() + " KRW" : "-"}</td>
-                        <td>${trade.sell_date || "-"}</td>
+                        <td>\${trade.sell_date ? new Date(trade.sell_date).toISOString().replace('T', ' ').substring(0, 19) : "-"}</td>
                     `;
                 });
             } catch (error) {
