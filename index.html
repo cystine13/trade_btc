@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upbit 매매 기록</title>
+    <title>매매 내역</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        table { width: 80%; margin: auto; border-collapse: collapse; }
-        th, td { padding: 8px; border: 1px solid #ddd; }
-        th { background: #f4f4f4; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h1>📊 Upbit 매매 기록</h1>
-    <table id="trade-table">
+    <h2>매매 내역</h2>
+    <table id="tradeTable">
         <thead>
             <tr>
                 <th>순번</th>
@@ -25,40 +41,42 @@
                 <th>매도일</th>
                 <th>매도 단가</th>
                 <th>매도 정산 금액</th>
+                <th>수익</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+        </tbody>
     </table>
 
     <script>
-        async function loadTradeData() {
-            try {
-                let response = await fetch("trade_history.json");
-                let data = await response.json();
-                let table = document.getElementById("trade-table").getElementsByTagName("tbody")[0];
-                let index = 1;
+        fetch('trade_history.json')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#tradeTable tbody');
+                Object.entries(data).forEach(([id, trade]) => {
+                    const btcAmount = trade.btc_amount.toFixed(8);
+                    const buyDate = new Date(trade.date).toISOString().replace('T', ' ').substring(0, 19);
+                    const sellDate = trade.sell_date ? new Date(trade.sell_date).toISOString().replace('T', ' ').substring(0, 19) : '-';
+                    const sellTotal = trade.sell_total ? trade.sell_total : 0;
+                    const profit = trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-';
 
-                Object.keys(data).forEach(key => {
-                    let trade = data[key];
-                    let row = table.insertRow();
+                    const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>\${index++}</td>
-                        <td>\${parseFloat(trade.btc_amount).toFixed(8)}</td>
-                        <td>\${new Date(trade.date).toISOString().replace('T', ' ').substring(0, 19)}</td>
-                        <td>\${trade.buy_price.toLocaleString()} KRW</td>
-                        <td>\${trade.buy_total.toLocaleString()} KRW</td>
-                        <td>\${trade.status}</td>
-                        <td>\${trade.sell_date ? new Date(trade.sell_date).toISOString().replace('T', ' ').substring(0, 19) : "-"}</td>
-                        <td>\${trade.sell_price ? trade.sell_price.toLocaleString() + " KRW" : "-"}</td>
-                        <td>\${trade.sell_total ? trade.sell_total.toLocaleString() + " KRW" : "-"}</td>
+                        <td>${id}</td>
+                        <td>${btcAmount}</td>
+                        <td>${buyDate}</td>
+                        <td>${trade.buy_price.toLocaleString()} 원</td>
+                        <td>${trade.buy_total.toLocaleString()} 원</td>
+                        <td>${trade.status}</td>
+                        <td>${sellDate}</td>
+                        <td>${trade.sell_price ? trade.sell_price.toLocaleString() + ' 원' : '-'}</td>
+                        <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
+                        <td>${profit}</td>
                     `;
+                    tableBody.appendChild(row);
                 });
-            } catch (error) {
-                console.error("데이터 로드 오류:", error);
-            }
-        }
-
-        loadTradeData();
+            })
+            .catch(error => console.error('Error fetching trade history:', error));
     </script>
 </body>
 </html>
