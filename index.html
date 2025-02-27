@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upbit 매매 기록</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 8px; border: 1px solid #ddd; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>📊 Upbit 매매 기록</h1>
+    <table id="trade-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>UUID</th>
+                <th>거래일</th>
+                <th>BTC 수량</th>
+                <th>매수가</th>
+                <th>매수 금액</th>
+                <th>상태</th>
+                <th>매도가</th>
+                <th>매도 금액</th>
+                <th>매도일</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function loadTradeData() {
+            try {
+                let response = await fetch("trade_history.json");
+                let data = await response.json();
+                let table = document.getElementById("trade-table").getElementsByTagName("tbody")[0];
+
+                Object.keys(data).forEach(key => {
+                    let trade = data[key];
+                    let row = table.insertRow();
+                    row.innerHTML = `
+                        <td>${key}</td>
+                        <td>${trade.uuid}</td>
+                        <td>${trade.date}</td>
+                        <td>${trade.btc_amount}</td>
+                        <td>${trade.buy_price.toLocaleString()} KRW</td>
+                        <td>${trade.buy_total.toLocaleString()} KRW</td>
+                        <td>${trade.status}</td>
+                        <td>${trade.sell_price ? trade.sell_price.toLocaleString() + " KRW" : "-"}</td>
+                        <td>${trade.sell_total ? trade.sell_total.toLocaleString() + " KRW" : "-"}</td>
+                        <td>${trade.sell_date || "-"}</td>
+                    `;
+                });
+            } catch (error) {
+                console.error("데이터 로드 오류:", error);
+            }
+        }
+
+        loadTradeData();
+    </script>
+</body>
+</html>
