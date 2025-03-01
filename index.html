@@ -29,7 +29,6 @@
     </style>
 </head>
 <body>
-    <h2>매매 내역</h2>
     <h3>월별 수익 합계</h3>
     <table id="monthlyProfitTable">
         <thead>
@@ -40,6 +39,14 @@
         <tbody id="profitBody">
         </tbody>
     </table>
+    
+    <h3>매매 내역</h3>
+    <label for="statusFilter">상태 필터:</label>
+    <select id="statusFilter">
+        <option value="all">전체</option>
+        <option value="holding">Holding</option>
+        <option value="sold">Sold</option>
+    </select>
     
     <table id="tradeTable">
         <thead>
@@ -74,6 +81,7 @@
                 
                 // 월별 수익 집계
                 let monthlyProfit = {};
+                let yearlyProfit = {};
                 tradeEntries.forEach(trade => {
                     if (trade.sell_date && trade.sell_total && trade.buy_total) {
                         let date = new Date(trade.sell_date);
@@ -88,6 +96,11 @@
                             monthlyProfit[year][month] = 0;
                         }
                         monthlyProfit[year][month] += profit;
+                        
+                        if (!yearlyProfit[year]) {
+                            yearlyProfit[year] = 0;
+                        }
+                        yearlyProfit[year] += profit;
                     }
                 });
                 
@@ -97,6 +110,18 @@
                     th.textContent = year;
                     profitHeaderRow.appendChild(th);
                 });
+                
+                // 연도별 합계 추가 (1월 위에 표시)
+                let trYearly = document.createElement('tr');
+                let tdLabel = document.createElement('td');
+                tdLabel.textContent = "연도별 합계";
+                trYearly.appendChild(tdLabel);
+                Object.keys(yearlyProfit).forEach(year => {
+                    let td = document.createElement('td');
+                    td.textContent = yearlyProfit[year].toLocaleString() + ' 원';
+                    trYearly.appendChild(td);
+                });
+                profitTableBody.appendChild(trYearly);
                 
                 // 월별 데이터 추가
                 for (let month = 1; month <= 12; month++) {
@@ -114,36 +139,32 @@
                 }
                 
                 // 거래 내역 테이블 데이터 추가
-                tradeEntries.forEach(trade => {
-                    const btcAmount = trade.btc_amount.toFixed(8);
-                    const buyDate = new Date(trade.date).toLocaleString('ko-KR', {
-                        year: 'numeric', month: '2-digit', day: '2-digit',
-                        hour: '2-digit', minute: '2-digit', second: '2-digit'
-                    }).replace(/\. /g, '-').replace(' ', '').replace('오전', '').replace('오후', '');
-                    
-                    const sellDate = trade.sell_date ? new Date(trade.sell_date).toLocaleString('ko-KR', {
-                        year: 'numeric', month: '2-digit', day: '2-digit',
-                        hour: '2-digit', minute: '2-digit', second: '2-digit'
-                    }).replace(/\. /g, '-').replace(' ', '').replace('오전', '').replace('오후', '') : '-';
-                    
-                    const sellTotal = trade.sell_total ? trade.sell_total : 0;
-                    const profit = trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-';
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${trade.id}</td>
-                        <td>${btcAmount}</td>
-                        <td>${buyDate}</td>
-                        <td>${trade.buy_price.toLocaleString()} 원</td>
-                        <td>${trade.buy_total.toLocaleString()} 원</td>
-                        <td>${trade.status}</td>
-                        <td>${sellDate}</td>
-                        <td>${trade.sell_price ? trade.sell_price.toLocaleString() + ' 원' : '-'}</td>
-                        <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
-                        <td>${profit}</td>
-                    `;
-                    tableBody.appendChild(row);
+                function renderTable(filter) {
+                    tableBody.innerHTML = '';
+                    tradeEntries.forEach(trade => {
+                        if (filter !== 'all' && trade.status !== filter) return;
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${trade.id}</td>
+                            <td>${trade.btc_amount.toFixed(8)}</td>
+                            <td>${trade.date}</td>
+                            <td>${trade.buy_price.toLocaleString()} 원</td>
+                            <td>${trade.buy_total.toLocaleString()} 원</td>
+                            <td>${trade.status}</td>
+                            <td>${trade.sell_date || '-'}</td>
+                            <td>${trade.sell_price ? trade.sell_price.toLocaleString() + ' 원' : '-'}</td>
+                            <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
+                            <td>${trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-'}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+                
+                document.getElementById('statusFilter').addEventListener('change', (event) => {
+                    renderTable(event.target.value);
                 });
+                
+                renderTable('all');
             })
             .catch(error => console.error('Error fetching trade history:', error));
     </script>
