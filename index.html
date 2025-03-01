@@ -79,63 +79,17 @@
                 // 순번을 내림차순으로 정렬
                 tradeEntries.sort((a, b) => b.id - a.id);
                 
-                // 월별 수익 집계
-                let monthlyProfit = {};
-                let yearlyProfit = {};
-                tradeEntries.forEach(trade => {
-                    if (trade.sell_date && trade.sell_total && trade.buy_total) {
-                        let date = new Date(trade.sell_date);
-                        let year = date.getFullYear();
-                        let month = date.getMonth() + 1;
-                        let profit = trade.sell_total - trade.buy_total;
-                        
-                        if (!monthlyProfit[year]) {
-                            monthlyProfit[year] = {};
-                        }
-                        if (!monthlyProfit[year][month]) {
-                            monthlyProfit[year][month] = 0;
-                        }
-                        monthlyProfit[year][month] += profit;
-                        
-                        if (!yearlyProfit[year]) {
-                            yearlyProfit[year] = 0;
-                        }
-                        yearlyProfit[year] += profit;
-                    }
-                });
-                
-                // 헤더에 연도 추가
-                Object.keys(monthlyProfit).forEach(year => {
-                    let th = document.createElement('th');
-                    th.textContent = year;
-                    profitHeaderRow.appendChild(th);
-                });
-                
-                // 연도별 합계 추가 (1월 위에 표시)
-                let trYearly = document.createElement('tr');
-                let tdLabel = document.createElement('td');
-                tdLabel.textContent = "연도별 합계";
-                trYearly.appendChild(tdLabel);
-                Object.keys(yearlyProfit).forEach(year => {
-                    let td = document.createElement('td');
-                    td.textContent = yearlyProfit[year].toLocaleString() + ' 원';
-                    trYearly.appendChild(td);
-                });
-                profitTableBody.appendChild(trYearly);
-                
-                // 월별 데이터 추가
-                for (let month = 1; month <= 12; month++) {
-                    let tr = document.createElement('tr');
-                    let tdMonth = document.createElement('td');
-                    tdMonth.textContent = `${month}월`;
-                    tr.appendChild(tdMonth);
-                    
-                    Object.keys(monthlyProfit).forEach(year => {
-                        let td = document.createElement('td');
-                        td.textContent = monthlyProfit[year][month] ? monthlyProfit[year][month].toLocaleString() + ' 원' : '-';
-                        tr.appendChild(td);
-                    });
-                    profitTableBody.appendChild(tr);
+                // 날짜 포맷 함수 (YYYY-MM-DD HH:MM:SS)
+                function formatDate(dateString) {
+                    if (!dateString) return '-';
+                    const date = new Date(dateString);
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    const seconds = String(date.getSeconds()).padStart(2, '0');
+                    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                 }
                 
                 // 거래 내역 테이블 데이터 추가
@@ -147,11 +101,11 @@
                         row.innerHTML = `
                             <td>${trade.id}</td>
                             <td>${trade.btc_amount.toFixed(8)}</td>
-                            <td>${trade.date}</td>
+                            <td>${formatDate(trade.date)}</td>
                             <td>${trade.buy_price.toLocaleString()} 원</td>
                             <td>${trade.buy_total.toLocaleString()} 원</td>
                             <td>${trade.status}</td>
-                            <td>${trade.sell_date || '-'}</td>
+                            <td>${formatDate(trade.sell_date)}</td>
                             <td>${trade.sell_price ? trade.sell_price.toLocaleString() + ' 원' : '-'}</td>
                             <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
                             <td>${trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-'}</td>
