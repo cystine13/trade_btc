@@ -55,8 +55,18 @@
                 const tableBody = document.querySelector('#tradeTable tbody');
                 Object.entries(data).forEach(([id, trade]) => {
                     const btcAmount = trade.btc_amount.toFixed(8);
-                    const buyDate = new Date(trade.date).toISOString().replace('T', ' ').substring(0, 19);
-                    const sellDate = trade.sell_date ? new Date(trade.sell_date).toISOString().replace('T', ' ').substring(0, 19) : '-';
+                    
+                    // 한국 시간으로 변환
+                    const buyDate = new Date(trade.date).toLocaleString('ko-KR', { 
+                        year: 'numeric', month: '2-digit', day: '2-digit', 
+                        hour: '2-digit', minute: '2-digit', second: '2-digit' 
+                    }).replace(/\. /g, '-').replace(' ', '').replace('오전', '').replace('오후', '');
+
+                    const sellDate = trade.sell_date ? new Date(trade.sell_date).toLocaleString('ko-KR', { 
+                        year: 'numeric', month: '2-digit', day: '2-digit', 
+                        hour: '2-digit', minute: '2-digit', second: '2-digit' 
+                    }).replace(/\. /g, '-').replace(' ', '').replace('오전', '').replace('오후', '') : '-';
+
                     const sellTotal = trade.sell_total ? trade.sell_total : 0;
                     const profit = trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-';
 
