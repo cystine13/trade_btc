@@ -92,6 +92,40 @@
                     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                 }
                 
+                // 월별 수익 계산
+                let monthlyProfit = {};
+                tradeEntries.forEach(trade => {
+                    if (trade.sell_date && trade.sell_total && trade.buy_total) {
+                        let date = new Date(trade.sell_date);
+                        let year = date.getFullYear();
+                        let month = date.getMonth() + 1;
+                        let profit = trade.sell_total - trade.buy_total;
+                        
+                        if (!monthlyProfit[year]) {
+                            monthlyProfit[year] = {};
+                        }
+                        if (!monthlyProfit[year][month]) {
+                            monthlyProfit[year][month] = 0;
+                        }
+                        monthlyProfit[year][month] += profit;
+                    }
+                });
+                
+                // 월별 수익 표 생성
+                Object.keys(monthlyProfit).forEach(year => {
+                    let tr = document.createElement('tr');
+                    let tdYear = document.createElement('td');
+                    tdYear.textContent = year;
+                    tr.appendChild(tdYear);
+                    
+                    for (let month = 1; month <= 12; month++) {
+                        let td = document.createElement('td');
+                        td.textContent = monthlyProfit[year][month] ? monthlyProfit[year][month].toLocaleString() + ' 원' : '-';
+                        tr.appendChild(td);
+                    }
+                    profitTableBody.appendChild(tr);
+                });
+                
                 // 거래 내역 테이블 데이터 추가
                 function renderTable(filter) {
                     tableBody.innerHTML = '';
