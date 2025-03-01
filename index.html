@@ -34,6 +34,19 @@
         <thead>
             <tr id="profitHeaderRow">
                 <th>연도</th>
+                <th>합계</th>
+                <th>1월</th>
+                <th>2월</th>
+                <th>3월</th>
+                <th>4월</th>
+                <th>5월</th>
+                <th>6월</th>
+                <th>7월</th>
+                <th>8월</th>
+                <th>9월</th>
+                <th>10월</th>
+                <th>11월</th>
+                <th>12월</th>
             </tr>
         </thead>
         <tbody id="profitBody">
@@ -73,7 +86,6 @@
             .then(data => {
                 const tableBody = document.querySelector('#tradeTable tbody');
                 const profitTableBody = document.querySelector('#profitBody');
-                const profitHeaderRow = document.querySelector('#profitHeaderRow');
                 let tradeEntries = Object.entries(data).map(([id, trade]) => ({ id, ...trade }));
                 
                 // 순번을 내림차순으로 정렬
@@ -102,12 +114,13 @@
                         let profit = trade.sell_total - trade.buy_total;
                         
                         if (!monthlyProfit[year]) {
-                            monthlyProfit[year] = {};
+                            monthlyProfit[year] = { total: 0 };
                         }
                         if (!monthlyProfit[year][month]) {
                             monthlyProfit[year][month] = 0;
                         }
                         monthlyProfit[year][month] += profit;
+                        monthlyProfit[year].total += profit;
                     }
                 });
                 
@@ -117,6 +130,10 @@
                     let tdYear = document.createElement('td');
                     tdYear.textContent = year;
                     tr.appendChild(tdYear);
+                    
+                    let tdTotal = document.createElement('td');
+                    tdTotal.textContent = monthlyProfit[year].total.toLocaleString() + ' 원';
+                    tr.appendChild(tdTotal);
                     
                     for (let month = 1; month <= 12; month++) {
                         let td = document.createElement('td');
