@@ -1215,10 +1215,10 @@
         "btc_amount": 4.109e-05,
         "buy_price": 124385000,
         "buy_total": 5114,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null
+        "status": "sold",
+        "sell_price": 124708000,
+        "sell_total": 5121,
+        "sell_date": "2025-03-23T20:00:58+09:00"
     },
     "112": {
         "uuid": "808fff7b-5340-4e39-ac58-672456c07fc2",
