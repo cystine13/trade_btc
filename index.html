@@ -70,6 +70,22 @@
     </table>
 
     <script>
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            const year = String(date.getFullYear()).slice(2);
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            return `${year}.${month}.${day} ${hours}시`;
+        }
+
+        function formatK(value) {
+            if (typeof value !== 'number') return '-';
+            const rounded = Math.round(value / 1000);
+            return `${rounded.toLocaleString()}K`;
+        }
+
         fetch('trade_history.json')
             .then(response => response.json())
             .then(data => {
@@ -78,16 +94,6 @@
                 let tradeEntries = Object.entries(data).map(([id, trade]) => ({ id, ...trade }));
 
                 tradeEntries.sort((a, b) => b.id - a.id);
-
-                function formatDate(dateString) {
-                    if (!dateString) return '-';
-                    const date = new Date(dateString);
-                    const year = String(date.getFullYear()).slice(2);
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    const hours = String(date.getHours()).padStart(2, '0');
-                    return `${year}.${month}.${day} ${hours}시`;
-                }
 
                 // 📊 월별 수익 / 매수 / 매도 / 평균 계산 구조
                 let stats = {};
@@ -121,7 +127,7 @@
                     }
                 });
 
-                // 📈 테이블 출력
+                // 📈 월별 수익 테이블 출력
                 Object.keys(stats).sort().forEach(year => {
                     const rows = ['수익', '매수건수', '매도건수', '평균수익'];
                     rows.forEach((label, idx) => {
@@ -183,11 +189,11 @@
                             <td>${trade.id}</td>
                             <td>${trade.btc_amount.toFixed(8)}</td>
                             <td>${formatDate(trade.date)}</td>
-                            <td>${trade.buy_price.toLocaleString()} 원</td>
+                            <td>${formatK(trade.buy_price)}</td>
                             <td>${trade.buy_total.toLocaleString()} 원</td>
                             <td>${trade.status}</td>
                             <td>${formatDate(trade.sell_date)}</td>
-                            <td>${trade.sell_price ? trade.sell_price.toLocaleString() + ' 원' : '-'}</td>
+                            <td>${trade.sell_price ? formatK(trade.sell_price) : '-'}</td>
                             <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
                             <td>${trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-'}</td>
                         `;
