@@ -34,25 +34,15 @@
         <thead>
             <tr id="profitHeaderRow">
                 <th>연도</th>
+                <th>항목</th>
+                <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
+                <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
                 <th>합계</th>
-                <th>1월</th>
-                <th>2월</th>
-                <th>3월</th>
-                <th>4월</th>
-                <th>5월</th>
-                <th>6월</th>
-                <th>7월</th>
-                <th>8월</th>
-                <th>9월</th>
-                <th>10월</th>
-                <th>11월</th>
-                <th>12월</th>
             </tr>
         </thead>
-        <tbody id="profitBody">
-        </tbody>
+        <tbody id="profitBody"></tbody>
     </table>
-    
+
     <h3>매매 내역</h3>
     <label for="statusFilter">상태 필터:</label>
     <select id="statusFilter">
@@ -60,7 +50,7 @@
         <option value="holding">Holding</option>
         <option value="sold">Sold</option>
     </select>
-    
+
     <table id="tradeTable">
         <thead>
             <tr>
@@ -76,8 +66,7 @@
                 <th>수익</th>
             </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
     </table>
 
     <script>
@@ -87,61 +76,104 @@
                 const tableBody = document.querySelector('#tradeTable tbody');
                 const profitTableBody = document.querySelector('#profitBody');
                 let tradeEntries = Object.entries(data).map(([id, trade]) => ({ id, ...trade }));
-                
-                // 순번을 내림차순으로 정렬
+
                 tradeEntries.sort((a, b) => b.id - a.id);
-                
-                // 날짜 포맷 함수 (YYYY-MM-DD)
+
                 function formatDate(dateString) {
                     if (!dateString) return '-';
                     const date = new Date(dateString);
-                    const year = String(date.getFullYear()).slice(2); // 뒤 2자리
+                    const year = String(date.getFullYear()).slice(2);
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     const hours = String(date.getHours()).padStart(2, '0');
                     return `${year}.${month}.${day} ${hours}시`;
                 }
-                
-                // 월별 수익 계산
-                let monthlyProfit = {};
+
+                // 📊 월별 수익 / 매수 / 매도 / 평균 계산 구조
+                let stats = {};
                 tradeEntries.forEach(trade => {
+                    let buyDate = new Date(trade.date);
+                    let year = buyDate.getFullYear();
+                    let buyMonth = buyDate.getMonth() + 1;
+
+                    if (!stats[year]) {
+                        stats[year] = {};
+                        for (let m = 1; m <= 12; m++) {
+                            stats[year][m] = { profit: 0, buys: 0, sells: 0 };
+                        }
+                    }
+                    stats[year][buyMonth].buys += 1;
+
                     if (trade.sell_date && trade.sell_total && trade.buy_total) {
-                        let date = new Date(trade.sell_date);
-                        let year = date.getFullYear();
-                        let month = date.getMonth() + 1;
+                        let sellDate = new Date(trade.sell_date);
+                        let sellMonth = sellDate.getMonth() + 1;
+                        let sellYear = sellDate.getFullYear();
                         let profit = trade.sell_total - trade.buy_total;
-                        
-                        if (!monthlyProfit[year]) {
-                            monthlyProfit[year] = { total: 0 };
+
+                        if (!stats[sellYear]) {
+                            stats[sellYear] = {};
+                            for (let m = 1; m <= 12; m++) {
+                                stats[sellYear][m] = { profit: 0, buys: 0, sells: 0 };
+                            }
                         }
-                        if (!monthlyProfit[year][month]) {
-                            monthlyProfit[year][month] = 0;
-                        }
-                        monthlyProfit[year][month] += profit;
-                        monthlyProfit[year].total += profit;
+                        stats[sellYear][sellMonth].profit += profit;
+                        stats[sellYear][sellMonth].sells += 1;
                     }
                 });
-                
-                // 월별 수익 표 생성
-                Object.keys(monthlyProfit).forEach(year => {
-                    let tr = document.createElement('tr');
-                    let tdYear = document.createElement('td');
-                    tdYear.textContent = year;
-                    tr.appendChild(tdYear);
-                    
-                    let tdTotal = document.createElement('td');
-                    tdTotal.textContent = monthlyProfit[year].total.toLocaleString() + ' 원';
-                    tr.appendChild(tdTotal);
-                    
-                    for (let month = 1; month <= 12; month++) {
-                        let td = document.createElement('td');
-                        td.textContent = monthlyProfit[year][month] ? monthlyProfit[year][month].toLocaleString() + ' 원' : '-';
-                        tr.appendChild(td);
-                    }
-                    profitTableBody.appendChild(tr);
+
+                // 📈 테이블 출력
+                Object.keys(stats).sort().forEach(year => {
+                    const rows = ['수익', '매수건수', '매도건수', '평균수익'];
+                    rows.forEach((label, idx) => {
+                        const tr = document.createElement('tr');
+                        if (idx === 0) {
+                            const tdYear = document.createElement('td');
+                            tdYear.textContent = year;
+                            tdYear.rowSpan = 4;
+                            tr.appendChild(tdYear);
+                        }
+
+                        const tdLabel = document.createElement('td');
+                        tdLabel.textContent = label;
+                        tr.appendChild(tdLabel);
+
+                        let yearProfit = 0, yearBuys = 0, yearSells = 0;
+
+                        for (let m = 1; m <= 12; m++) {
+                            const cell = document.createElement('td');
+                            const { profit, buys, sells } = stats[year][m];
+
+                            if (label === '수익') {
+                                cell.textContent = profit ? profit.toLocaleString() + ' 원' : '-';
+                                yearProfit += profit;
+                            } else if (label === '매수건수') {
+                                cell.textContent = buys ? buys + '건' : '-';
+                                yearBuys += buys;
+                            } else if (label === '매도건수') {
+                                cell.textContent = sells ? sells + '건' : '-';
+                                yearSells += sells;
+                            } else if (label === '평균수익') {
+                                cell.textContent = sells ? Math.floor(profit / sells).toLocaleString() + ' 원' : '-';
+                            }
+                            tr.appendChild(cell);
+                        }
+
+                        const totalCell = document.createElement('td');
+                        if (label === '수익') {
+                            totalCell.textContent = yearProfit.toLocaleString() + ' 원';
+                        } else if (label === '매수건수') {
+                            totalCell.textContent = yearBuys + '건';
+                        } else if (label === '매도건수') {
+                            totalCell.textContent = yearSells + '건';
+                        } else if (label === '평균수익') {
+                            totalCell.textContent = yearSells ? Math.floor(yearProfit / yearSells).toLocaleString() + ' 원' : '-';
+                        }
+                        tr.appendChild(totalCell);
+                        profitTableBody.appendChild(tr);
+                    });
                 });
-                
-                // 거래 내역 테이블 데이터 추가
+
+                // 🧾 매매 내역 테이블 출력
                 function renderTable(filter) {
                     tableBody.innerHTML = '';
                     tradeEntries.forEach(trade => {
@@ -162,11 +194,11 @@
                         tableBody.appendChild(row);
                     });
                 }
-                
+
                 document.getElementById('statusFilter').addEventListener('change', (event) => {
                     renderTable(event.target.value);
                 });
-                
+
                 renderTable('all');
             })
             .catch(error => console.error('Error fetching trade history:', error));
