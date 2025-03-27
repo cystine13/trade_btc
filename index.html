@@ -64,6 +64,7 @@
                 <th>매도 단가</th>
                 <th>매도 정산 금액</th>
                 <th>수익</th>
+                <th>포지션수</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -196,6 +197,7 @@
                             <td>${trade.sell_price ? formatK(trade.sell_price) : '-'}</td>
                             <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
                             <td>${trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-'}</td>
+                            <td>${trade.position ?? '-'}</td>
                         `;
                         tableBody.appendChild(row);
                     });
