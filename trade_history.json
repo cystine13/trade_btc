@@ -5986,10 +5986,10 @@
         "btc_amount": 5.211e-05,
         "buy_price": 121465000,
         "buy_total": 6333,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 121746000,
+        "sell_total": 6341,
+        "sell_date": "2025-04-12T22:00:52+09:00",
         "position": 56
     },
     "519": {
@@ -5998,10 +5998,10 @@
         "btc_amount": 5.22e-05,
         "buy_price": 121361000,
         "buy_total": 6339,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 121746000,
+        "sell_total": 6351,
+        "sell_date": "2025-04-12T22:00:54+09:00",
         "position": 57
     },
     "520": {
@@ -6034,10 +6034,10 @@
         "btc_amount": 5.213e-05,
         "buy_price": 121503000,
         "buy_total": 6338,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 121723000,
+        "sell_total": 6342,
+        "sell_date": "2025-04-12T22:00:57+09:00",
         "position": 58
     },
     "523": {
@@ -6046,10 +6046,10 @@
         "btc_amount": 5.219e-05,
         "buy_price": 121431000,
         "buy_total": 6341,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 121723000,
+        "sell_total": 6349,
+        "sell_date": "2025-04-12T22:01:00+09:00",
         "position": 59
     },
     "524": {
@@ -6058,10 +6058,10 @@
         "btc_amount": 5.222e-05,
         "buy_price": 121406000,
         "buy_total": 6343,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 121696000,
+        "sell_total": 6351,
+        "sell_date": "2025-04-12T22:01:03+09:00",
         "position": 60
     }
 }
