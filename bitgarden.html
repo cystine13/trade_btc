@@ -9,6 +9,7 @@
   <style>
     .status-bloomed { background-color: #e0ffe0; }
     .status-growing { background-color: #fff9cc; }
+    .dataTables_length, .dataTables_filter { display: none !important; }
   </style>
 </head>
 <body class="bg-light">
@@ -110,6 +111,7 @@
         const dt = $('#detailsTable').DataTable({
           data: tableData,
           pageLength: 20,
+          ordering: false,
           columns: [
             { data: 'seed_id' },
             { data: 'seed_time', render: t => formatDateTime(t) },
