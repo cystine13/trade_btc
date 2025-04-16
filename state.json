@@ -31,7 +31,7 @@
     "bloom_size": 5024,
     "bloom_price": 116327000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 3,
@@ -48,7 +48,7 @@
     "bloom_size": 5023,
     "bloom_price": 116769000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 4,
@@ -65,7 +65,7 @@
     "bloom_size": 5024,
     "bloom_price": 117351000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 5,
@@ -82,7 +82,7 @@
     "bloom_size": 5023,
     "bloom_price": 117858000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 6,
@@ -99,7 +99,7 @@
     "bloom_size": 5023,
     "bloom_price": 117996000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 7,
@@ -116,7 +116,7 @@
     "bloom_size": 5023,
     "bloom_price": 119026000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 8,
@@ -133,7 +133,7 @@
     "bloom_size": 5024,
     "bloom_price": 118911000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 9,
@@ -150,7 +150,7 @@
     "bloom_size": 5023,
     "bloom_price": 119603000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 10,
@@ -167,7 +167,7 @@
     "bloom_size": 5024,
     "bloom_price": 120360000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 11,
@@ -184,7 +184,7 @@
     "bloom_size": 5023,
     "bloom_price": 120661000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 12,
@@ -201,7 +201,7 @@
     "bloom_size": 5023,
     "bloom_price": 120726000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 13,
@@ -218,7 +218,7 @@
     "bloom_size": 5024,
     "bloom_price": 121615000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 14,
@@ -235,7 +235,7 @@
     "bloom_size": 5023,
     "bloom_price": 122092000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 15,
@@ -252,7 +252,7 @@
     "bloom_size": 5023,
     "bloom_price": 122482000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 16,
@@ -269,7 +269,7 @@
     "bloom_size": 5024,
     "bloom_price": 122896000,
     "bloom_fee": 3,
-    "profit": 10
+    "profit": 9
   },
   {
     "seed_id": 17,
@@ -282,7 +282,11 @@
     "bloom_uuid": "c6fb1d06-96db-40db-ae19-d6d49c4b8ba7",
     "bloom_price": 123255000.0,
     "water_count": 0,
-    "status": "growing"
+    "status": "bloomed",
+    "bloom_time": "2025-04-13T00:37:29+09:00",
+    "bloom_size": 5023.8738,
+    "bloom_fee": 2.5119369,
+    "profit": 9
   },
   {
     "seed_id": 18,
@@ -447,6 +451,325 @@
     "seed_price": 121996000.00000001,
     "bloom_price": 122362000.0,
     "bloom_uuid": "2f2599fc-8b20-47b9-9cfc-722cdb7ff332",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-12T22:43:09+09:00",
+    "bloom_size": 5104.94264,
+    "bloom_fee": 2.55247132,
+    "profit": 10
+  },
+  {
+    "seed_id": 28,
+    "seed_uuid": "b695359b-c7b8-4983-bbdd-2bf0aa0680ef",
+    "seed_time": "2025-04-12T16:36:09+09:00",
+    "seed_size": 5089.635,
+    "bloom_amount": 4.189e-05,
+    "seed_fee": 2.5448175,
+    "seed_price": 121500000.0,
+    "bloom_price": 121865000.0,
+    "bloom_uuid": "4261a6c2-4bd7-43e5-81fa-458a34d3b713",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-12T22:07:50+09:00",
+    "bloom_size": 5104.92485,
+    "bloom_fee": 2.552462425,
+    "profit": 10
+  },
+  {
+    "seed_id": 29,
+    "seed_uuid": "4daecfca-9cac-4d78-b5d9-f66849910b7a",
+    "seed_time": "2025-04-12T22:09:41+09:00",
+    "seed_size": 5099.79915,
+    "bloom_amount": 4.185e-05,
+    "seed_fee": 2.549899575,
+    "seed_price": 121859000.0,
+    "bloom_price": 122225000.0,
+    "bloom_uuid": "1c368745-b729-49b6-b7be-59a2e13a9d64",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-12T22:43:05+09:00",
+    "bloom_size": 5115.11625,
+    "bloom_fee": 2.557558125,
+    "profit": 10
+  },
+  {
+    "seed_id": 30,
+    "seed_uuid": "9a2f5bd6-1e19-423b-a9a8-e5eb2d28efa8",
+    "seed_time": "2025-04-12T22:44:27+09:00",
+    "seed_size": 5119.68369,
+    "bloom_amount": 4.191e-05,
+    "seed_fee": 2.559841845,
+    "seed_price": 122159000.0,
+    "bloom_price": 122526000.00000001,
+    "bloom_uuid": "9871f694-6570-45f9-89be-a7c083587d3f",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-12T22:56:07+09:00",
+    "bloom_size": 5135.06466,
+    "bloom_fee": 2.56753233,
+    "profit": 10
+  },
+  {
+    "seed_id": 31,
+    "seed_uuid": "f7513ced-f010-48a8-8fc7-79ff6c424bb3",
+    "seed_time": "2025-04-12T22:57:26+09:00",
+    "seed_size": 5129.02728,
+    "bloom_amount": 4.183e-05,
+    "seed_fee": 2.56451364,
+    "seed_price": 122616000.00000001,
+    "bloom_price": 122984000.00000001,
+    "bloom_uuid": "c62fcea3-b589-473d-a12a-6aea0709426d",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-12T23:23:43+09:00",
+    "bloom_size": 5144.42072,
+    "bloom_fee": 2.57221036,
+    "profit": 10
+  },
+  {
+    "seed_id": 32,
+    "seed_uuid": "1e877818-87ba-4b8a-af64-3d86a9d8d97c",
+    "seed_time": "2025-04-12T23:25:42+09:00",
+    "seed_size": 5138.81466,
+    "bloom_amount": 4.178e-05,
+    "seed_fee": 2.56940733,
+    "seed_price": 122996999.99999999,
+    "bloom_price": 123366000.0,
+    "bloom_uuid": "591a0d70-aa21-4760-a652-89d38193079c",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-13T00:41:31+09:00",
+    "bloom_size": 5154.23148,
+    "bloom_fee": 2.57711574,
+    "profit": 10
+  },
+  {
+    "seed_id": 33,
+    "seed_uuid": "f2d2913a-9825-4d87-901f-41ff6df6a959",
+    "seed_time": "2025-04-13T00:42:32+09:00",
+    "seed_size": 5158.68504,
+    "bloom_amount": 4.181e-05,
+    "seed_fee": 2.57934252,
+    "seed_price": 123384000.0,
+    "bloom_price": 123754000.0,
+    "bloom_uuid": "d0daf7b3-3f83-436b-9856-5816f172a45d",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-13T05:41:34+09:00",
+    "bloom_size": 5174.15474,
+    "bloom_fee": 2.58707737,
+    "profit": 10
+  },
+  {
+    "seed_id": 34,
+    "seed_uuid": "f6734d41-834f-4b70-9142-6a7b7d9cf7f9",
+    "seed_time": "2025-04-13T05:42:35+09:00",
+    "seed_size": 5168.64908,
+    "bloom_amount": 4.172e-05,
+    "seed_fee": 2.58432454,
+    "seed_price": 123889000.0,
+    "bloom_price": 124261000.0,
+    "bloom_uuid": "0905474f-e929-4a9e-9083-16cd052f5249",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-13T10:30:35+09:00",
+    "bloom_size": 5184.16892,
+    "bloom_fee": 2.59208446,
+    "profit": 10
+  },
+  {
+    "seed_id": 35,
+    "seed_uuid": "4c47a031-29c5-4d68-a2cd-028570167ac5",
+    "seed_time": "2025-04-13T10:32:25+09:00",
+    "seed_size": 5178.96386,
+    "bloom_amount": 4.171e-05,
+    "seed_fee": 2.58948193,
+    "seed_price": 124166000.0,
+    "bloom_price": 124539000.0,
+    "bloom_uuid": "e875cfbc-a78d-451c-bb92-47f31fde776c",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-15T18:10:21+09:00",
+    "bloom_size": 5194.52169,
+    "bloom_fee": 2.597260845,
+    "profit": 10
+  },
+  {
+    "seed_id": 36,
+    "seed_uuid": "0c4637a6-7dc1-4f68-8d89-122edebadb53",
+    "seed_time": "2025-04-14T10:32:59+09:00",
+    "seed_size": 5178.549,
+    "bloom_amount": 4.215e-05,
+    "seed_fee": 2.5892745,
+    "seed_price": 122860000.0,
+    "bloom_price": 123229000.0,
+    "bloom_uuid": "20cbbd6c-4b5e-4106-a072-4060ad3b8e66",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-14T11:29:27+09:00",
+    "bloom_size": 5194.10235,
+    "bloom_fee": 2.597051175,
+    "profit": 10
+  },
+  {
+    "seed_id": 37,
+    "seed_uuid": "a0fd036f-e7c8-47bc-a4e3-9fd8d41e7cc2",
+    "seed_time": "2025-04-14T11:31:54+09:00",
+    "seed_size": 5188.235,
+    "bloom_amount": 4.201e-05,
+    "seed_fee": 2.5941175,
+    "seed_price": 123500000.0,
+    "bloom_price": 123871000.0,
+    "bloom_uuid": "b29100f2-3764-431a-9959-a5b2439d7815",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-14T23:50:44+09:00",
+    "bloom_size": 5203.82071,
+    "bloom_fee": 2.601910355,
+    "profit": 10
+  },
+  {
+    "seed_id": 38,
+    "seed_uuid": "f3278d75-05f0-4b09-82ec-1af976515a04",
+    "seed_time": "2025-04-14T23:52:21+09:00",
+    "seed_size": 5198.21548,
+    "bloom_amount": 4.198e-05,
+    "seed_fee": 2.59910774,
+    "seed_price": 123826000.0,
+    "bloom_price": 124198000.0,
+    "bloom_uuid": "702d0229-f3ad-4d0a-90d0-e1daf383b0a6",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-15T17:14:41+09:00",
+    "bloom_size": 5213.83204,
+    "bloom_fee": 2.60691602,
+    "profit": 10
+  },
+  {
+    "seed_id": 39,
+    "seed_uuid": "856ca0db-670b-4be3-8d54-c2b7d7882cef",
+    "seed_time": "2025-04-15T17:16:55+09:00",
+    "seed_size": 5208.62846,
+    "bloom_amount": 4.193e-05,
+    "seed_fee": 2.60431423,
+    "seed_price": 124222000.0,
+    "bloom_price": 124595000.0,
+    "bloom_uuid": "df336dc1-0fbb-4a38-8eff-fbbd6cee1ab1",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-15T18:15:59+09:00",
+    "bloom_size": 5224.26835,
+    "bloom_fee": 2.612134175,
+    "profit": 10
+  },
+  {
+    "seed_id": 40,
+    "seed_uuid": "1c72b4c6-b456-4d11-bf97-7b8206d78411",
+    "seed_time": "2025-04-15T18:17:40+09:00",
+    "seed_size": 5228.10265,
+    "bloom_amount": 4.195e-05,
+    "seed_fee": 2.614051325,
+    "seed_price": 124626999.99999999,
+    "bloom_price": 125000999.99999999,
+    "bloom_uuid": "27d421da-3b4b-46f9-91f5-b9fad1c91ae6",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-15T22:48:04+09:00",
+    "bloom_size": 5243.79195,
+    "bloom_fee": 2.621895975,
+    "profit": 10
+  },
+  {
+    "seed_id": 41,
+    "seed_uuid": "a98947b7-b9d9-4465-b88f-be343945a8ad",
+    "seed_time": "2025-04-15T22:49:49+09:00",
+    "seed_size": 5238.89484,
+    "bloom_amount": 4.188e-05,
+    "seed_fee": 2.61944742,
+    "seed_price": 125093000.0,
+    "bloom_price": 125468000.0,
+    "bloom_uuid": "1513a9f2-828b-4c38-88ac-ec8b85fea808",
+    "water_count": 0,
+    "status": "growing"
+  },
+  {
+    "seed_id": 42,
+    "seed_uuid": "993cfe9f-7c69-479b-b5fb-48f2b2337e79",
+    "seed_time": "2025-04-16T22:50:31+09:00",
+    "seed_size": 5237.959,
+    "bloom_amount": 4.3e-05,
+    "seed_fee": 2.6189795,
+    "seed_price": 121812999.99999999,
+    "bloom_price": 122179000.0,
+    "bloom_uuid": "252738d8-3996-49e7-a41e-9752fddc1555",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-16T23:07:10+09:00",
+    "bloom_size": 5253.697,
+    "bloom_fee": 2.6268485,
+    "profit": 10
+  },
+  {
+    "seed_id": 43,
+    "seed_uuid": "4593efa2-4443-4389-8f74-9b5505147d21",
+    "seed_time": "2025-04-16T23:09:16+09:00",
+    "seed_size": 5248.537,
+    "bloom_amount": 4.3e-05,
+    "seed_fee": 2.6242685,
+    "seed_price": 122059000.0,
+    "bloom_price": 122424999.99999999,
+    "bloom_uuid": "20216ca0-844e-4b39-ad5e-59ef75cc0a09",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-16T23:24:50+09:00",
+    "bloom_size": 5264.275,
+    "bloom_fee": 2.6321375,
+    "profit": 10
+  },
+  {
+    "seed_id": 44,
+    "seed_uuid": "e84614ab-0f65-406b-b75b-50b4fa89dcce",
+    "seed_time": "2025-04-16T23:26:07+09:00",
+    "seed_size": 5258.94768,
+    "bloom_amount": 4.294e-05,
+    "seed_fee": 2.62947384,
+    "seed_price": 122472000.00000001,
+    "bloom_price": 122840000.0,
+    "bloom_uuid": "ab543d50-bbd4-4e69-908e-b308e0d61f3b",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-16T23:44:39+09:00",
+    "bloom_size": 5274.7496,
+    "bloom_fee": 2.6373748,
+    "profit": 11
+  },
+  {
+    "seed_id": 45,
+    "seed_uuid": "b0cb2775-4ec3-4a60-b0c4-91938bcdf8e5",
+    "seed_time": "2025-04-16T23:46:45+09:00",
+    "seed_size": 5269.70043,
+    "bloom_amount": 4.293e-05,
+    "seed_fee": 2.634850215,
+    "seed_price": 122751000.0,
+    "bloom_price": 123119000.0,
+    "bloom_uuid": "a58db43b-0017-4342-bc67-6fd48868031b",
+    "water_count": 0,
+    "status": "bloomed",
+    "bloom_time": "2025-04-17T00:22:41+09:00",
+    "bloom_size": 5285.49867,
+    "bloom_fee": 2.642749335,
+    "profit": 11
+  },
+  {
+    "seed_id": 46,
+    "seed_uuid": "47aa830c-3bff-4ee9-9caa-3a54973893fb",
+    "seed_time": "2025-04-17T00:24:37+09:00",
+    "seed_size": 5280.82346,
+    "bloom_amount": 4.286e-05,
+    "seed_fee": 2.64041173,
+    "seed_price": 123210999.99999999,
+    "bloom_price": 123581000.0,
+    "bloom_uuid": "15632353-30cb-4b97-a4e4-dc9f9efdadb5",
     "water_count": 0,
     "status": "growing"
   }
