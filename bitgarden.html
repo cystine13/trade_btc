@@ -41,17 +41,25 @@
     <table class="table table-striped" id="detailsTable">
       <thead>
         <tr>
-          <th>Seed ID</th><th>Seed Time</th><th>Status</th><th>Seed Size</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
+          <th>Seed ID</th><th>Seed Time</th><th>Bloom Time</th><th>Status</th><th>Seed Size</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
+
+    <!-- Seed Interval Info -->
+    <div class="mt-4" id="intervalInfo"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
   <script>
+    function formatDateTime(t) {
+      const d = new Date(t);
+      return d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0') + '-' + d.getDate().toString().padStart(2,'0') + ' ' + d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+    }
+
     function calcAverageTime(data) {
       const times = data.filter(d => d.status === 'bloomed' && d.seed_time && d.bloom_time)
         .map(d => new Date(d.bloom_time) - new Date(d.seed_time));
@@ -104,11 +112,12 @@
           pageLength: 20,
           columns: [
             { data: 'seed_id' },
-            { data: 'seed_time', render: t => t.split('T')[0] },
+            { data: 'seed_time', render: t => formatDateTime(t) },
+            { data: 'bloom_time', render: t => t ? formatDateTime(t) : '-' },
             { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
             { data: 'seed_size', render: v => Math.round(v) },
             { data: 'bloom_size', render: v => v ? Math.round(v) : '-' },
-            { data: null, render: d => (Math.round((d.seed_fee || 0) + (d.bloom_fee || 0))) },
+            { data: null, render: d => Math.round((d.seed_fee || 0) + (d.bloom_fee || 0)) },
             { data: 'profit', render: v => v ?? '-' }
           ]
         });
@@ -118,6 +127,19 @@
           const filtered = val === 'all' ? tableData : tableData.filter(d => d.status === val);
           dt.clear().rows.add(filtered).draw();
         });
+
+        // calculate time between last growing and next seed
+        const growing = [...data].filter(d => d.status === 'growing').sort((a,b)=>new Date(b.seed_time)-new Date(a.seed_time))[0];
+        if (growing) {
+          const growingTime = new Date(growing.seed_time);
+          const nextSeed = data.find(d => new Date(d.seed_time) > growingTime);
+          if (nextSeed) {
+            const interval = Math.round((new Date(nextSeed.seed_time) - growingTime)/60000);
+            document.getElementById('intervalInfo').innerHTML = `
+              <p><strong>⏱️ Time between last Growing seed (ID ${growing.seed_id}) and next seed:</strong> ${interval} min</p>
+            `;
+          }
+        }
       });
   </script>
 </body>
