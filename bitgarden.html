@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +13,8 @@
 </head>
 <body class="bg-light">
   <div class="container py-5">
-    <h1 class="mb-4">🌱 BitGarden Overview</h1>
-    <p><a href="index.html" class="btn btn-outline-primary">← 매매 내역 대시보드로</a></p>
+    <h1 class="mb-4">🌱 BitGarden Dashboard</h1>
+    <p><a href="index.html" class="btn btn-outline-primary">← Back to Trade Dashboard</a></p>
 
     <!-- Summary -->
     <div class="row mb-4" id="summary"></div>
@@ -23,7 +23,7 @@
     <h3 class="mt-5">📆 Monthly Summary</h3>
     <table class="table table-bordered" id="monthlyTable">
       <thead class="table-light">
-        <tr><th>월</th><th>Seed 수</th><th>Bloom 수</th><th>평균 Bloom 시간</th><th>수익 합계</th></tr>
+        <tr><th>Month</th><th>Seeds</th><th>Blooms</th><th>Avg Bloom Time</th><th>Total Profit</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -31,9 +31,9 @@
     <!-- Details Table -->
     <h3 class="mt-5">🌼 Seed Details</h3>
     <div class="mb-3">
-      <label for="statusFilter" class="form-label">Status 필터:</label>
+      <label for="statusFilter" class="form-label">Status Filter:</label>
       <select id="statusFilter" class="form-select" style="width:auto; display:inline-block;">
-        <option value="all">전체</option>
+        <option value="all">All</option>
         <option value="bloomed">Bloomed</option>
         <option value="growing">Growing</option>
       </select>
@@ -41,7 +41,7 @@
     <table class="table table-striped" id="detailsTable">
       <thead>
         <tr>
-          <th>Seed ID</th><th>Seed Time</th><th>Status</th><th>Seed Size</th><th>Bloom Size</th><th>Profit</th>
+          <th>Seed ID</th><th>Seed Time</th><th>Status</th><th>Seed Size</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -58,7 +58,7 @@
       if (times.length === 0) return '-';
       const avg = times.reduce((a,b)=>a+b,0) / times.length;
       const mins = Math.round(avg / 60000);
-      return mins + '분';
+      return mins + ' min';
     }
 
     fetch('state.json')
@@ -72,16 +72,14 @@
           totalProfit: data.reduce((sum, d) => sum + (d.profit || 0), 0),
         };
 
-        // Summary Cards
         const s = document.getElementById('summary');
         s.innerHTML = `
-          <div class="col-md-3"><div class="card text-bg-primary mb-3"><div class="card-body"><h5>총 시드</h5><p class="card-text fs-4">${summary.totalSeeds}</p></div></div></div>
-          <div class="col-md-3"><div class="card text-bg-success mb-3"><div class="card-body"><h5>총 블룸</h5><p class="card-text fs-4">${summary.bloomed}</p></div></div></div>
-          <div class="col-md-3"><div class="card text-bg-warning mb-3"><div class="card-body"><h5>Bloom까지 평균 시간</h5><p class="card-text fs-4">${summary.avgTime}</p></div></div></div>
-          <div class="col-md-3"><div class="card text-bg-secondary mb-3"><div class="card-body"><h5>누적 수익</h5><p class="card-text fs-4">₩${summary.totalProfit.toLocaleString()}</p></div></div></div>
+          <div class="col-md-3"><div class="card text-bg-primary mb-3"><div class="card-body"><h5>Total Seeds</h5><p class="card-text fs-4">${summary.totalSeeds}</p></div></div></div>
+          <div class="col-md-3"><div class="card text-bg-success mb-3"><div class="card-body"><h5>Total Blooms</h5><p class="card-text fs-4">${summary.bloomed}</p></div></div></div>
+          <div class="col-md-3"><div class="card text-bg-warning mb-3"><div class="card-body"><h5>Avg Bloom Time</h5><p class="card-text fs-4">${summary.avgTime}</p></div></div></div>
+          <div class="col-md-3"><div class="card text-bg-secondary mb-3"><div class="card-body"><h5>Total Profit</h5><p class="card-text fs-4">₩${summary.totalProfit.toLocaleString()}</p></div></div></div>
         `;
 
-        // 월별 통계
         const monthly = {};
         for (const d of data) {
           const ym = d.seed_time.substring(0,7);
@@ -96,11 +94,10 @@
         }
         const mt = document.querySelector('#monthlyTable tbody');
         for (const [ym, v] of Object.entries(monthly)) {
-          const avgTime = v.durations.length ? Math.round(v.durations.reduce((a,b)=>a+b,0)/v.durations.length/60000) + '분' : '-';
+          const avgTime = v.durations.length ? Math.round(v.durations.reduce((a,b)=>a+b,0)/v.durations.length/60000) + ' min' : '-';
           mt.innerHTML += `<tr><td>${ym}</td><td>${v.seeds}</td><td>${v.blooms}</td><td>${avgTime}</td><td>${v.profit}</td></tr>`;
         }
 
-        // 상세 테이블 + 필터
         let tableData = data.sort((a, b) => b.seed_id - a.seed_id);
         const dt = $('#detailsTable').DataTable({
           data: tableData,
@@ -109,8 +106,9 @@
             { data: 'seed_id' },
             { data: 'seed_time', render: t => t.split('T')[0] },
             { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
-            { data: 'seed_size', render: v => v.toFixed(2) },
-            { data: 'bloom_size', render: v => v ? v.toFixed(2) : '-' },
+            { data: 'seed_size', render: v => Math.round(v) },
+            { data: 'bloom_size', render: v => v ? Math.round(v) : '-' },
+            { data: null, render: d => (Math.round((d.seed_fee || 0) + (d.bloom_fee || 0))) },
             { data: 'profit', render: v => v ?? '-' }
           ]
         });
