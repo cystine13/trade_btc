@@ -47,8 +47,9 @@
       <tbody></tbody>
     </table>
 
-    <!-- Seed Interval Info -->
-    <div class="mt-4" id="intervalInfo"></div>
+    <!-- Time to next seed -->
+    <div class="mt-3" id="nextSeedCountdown"></div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -128,18 +129,21 @@
           dt.clear().rows.add(filtered).draw();
         });
 
-        // calculate time between last growing and next seed
-        const growing = [...data].filter(d => d.status === 'growing').sort((a,b)=>new Date(b.seed_time)-new Date(a.seed_time))[0];
-        if (growing) {
-          const growingTime = new Date(growing.seed_time);
-          const nextSeed = data.find(d => new Date(d.seed_time) > growingTime);
-          if (nextSeed) {
-            const interval = Math.round((new Date(nextSeed.seed_time) - growingTime)/60000);
-            document.getElementById('intervalInfo').innerHTML = `
-              <p><strong>⏱️ Time between last Growing seed (ID ${growing.seed_id}) and next seed:</strong> ${interval} min</p>
-            `;
-          }
+        // Countdown to next seed eligible time (24 hours after last seed)
+        const latestSeed = data.reduce((a, b) => new Date(a.seed_time) > new Date(b.seed_time) ? a : b);
+        const lastSeedTime = new Date(latestSeed.seed_time);
+        const nextEligibleTime = new Date(lastSeedTime.getTime() + 24 * 60 * 60 * 1000);
+        const now = new Date();
+        let countdownText = '';
+        if (now < nextEligibleTime) {
+          const diffMs = nextEligibleTime - now;
+          const hours = Math.floor(diffMs / (1000 * 60 * 60));
+          const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+          countdownText = `⏳ Time left until next seed can be planted: <strong>${hours}h ${minutes}m</strong>`;
+        } else {
+          countdownText = `✅ New seed can be planted now.`;
         }
+        document.getElementById('nextSeedCountdown').innerHTML = `<div class="alert alert-info">${countdownText}</div>`;
       });
   </script>
 </body>
