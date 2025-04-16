@@ -1,218 +1,211 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>매매 내역</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 매매 내역 대시보드</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f4f4;
+    }
+    table {
+      background-color: white;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
 </head>
+<body class="p-4">
+  <div class="container">
+    <h1 class="mb-3">📈 Trade Dashboard</h1>
     <p>
-        👉 <a href="bitgarden.html" style="font-size: 1.1rem; color: #007bff; text-decoration: underline;">BitGarden 대시보드 바로가기</a>
-    </p>    
-<body>
-    <h3>월별 수익 합계</h3>
-    <table id="monthlyProfitTable">
-        <thead>
-            <tr id="profitHeaderRow">
-                <th>연도</th>
-                <th>항목</th>
-                <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
-                <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
-                <th>합계</th>
-            </tr>
-        </thead>
-        <tbody id="profitBody"></tbody>
+      👉 <a href="bitgarden.html" class="btn btn-outline-primary">Go to BitGarden Dashboard</a>
+    </p>
+
+    <h3 class="mt-5">📆 월별 수익 합계</h3>
+    <table class="table table-bordered" id="monthlyProfitTable">
+      <thead>
+        <tr id="profitHeaderRow">
+          <th>연도</th>
+          <th>항목</th>
+          <th>1월</th><th>2월</th><th>3월</th><th>4월</th><th>5월</th><th>6월</th>
+          <th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th>
+          <th>합계</th>
+        </tr>
+      </thead>
+      <tbody id="profitBody"></tbody>
     </table>
 
-    <h3>매매 내역</h3>
-    <label for="statusFilter">상태 필터:</label>
-    <select id="statusFilter">
+    <h3 class="mt-5">🧾 매매 내역</h3>
+    <div class="mb-3">
+      <label for="statusFilter" class="form-label">상태 필터:</label>
+      <select id="statusFilter" class="form-select" style="width:auto; display:inline-block;">
         <option value="all">전체</option>
         <option value="holding">Holding</option>
         <option value="sold">Sold</option>
-    </select>
+      </select>
+    </div>
 
-    <table id="tradeTable">
-        <thead>
-            <tr>
-                <th>순번</th>
-                <th>BTC 수량</th>
-                <th>매수일</th>
-                <th>매수 단가</th>
-                <th>매수 정산 금액</th>
-                <th>상태</th>
-                <th>매도일</th>
-                <th>매도 단가</th>
-                <th>매도 정산 금액</th>
-                <th>수익</th>
-                <th>포지션수</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
+    <table class="table table-striped" id="tradeTable">
+      <thead>
+        <tr>
+          <th>순번</th>
+          <th>BTC 수량</th>
+          <th>매수일</th>
+          <th>매수 단가</th>
+          <th>매수 정산 금액</th>
+          <th>상태</th>
+          <th>매도일</th>
+          <th>매도 단가</th>
+          <th>매도 정산 금액</th>
+          <th>수익</th>
+          <th>포지션수</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
+  </div>
 
-    <script>
-        function formatDate(dateString) {
-            if (!dateString) return '-';
-            const date = new Date(dateString);
-            const year = String(date.getFullYear()).slice(2);
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            return `${year}.${month}.${day} ${hours}시`;
+  <script>
+    function formatDate(dateString) {
+      if (!dateString) return '-';
+      const date = new Date(dateString);
+      const year = String(date.getFullYear()).slice(2);
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      return `${year}.${month}.${day} ${hours}시`;
+    }
+
+    function formatK(value) {
+      if (typeof value !== 'number') return '-';
+      const rounded = Math.round(value / 1000);
+      return `${rounded.toLocaleString()}K`;
+    }
+
+    fetch('trade_history.json')
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.querySelector('#tradeTable tbody');
+        const profitTableBody = document.querySelector('#profitBody');
+        let tradeEntries = Object.entries(data).map(([id, trade]) => ({ id, ...trade }));
+
+        tradeEntries.sort((a, b) => b.id - a.id);
+
+        let stats = {};
+        tradeEntries.forEach(trade => {
+          let buyDate = new Date(trade.date);
+          let year = buyDate.getFullYear();
+          let buyMonth = buyDate.getMonth() + 1;
+
+          if (!stats[year]) {
+            stats[year] = {};
+            for (let m = 1; m <= 12; m++) {
+              stats[year][m] = { profit: 0, buys: 0, sells: 0 };
+            }
+          }
+          stats[year][buyMonth].buys += 1;
+
+          if (trade.sell_date && trade.sell_total && trade.buy_total) {
+            let sellDate = new Date(trade.sell_date);
+            let sellMonth = sellDate.getMonth() + 1;
+            let sellYear = sellDate.getFullYear();
+            let profit = trade.sell_total - trade.buy_total;
+
+            if (!stats[sellYear]) {
+              stats[sellYear] = {};
+              for (let m = 1; m <= 12; m++) {
+                stats[sellYear][m] = { profit: 0, buys: 0, sells: 0 };
+              }
+            }
+            stats[sellYear][sellMonth].profit += profit;
+            stats[sellYear][sellMonth].sells += 1;
+          }
+        });
+
+        Object.keys(stats).sort().forEach(year => {
+          const rows = ['수익', '매수건수', '매도건수', '평균수익'];
+          rows.forEach((label, idx) => {
+            const tr = document.createElement('tr');
+            if (idx === 0) {
+              const tdYear = document.createElement('td');
+              tdYear.textContent = year;
+              tdYear.rowSpan = 4;
+              tr.appendChild(tdYear);
+            }
+
+            const tdLabel = document.createElement('td');
+            tdLabel.textContent = label;
+            tr.appendChild(tdLabel);
+
+            let yearProfit = 0, yearBuys = 0, yearSells = 0;
+
+            for (let m = 1; m <= 12; m++) {
+              const cell = document.createElement('td');
+              const { profit, buys, sells } = stats[year][m];
+
+              if (label === '수익') {
+                cell.textContent = profit ? profit.toLocaleString() + ' 원' : '-';
+                yearProfit += profit;
+              } else if (label === '매수건수') {
+                cell.textContent = buys ? buys + '건' : '-';
+                yearBuys += buys;
+              } else if (label === '매도건수') {
+                cell.textContent = sells ? sells + '건' : '-';
+                yearSells += sells;
+              } else if (label === '평균수익') {
+                cell.textContent = sells ? Math.floor(profit / sells).toLocaleString() + ' 원' : '-';
+              }
+              tr.appendChild(cell);
+            }
+
+            const totalCell = document.createElement('td');
+            if (label === '수익') {
+              totalCell.textContent = yearProfit.toLocaleString() + ' 원';
+            } else if (label === '매수건수') {
+              totalCell.textContent = yearBuys + '건';
+            } else if (label === '매도건수') {
+              totalCell.textContent = yearSells + '건';
+            } else if (label === '평균수익') {
+              totalCell.textContent = yearSells ? Math.floor(yearProfit / yearSells).toLocaleString() + ' 원' : '-';
+            }
+            tr.appendChild(totalCell);
+            profitTableBody.appendChild(tr);
+          });
+        });
+
+        function renderTable(filter) {
+          tableBody.innerHTML = '';
+          tradeEntries.forEach(trade => {
+            if (filter !== 'all' && trade.status !== filter) return;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${trade.id}</td>
+              <td>${trade.btc_amount.toFixed(8)}</td>
+              <td>${formatDate(trade.date)}</td>
+              <td>${formatK(trade.buy_price)}</td>
+              <td>${trade.buy_total.toLocaleString()} 원</td>
+              <td>${trade.status}</td>
+              <td>${formatDate(trade.sell_date)}</td>
+              <td>${trade.sell_price ? formatK(trade.sell_price) : '-'}</td>
+              <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
+              <td>${trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-'}</td>
+              <td>${trade.position ?? '-'}</td>
+            `;
+            tableBody.appendChild(row);
+          });
         }
 
-        function formatK(value) {
-            if (typeof value !== 'number') return '-';
-            const rounded = Math.round(value / 1000);
-            return `${rounded.toLocaleString()}K`;
-        }
+        document.getElementById('statusFilter').addEventListener('change', (event) => {
+          renderTable(event.target.value);
+        });
 
-        fetch('trade_history.json')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#tradeTable tbody');
-                const profitTableBody = document.querySelector('#profitBody');
-                let tradeEntries = Object.entries(data).map(([id, trade]) => ({ id, ...trade }));
-
-                tradeEntries.sort((a, b) => b.id - a.id);
-
-                // 📊 월별 수익 / 매수 / 매도 / 평균 계산 구조
-                let stats = {};
-                tradeEntries.forEach(trade => {
-                    let buyDate = new Date(trade.date);
-                    let year = buyDate.getFullYear();
-                    let buyMonth = buyDate.getMonth() + 1;
-
-                    if (!stats[year]) {
-                        stats[year] = {};
-                        for (let m = 1; m <= 12; m++) {
-                            stats[year][m] = { profit: 0, buys: 0, sells: 0 };
-                        }
-                    }
-                    stats[year][buyMonth].buys += 1;
-
-                    if (trade.sell_date && trade.sell_total && trade.buy_total) {
-                        let sellDate = new Date(trade.sell_date);
-                        let sellMonth = sellDate.getMonth() + 1;
-                        let sellYear = sellDate.getFullYear();
-                        let profit = trade.sell_total - trade.buy_total;
-
-                        if (!stats[sellYear]) {
-                            stats[sellYear] = {};
-                            for (let m = 1; m <= 12; m++) {
-                                stats[sellYear][m] = { profit: 0, buys: 0, sells: 0 };
-                            }
-                        }
-                        stats[sellYear][sellMonth].profit += profit;
-                        stats[sellYear][sellMonth].sells += 1;
-                    }
-                });
-
-                // 📈 월별 수익 테이블 출력
-                Object.keys(stats).sort().forEach(year => {
-                    const rows = ['수익', '매수건수', '매도건수', '평균수익'];
-                    rows.forEach((label, idx) => {
-                        const tr = document.createElement('tr');
-                        if (idx === 0) {
-                            const tdYear = document.createElement('td');
-                            tdYear.textContent = year;
-                            tdYear.rowSpan = 4;
-                            tr.appendChild(tdYear);
-                        }
-
-                        const tdLabel = document.createElement('td');
-                        tdLabel.textContent = label;
-                        tr.appendChild(tdLabel);
-
-                        let yearProfit = 0, yearBuys = 0, yearSells = 0;
-
-                        for (let m = 1; m <= 12; m++) {
-                            const cell = document.createElement('td');
-                            const { profit, buys, sells } = stats[year][m];
-
-                            if (label === '수익') {
-                                cell.textContent = profit ? profit.toLocaleString() + ' 원' : '-';
-                                yearProfit += profit;
-                            } else if (label === '매수건수') {
-                                cell.textContent = buys ? buys + '건' : '-';
-                                yearBuys += buys;
-                            } else if (label === '매도건수') {
-                                cell.textContent = sells ? sells + '건' : '-';
-                                yearSells += sells;
-                            } else if (label === '평균수익') {
-                                cell.textContent = sells ? Math.floor(profit / sells).toLocaleString() + ' 원' : '-';
-                            }
-                            tr.appendChild(cell);
-                        }
-
-                        const totalCell = document.createElement('td');
-                        if (label === '수익') {
-                            totalCell.textContent = yearProfit.toLocaleString() + ' 원';
-                        } else if (label === '매수건수') {
-                            totalCell.textContent = yearBuys + '건';
-                        } else if (label === '매도건수') {
-                            totalCell.textContent = yearSells + '건';
-                        } else if (label === '평균수익') {
-                            totalCell.textContent = yearSells ? Math.floor(yearProfit / yearSells).toLocaleString() + ' 원' : '-';
-                        }
-                        tr.appendChild(totalCell);
-                        profitTableBody.appendChild(tr);
-                    });
-                });
-
-                // 🧾 매매 내역 테이블 출력
-                function renderTable(filter) {
-                    tableBody.innerHTML = '';
-                    tradeEntries.forEach(trade => {
-                        if (filter !== 'all' && trade.status !== filter) return;
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${trade.id}</td>
-                            <td>${trade.btc_amount.toFixed(8)}</td>
-                            <td>${formatDate(trade.date)}</td>
-                            <td>${formatK(trade.buy_price)}</td>
-                            <td>${trade.buy_total.toLocaleString()} 원</td>
-                            <td>${trade.status}</td>
-                            <td>${formatDate(trade.sell_date)}</td>
-                            <td>${trade.sell_price ? formatK(trade.sell_price) : '-'}</td>
-                            <td>${trade.sell_total ? trade.sell_total.toLocaleString() + ' 원' : '-'}</td>
-                            <td>${trade.sell_total ? (trade.sell_total - trade.buy_total).toLocaleString() + ' 원' : '-'}</td>
-                            <td>${trade.position ?? '-'}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                }
-
-                document.getElementById('statusFilter').addEventListener('change', (event) => {
-                    renderTable(event.target.value);
-                });
-
-                renderTable('all');
-            })
-            .catch(error => console.error('Error fetching trade history:', error));
-    </script>
+        renderTable('all');
+      })
+      .catch(error => console.error('Error fetching trade history:', error));
+  </script>
 </body>
 </html>
