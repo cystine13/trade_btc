@@ -117,10 +117,10 @@
             { data: 'seed_time', render: t => formatDateTime(t) },
             { data: 'bloom_time', render: t => t ? formatDateTime(t) : '-' },
             { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
-            { data: 'seed_size', render: v => Math.round(v) },
-            { data: 'bloom_size', render: v => v ? Math.round(v) : '-' },
-            { data: null, render: d => Math.round((d.seed_fee || 0) + (d.bloom_fee || 0)) },
-            { data: 'profit', render: v => v ?? '-' }
+            { data: 'seed_size', render: v => Math.round(v).toLocaleString() },
+            { data: 'bloom_size', render: v => v ? Math.round(v).toLocaleString() : '-' },
+            { data: null, render: d => Math.round((d.seed_fee || 0) + (d.bloom_fee || 0)).toLocaleString() },
+            { data: 'profit', render: v => v !== undefined ? v.toLocaleString() : '-' }
           ]
         });
 
