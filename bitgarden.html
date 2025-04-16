@@ -30,6 +30,9 @@
 
     <!-- Details Table -->
     <h3 class="mt-5">🌼 Seed Details</h3>
+    <!-- Countdown here -->
+    <div class="mb-3" id="nextSeedCountdown"></div>
+
     <div class="mb-3">
       <label for="statusFilter" class="form-label">Status Filter:</label>
       <select id="statusFilter" class="form-select" style="width:auto; display:inline-block;">
@@ -46,10 +49,6 @@
       </thead>
       <tbody></tbody>
     </table>
-
-    <!-- Time to next seed -->
-    <div class="mt-3" id="nextSeedCountdown"></div>
-
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -129,21 +128,26 @@
           dt.clear().rows.add(filtered).draw();
         });
 
-        // Countdown to next seed eligible time (24 hours after last seed)
         const latestSeed = data.reduce((a, b) => new Date(a.seed_time) > new Date(b.seed_time) ? a : b);
         const lastSeedTime = new Date(latestSeed.seed_time);
         const nextEligibleTime = new Date(lastSeedTime.getTime() + 24 * 60 * 60 * 1000);
-        const now = new Date();
-        let countdownText = '';
-        if (now < nextEligibleTime) {
-          const diffMs = nextEligibleTime - now;
-          const hours = Math.floor(diffMs / (1000 * 60 * 60));
-          const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-          countdownText = `⏳ Time left until next seed can be planted: <strong>${hours}h ${minutes}m</strong>`;
-        } else {
-          countdownText = `✅ New seed can be planted now.`;
+
+        function updateCountdown() {
+          const now = new Date();
+          const container = document.getElementById('nextSeedCountdown');
+          if (now >= nextEligibleTime) {
+            container.innerHTML = `<div class="alert alert-success">✅ New seed can be planted now.</div>`;
+          } else {
+            const diff = nextEligibleTime - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            container.innerHTML = `<div class="alert alert-info">⏳ Time left until next seed can be planted: <strong>${hours}h ${minutes}m ${seconds}s</strong></div>`;
+          }
         }
-        document.getElementById('nextSeedCountdown').innerHTML = `<div class="alert alert-info">${countdownText}</div>`;
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
       });
   </script>
 </body>
