@@ -7366,10 +7366,10 @@
         "btc_amount": 5.236e-05,
         "buy_price": 122595533.04048891,
         "buy_total": 6423,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 122754000,
+        "sell_total": 6424,
+        "sell_date": "2025-04-19T13:00:50+09:00",
         "position": 52
     },
     "634": {
@@ -7378,10 +7378,10 @@
         "btc_amount": 5.243e-05,
         "buy_price": 122501000,
         "buy_total": 6426,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 122754000,
+        "sell_total": 6432,
+        "sell_date": "2025-04-19T13:00:52+09:00",
         "position": 53
     },
     "635": {
@@ -7402,10 +7402,10 @@
         "btc_amount": 5.245e-05,
         "buy_price": 122497000,
         "buy_total": 6429,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 122755000,
+        "sell_total": 6435,
+        "sell_date": "2025-04-19T13:00:56+09:00",
         "position": 55
     },
     "637": {
@@ -7426,10 +7426,10 @@
         "btc_amount": 5.244e-05,
         "buy_price": 122525000,
         "buy_total": 6429,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 122755000,
+        "sell_total": 6434,
+        "sell_date": "2025-04-19T13:00:59+09:00",
         "position": 57
     },
     "639": {
@@ -7462,10 +7462,10 @@
         "btc_amount": 5.25e-05,
         "buy_price": 122494000,
         "buy_total": 6435,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 122754000,
+        "sell_total": 6441,
+        "sell_date": "2025-04-19T13:01:01+09:00",
         "position": 59
     },
     "642": {
