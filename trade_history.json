@@ -9351,5 +9351,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 15
+    },
+    "799": {
+        "uuid": "ceb12179-317a-47ee-9258-c9281215c099",
+        "date": "2025-04-26T17:00:04+09:00",
+        "btc_amount": 4.449e-05,
+        "buy_price": 136111000,
+        "buy_total": 6059,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 16
     }
 }
