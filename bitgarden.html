@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BitGarden Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
   <style>
     .status-bloomed { background-color: #e0ffe0; }
     .status-growing { background-color: #fff9cc; }
@@ -31,7 +31,6 @@
 
     <!-- Details Table -->
     <h3 class="mt-5">🌼 Seed Details</h3>
-    <!-- Countdown here -->
     <div class="mb-3" id="nextSeedCountdown"></div>
 
     <div class="mb-3">
@@ -45,7 +44,16 @@
     <table class="table table-striped" id="detailsTable">
       <thead>
         <tr>
-          <th>Seed ID</th><th>Seed Time</th><th>Bloom Time</th><th>Status</th><th>Seed Size</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
+          <th>Seed ID</th>
+          <th>Status</th>
+          <th>Seed Time</th>
+          <th>Seed Price</th>
+          <th>Seed Size</th>
+          <th>Bloom Time</th>
+          <th>Bloom Price</th>
+          <th>Bloom Size</th>
+          <th>Fee</th>
+          <th>Profit</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -58,16 +66,17 @@
   <script>
     function formatDateTime(t) {
       const d = new Date(t);
-      return d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0') + '-' + d.getDate().toString().padStart(2,'0') + ' ' + d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+      return d.getFullYear() + '-' + (d.getMonth() + 1).toString().padStart(2, '0') + '-' +
+             d.getDate().toString().padStart(2, '0') + ' ' + d.getHours().toString().padStart(2, '0') + ':' +
+             d.getMinutes().toString().padStart(2, '0');
     }
 
     function calcAverageTime(data) {
       const times = data.filter(d => d.status === 'bloomed' && d.seed_time && d.bloom_time)
         .map(d => new Date(d.bloom_time) - new Date(d.seed_time));
       if (times.length === 0) return '-';
-      const avg = times.reduce((a,b)=>a+b,0) / times.length;
-      const mins = Math.round(avg / 60000);
-      return mins + ' min';
+      const avg = times.reduce((a, b) => a + b, 0) / times.length;
+      return Math.round(avg / 60000) + ' min';
     }
 
     fetch('state.json')
@@ -78,9 +87,10 @@
           totalSeeds: data.length,
           bloomed: bloomedData.length,
           avgTime: calcAverageTime(data),
-          totalProfit: data.reduce((sum, d) => sum + (d.profit || 0), 0),
+          totalProfit: data.reduce((sum, d) => sum + (d.profit || 0), 0)
         };
 
+        // Summary cards
         const s = document.getElementById('summary');
         s.innerHTML = `
           <div class="col-md-3"><div class="card text-bg-primary mb-3"><div class="card-body"><h5>Total Seeds</h5><p class="card-text fs-4">${summary.totalSeeds}</p></div></div></div>
@@ -89,24 +99,30 @@
           <div class="col-md-3"><div class="card text-bg-secondary mb-3"><div class="card-body"><h5>Total Profit</h5><p class="card-text fs-4">₩${summary.totalProfit.toLocaleString()}</p></div></div></div>
         `;
 
+        // Monthly summary
         const monthly = {};
         for (const d of data) {
-          const ym = d.seed_time.substring(0,7);
-          if (!monthly[ym]) monthly[ym] = { seeds: 0, blooms: 0, profit: 0, durations: [] };
-          monthly[ym].seeds++;
-          if (d.status === 'bloomed') {
-            monthly[ym].blooms++;
-            monthly[ym].profit += d.profit || 0;
+          const seedMonth = d.seed_time.substring(0, 7);
+          if (!monthly[seedMonth]) monthly[seedMonth] = { seeds: 0, blooms: 0, profit: 0, durations: [] };
+          monthly[seedMonth].seeds++;
+        }
+        for (const d of data) {
+          if (d.status === 'bloomed' && d.bloom_time) {
+            const bloomMonth = d.bloom_time.substring(0, 7);
+            if (!monthly[bloomMonth]) monthly[bloomMonth] = { seeds: 0, blooms: 0, profit: 0, durations: [] };
+            monthly[bloomMonth].blooms++;
+            monthly[bloomMonth].profit += d.profit || 0;
             const diff = new Date(d.bloom_time) - new Date(d.seed_time);
-            monthly[ym].durations.push(diff);
+            monthly[bloomMonth].durations.push(diff);
           }
         }
         const mt = document.querySelector('#monthlyTable tbody');
         for (const [ym, v] of Object.entries(monthly)) {
-          const avgTime = v.durations.length ? Math.round(v.durations.reduce((a,b)=>a+b,0)/v.durations.length/60000) + ' min' : '-';
-          mt.innerHTML += `<tr><td>${ym}</td><td>${v.seeds}</td><td>${v.blooms}</td><td>${avgTime}</td><td>${v.profit}</td></tr>`;
+          const avgTime = v.durations.length ? Math.round(v.durations.reduce((a, b) => a + b, 0) / v.durations.length / 60000) + ' min' : '-';
+          mt.innerHTML += `<tr><td>${ym}</td><td>${v.seeds}</td><td>${v.blooms}</td><td>${avgTime}</td><td>${v.profit.toLocaleString()}</td></tr>`;
         }
 
+        // Seed Details Table
         let tableData = data.sort((a, b) => b.seed_id - a.seed_id);
         const dt = $('#detailsTable').DataTable({
           data: tableData,
@@ -114,26 +130,29 @@
           ordering: false,
           columns: [
             { data: 'seed_id' },
+            { data: 'status', render: s => `<span class="badge bg-${s === 'bloomed' ? 'success' : 'warning text-dark'}">${s}</span>` },
             { data: 'seed_time', render: t => formatDateTime(t) },
-            { data: 'bloom_time', render: t => t ? formatDateTime(t) : '-' },
-            { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
+            { data: 'seed_price', render: v => v ? Number(v).toLocaleString() : '-' },
             { data: 'seed_size', render: v => Math.round(v).toLocaleString() },
+            { data: 'bloom_time', render: t => t ? formatDateTime(t) : '-' },
+            { data: 'bloom_price', render: v => v ? Number(v).toLocaleString() : '-' },
             { data: 'bloom_size', render: v => v ? Math.round(v).toLocaleString() : '-' },
             { data: null, render: d => Math.round((d.seed_fee || 0) + (d.bloom_fee || 0)).toLocaleString() },
             { data: 'profit', render: v => v !== undefined ? v.toLocaleString() : '-' }
           ]
         });
 
+        // Filter by status
         document.getElementById('statusFilter').addEventListener('change', (e) => {
           const val = e.target.value;
           const filtered = val === 'all' ? tableData : tableData.filter(d => d.status === val);
           dt.clear().rows.add(filtered).draw();
         });
 
+        // Countdown
         const latestSeed = data.reduce((a, b) => new Date(a.seed_time) > new Date(b.seed_time) ? a : b);
         const lastSeedTime = new Date(latestSeed.seed_time);
         const nextEligibleTime = new Date(lastSeedTime.getTime() + 24 * 60 * 60 * 1000);
-
         function updateCountdown() {
           const now = new Date();
           const container = document.getElementById('nextSeedCountdown');
@@ -147,7 +166,6 @@
             container.innerHTML = `<div class="alert alert-info">⏳ Time left until next seed can be planted: <strong>${hours}h ${minutes}m ${seconds}s</strong></div>`;
           }
         }
-
         updateCountdown();
         setInterval(updateCountdown, 1000);
       });
