@@ -109,10 +109,15 @@
           if (!stats[year]) {
             stats[year] = {};
             for (let m = 1; m <= 12; m++) {
-              stats[year][m] = { profit: 0, buys: 0, sells: 0 };
+              stats[year][m] = { profit: 0, buys: 0, sells: 0, max_position: 0 };
             }
           }
           stats[year][buyMonth].buys += 1;
+
+          const current = stats[year][buyMonth];
+          if (trade.position && trade.position > current.max_position) {
+            current.max_position = trade.position;
+          }
 
           if (trade.sell_date && trade.sell_total && trade.buy_total) {
             let sellDate = new Date(trade.sell_date);
@@ -123,22 +128,23 @@
             if (!stats[sellYear]) {
               stats[sellYear] = {};
               for (let m = 1; m <= 12; m++) {
-                stats[sellYear][m] = { profit: 0, buys: 0, sells: 0 };
+                stats[sellYear][m] = { profit: 0, buys: 0, sells: 0, max_position: 0 };
               }
             }
+
             stats[sellYear][sellMonth].profit += profit;
             stats[sellYear][sellMonth].sells += 1;
           }
         });
 
         Object.keys(stats).sort().forEach(year => {
-          const rows = ['수익', '매수건수', '매도건수', '평균수익'];
+          const rows = ['수익', '매수건수', '매도건수', '평균수익', '최대 포지션'];
           rows.forEach((label, idx) => {
             const tr = document.createElement('tr');
             if (idx === 0) {
               const tdYear = document.createElement('td');
               tdYear.textContent = year;
-              tdYear.rowSpan = 4;
+              tdYear.rowSpan = rows.length;
               tr.appendChild(tdYear);
             }
 
@@ -146,11 +152,11 @@
             tdLabel.textContent = label;
             tr.appendChild(tdLabel);
 
-            let yearProfit = 0, yearBuys = 0, yearSells = 0;
+            let yearProfit = 0, yearBuys = 0, yearSells = 0, maxPos = 0;
 
             for (let m = 1; m <= 12; m++) {
               const cell = document.createElement('td');
-              const { profit, buys, sells } = stats[year][m];
+              const { profit, buys, sells, max_position } = stats[year][m];
 
               if (label === '수익') {
                 cell.textContent = profit ? profit.toLocaleString() + ' 원' : '-';
@@ -163,7 +169,11 @@
                 yearSells += sells;
               } else if (label === '평균수익') {
                 cell.textContent = sells ? Math.floor(profit / sells).toLocaleString() + ' 원' : '-';
+              } else if (label === '최대 포지션') {
+                cell.textContent = max_position || '-';
+                if (max_position > maxPos) maxPos = max_position;
               }
+
               tr.appendChild(cell);
             }
 
@@ -176,7 +186,10 @@
               totalCell.textContent = yearSells + '건';
             } else if (label === '평균수익') {
               totalCell.textContent = yearSells ? Math.floor(yearProfit / yearSells).toLocaleString() + ' 원' : '-';
+            } else if (label === '최대 포지션') {
+              totalCell.textContent = maxPos || '-';
             }
+
             tr.appendChild(totalCell);
             profitTableBody.appendChild(tr);
           });
