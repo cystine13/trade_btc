@@ -410,7 +410,11 @@
         "seed_price": 2655000.0,
         "bloom_price": 2662000.0,
         "bloom_uuid": "7e64baa8-520f-48a6-af36-f822aed25d0a",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-05-08T12:44:47+09:00",
+        "bloom_size": 5132.94826,
+        "bloom_fee": 2.56647413,
+        "profit": 8.37141054500035
     },
     {
         "seed_id": "USDT-002",
