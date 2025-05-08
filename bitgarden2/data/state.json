@@ -1492,9 +1492,13 @@
         "bloom_amount": 3.703e-05,
         "seed_fee": 2.63257379,
         "seed_price": 142185999.99999997,
-        "bloom_price": 142612000.0,
+        "bloom_price": 142611999.99999997,
         "bloom_uuid": "285d6b93-aab7-4790-8c56-0e01699012db",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-05-09T01:55:35+09:00",
+        "bloom_size": 5280.92236,
+        "bloom_fee": 2.64046118,
+        "profit": 10.501745029999736
     },
     {
         "seed_id": "ETH-054",
