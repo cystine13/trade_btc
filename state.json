@@ -2744,5 +2744,18 @@
     "bloom_uuid": "a3ae5b2b-3e7f-4609-bd83-0ef7c2bc3d78",
     "water_count": 0,
     "status": "growing"
+  },
+  {
+    "seed_id": 163,
+    "seed_uuid": "7e8de729-1a33-418d-82b5-85a45025d3c1",
+    "seed_time": "2025-05-17T11:09:28+09:00",
+    "seed_size": 6832.21,
+    "bloom_amount": 4.67e-05,
+    "seed_fee": 3.416105,
+    "seed_price": 146300000.0,
+    "bloom_price": 146739000.0,
+    "bloom_uuid": "f823bb29-aecd-43e9-8933-77abcb00f91e",
+    "water_count": 0,
+    "status": "growing"
   }
 ]
