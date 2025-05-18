@@ -15646,10 +15646,22 @@
         "btc_amount": 4.265e-05,
         "buy_price": 148251000,
         "buy_total": 6327,
+        "status": "sold",
+        "sell_price": 149103000,
+        "sell_total": 6356,
+        "sell_date": "2025-05-19T00:00:07+09:00",
+        "position": 7
+    },
+    "1324": {
+        "uuid": "017a0163-8488-44a4-bee8-7c847e1cc713",
+        "date": "2025-05-19T00:00:04+09:00",
+        "btc_amount": 4.242e-05,
+        "buy_price": 149080000,
+        "buy_total": 6328,
         "status": "holding",
         "sell_price": null,
         "sell_total": null,
         "sell_date": null,
-        "position": 7
+        "position": 1
     }
 }
