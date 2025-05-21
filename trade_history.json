@@ -16354,10 +16354,10 @@
         "btc_amount": 4.272e-05,
         "buy_price": 150130000,
         "buy_total": 6417,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 150624000,
+        "sell_total": 6431,
+        "sell_date": "2025-05-21T14:00:10+09:00",
         "position": 4
     },
     "1383": {
@@ -16378,10 +16378,10 @@
         "btc_amount": 4.263e-05,
         "buy_price": 150300000,
         "buy_total": 6411,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 150600000,
+        "sell_total": 6416,
+        "sell_date": "2025-05-21T14:00:13+09:00",
         "position": 6
     },
     "1385": {
@@ -16390,10 +16390,22 @@
         "btc_amount": 4.281e-05,
         "buy_price": 150002000,
         "buy_total": 6425,
+        "status": "sold",
+        "sell_price": 150600000,
+        "sell_total": 6443,
+        "sell_date": "2025-05-21T14:00:16+09:00",
+        "position": 6
+    },
+    "1386": {
+        "uuid": "3a4ab71f-1418-4712-ba1e-e37a0a6c8f25",
+        "date": "2025-05-21T14:00:04+09:00",
+        "btc_amount": 4.243e-05,
+        "buy_price": 150688000,
+        "buy_total": 6397,
         "status": "holding",
         "sell_price": null,
         "sell_total": null,
         "sell_date": null,
-        "position": 6
+        "position": 7
     }
 }
