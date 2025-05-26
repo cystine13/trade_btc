@@ -4755,7 +4755,11 @@
         "seed_price": 3581000.0,
         "bloom_price": 3591000.0,
         "bloom_uuid": "8e569647-d307-4ebe-8277-10d6a1bd0535",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-05-26T16:08:27+09:00",
+        "bloom_size": 6839.56224,
+        "bloom_fee": 3.41978112,
+        "profit": 12.216360960000177
     },
     {
         "seed_id": "BTC-074",
@@ -4896,6 +4900,36 @@
         "seed_price": 3577000.0,
         "bloom_price": 3587000.0,
         "bloom_uuid": "43e607f4-1245-46a3-9689-9625bd37d4b2",
+        "status": "bloomed",
+        "bloom_time": "2025-05-26T16:08:06+09:00",
+        "bloom_size": 6876.85292,
+        "bloom_fee": 3.43842646,
+        "profit": 12.30433288000058
+    },
+    {
+        "seed_id": "ETH-177",
+        "coin": "ETH",
+        "seed_uuid": "9c79b2c8-8920-45d9-adc9-bdf4ad1d9355",
+        "seed_time": "2025-05-26T16:12:15+09:00",
+        "seed_size": 6882.21185,
+        "bloom_amount": 0.00191545,
+        "seed_fee": 3.441105925,
+        "seed_price": 3593000.0,
+        "bloom_price": 3603000.0,
+        "bloom_uuid": "714f8703-b22d-44ad-8358-9732e36535c7",
+        "status": "growing"
+    },
+    {
+        "seed_id": "USDT-039",
+        "coin": "USDT",
+        "seed_uuid": "8fa98acb-bcad-439b-ad2c-f4f4e14b21d9",
+        "seed_time": "2025-05-26T19:03:17+09:00",
+        "seed_size": 5279.3656025,
+        "bloom_amount": 3.79810475,
+        "seed_fee": 2.63968280125,
+        "seed_price": 1390.0,
+        "bloom_price": 1394.0,
+        "bloom_uuid": "1c5d310a-c7c0-4b0c-a8cd-175556217803",
         "status": "growing"
     }
 ]
