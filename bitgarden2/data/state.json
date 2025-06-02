@@ -5926,5 +5926,18 @@
         "bloom_price": 3600000.0,
         "bloom_uuid": "1d09035d-e636-46d9-b58e-1015c09d22a4",
         "status": "growing"
+    },
+    {
+        "seed_id": "USDT-050",
+        "coin": "USDT",
+        "seed_uuid": "57318ebd-ae2f-4dfd-8e83-a55ef0749bf1",
+        "seed_time": "2025-06-03T03:30:26+09:00",
+        "seed_size": 5382.0410904,
+        "bloom_amount": 3.8333626,
+        "seed_fee": 2.6910205452,
+        "seed_price": 1404.0,
+        "bloom_price": 1408.0,
+        "bloom_uuid": "8d54b9e4-21a8-458d-a2e7-facb264975f7",
+        "status": "growing"
     }
 ]
