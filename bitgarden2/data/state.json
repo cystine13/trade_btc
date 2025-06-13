@@ -7734,9 +7734,13 @@
         "bloom_amount": 0.00234752,
         "seed_fee": 4.19853952,
         "seed_price": 3577000.0,
-        "bloom_price": 3587000.0,
+        "bloom_price": 3586999.9999999995,
         "bloom_uuid": "8ee5c9b8-29fe-472e-9995-fdc4f2ad57d5",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-06-14T08:06:22+09:00",
+        "bloom_size": 8420.55424,
+        "bloom_fee": 4.21027712,
+        "profit": 15.066383359998948
     },
     {
         "seed_id": "BTC-110",
