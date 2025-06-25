@@ -22186,10 +22186,10 @@
         "btc_amount": 4.85e-05,
         "buy_price": 148086000,
         "buy_total": 7186,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 148346000,
+        "sell_total": 7191,
+        "sell_date": "2025-06-25T23:01:01+09:00",
         "position": 52
     },
     "1869": {
@@ -22198,10 +22198,10 @@
         "btc_amount": 4.879e-05,
         "buy_price": 147650000,
         "buy_total": 7208,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 148332000,
+        "sell_total": 7233,
+        "sell_date": "2025-06-25T23:01:04+09:00",
         "position": 53
     },
     "1870": {
@@ -22210,10 +22210,10 @@
         "btc_amount": 4.867e-05,
         "buy_price": 147843000,
         "buy_total": 7200,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 148194000,
+        "sell_total": 7208,
+        "sell_date": "2025-06-25T23:01:07+09:00",
         "position": 54
     },
     "1871": {
@@ -22222,10 +22222,10 @@
         "btc_amount": 4.888e-05,
         "buy_price": 147517000,
         "buy_total": 7215,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 148240000,
+        "sell_total": 7242,
+        "sell_date": "2025-06-25T23:01:10+09:00",
         "position": 55
     },
     "1872": {
@@ -23422,10 +23422,10 @@
         "btc_amount": 4.957e-05,
         "buy_price": 147553000,
         "buy_total": 7318,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 148170000,
+        "sell_total": 7341,
+        "sell_date": "2025-06-25T23:01:13+09:00",
         "position": 56
     }
 }
