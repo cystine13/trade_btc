@@ -8309,7 +8309,11 @@
         "seed_price": 147945700.83036774,
         "bloom_price": 148389000.0,
         "bloom_uuid": "49e824e7-0703-4f93-a613-98cd083aa941",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-07-08T19:35:50+09:00",
+        "bloom_size": 6253.11246,
+        "bloom_fee": 3.12655623,
+        "profit": 10.956658125000274
     },
     {
         "seed_id": "ETH-300",
