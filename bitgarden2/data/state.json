@@ -9018,5 +9018,18 @@
         "bloom_size": 9319.5267,
         "bloom_fee": 4.65976335,
         "profit": 18.17193216000077
+    },
+    {
+        "seed_id": "ETH-339",
+        "coin": "ETH",
+        "seed_uuid": "ab471a98-745d-4b83-b2a9-1ee6d1886fda",
+        "seed_time": "2025-07-11T14:32:17+09:00",
+        "seed_size": 9310.24261,
+        "bloom_amount": 0.00229147,
+        "seed_fee": 4.655121305,
+        "seed_price": 4063000.0,
+        "bloom_price": 4075000.0,
+        "bloom_uuid": "0c070c4c-1504-4849-b39a-85eab04c0f46",
+        "status": "growing"
     }
 ]
