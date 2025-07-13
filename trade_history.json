@@ -25942,10 +25942,10 @@
         "btc_amount": 4.511e-05,
         "buy_price": 159731000,
         "buy_total": 7210,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 159995000,
+        "sell_total": 7213,
+        "sell_date": "2025-07-13T11:00:09+09:00",
         "position": 3
     },
     "2182": {
@@ -26290,10 +26290,10 @@
         "btc_amount": 4.533e-05,
         "buy_price": 159659000,
         "buy_total": 7241,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 159995000,
+        "sell_total": 7248,
+        "sell_date": "2025-07-13T11:00:14+09:00",
         "position": 12
     },
     "2211": {
@@ -26302,10 +26302,10 @@
         "btc_amount": 4.534e-05,
         "buy_price": 159655000,
         "buy_total": 7243,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 159995000,
+        "sell_total": 7250,
+        "sell_date": "2025-07-13T11:00:16+09:00",
         "position": 13
     },
     "2212": {
@@ -26362,10 +26362,10 @@
         "btc_amount": 4.535e-05,
         "buy_price": 159685000,
         "buy_total": 7246,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 159998000,
+        "sell_total": 7252,
+        "sell_date": "2025-07-13T11:00:21+09:00",
         "position": 11
     },
     "2217": {
@@ -26379,5 +26379,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 12
+    },
+    "2218": {
+        "uuid": "f9188ade-f7dc-4230-969c-1bcdedc87b6a",
+        "date": "2025-07-13T11:00:04+09:00",
+        "btc_amount": 4.518e-05,
+        "buy_price": 159999000,
+        "buy_total": 7233,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 13
     }
 }
