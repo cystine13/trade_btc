@@ -9062,9 +9062,13 @@
         "bloom_amount": 0.00227739,
         "seed_fee": 4.67320428,
         "seed_price": 4104000.0000000005,
-        "bloom_price": 4116000.0,
+        "bloom_price": 4116000.0000000005,
         "bloom_uuid": "a9618983-aafc-46e2-9648-f201d6a8c380",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-07-14T12:42:13+09:00",
+        "bloom_size": 9373.73724,
+        "bloom_fee": 4.68686862,
+        "profit": 17.968607100000533
     },
     {
         "seed_id": "ETH-342",
