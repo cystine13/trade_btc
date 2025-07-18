@@ -9918,6 +9918,10 @@
         "seed_price": 4955000.0,
         "bloom_price": 4969000.0,
         "bloom_uuid": "11a9b269-909d-4962-b154-3d06dc82f8f8",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-07-18T14:48:03+09:00",
+        "bloom_size": 10301.92956,
+        "bloom_fee": 5.15096478,
+        "profit": 18.73794311999964
     }
 ]
