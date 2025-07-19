@@ -28227,5 +28227,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 19
+    },
+    "2372": {
+        "uuid": "5a63c0f0-1e8b-47c8-9e12-756f7fd5c633",
+        "date": "2025-07-19T23:00:05+09:00",
+        "btc_amount": 4.68e-05,
+        "buy_price": 161920000,
+        "buy_total": 7582,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 20
     }
 }
