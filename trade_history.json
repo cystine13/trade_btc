@@ -28462,10 +28462,10 @@
         "btc_amount": 4.733e-05,
         "buy_price": 161202605.74688357,
         "buy_total": 7634,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 161568000,
+        "sell_total": 7643,
+        "sell_date": "2025-07-21T01:00:34+09:00",
         "position": 32
     },
     "2392": {
@@ -28474,10 +28474,10 @@
         "btc_amount": 4.732e-05,
         "buy_price": 161225000,
         "buy_total": 7633,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 161569000,
+        "sell_total": 7641,
+        "sell_date": "2025-07-21T01:00:37+09:00",
         "position": 33
     },
     "2393": {
@@ -28486,10 +28486,10 @@
         "btc_amount": 4.74e-05,
         "buy_price": 161101000,
         "buy_total": 7641,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 161574000,
+        "sell_total": 7654,
+        "sell_date": "2025-07-21T01:00:39+09:00",
         "position": 34
     },
     "2394": {
@@ -28510,10 +28510,10 @@
         "btc_amount": 4.735e-05,
         "buy_price": 161235000,
         "buy_total": 7639,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 161574000,
+        "sell_total": 7646,
+        "sell_date": "2025-07-21T01:00:42+09:00",
         "position": 36
     },
     "2396": {
@@ -28539,5 +28539,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 37
+    },
+    "2398": {
+        "uuid": "4f662f05-8e73-4065-91d2-94d3370e1e17",
+        "date": "2025-07-21T01:00:04+09:00",
+        "btc_amount": 4.716e-05,
+        "buy_price": 161574000,
+        "buy_total": 7624,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 38
     }
 }
