@@ -10441,7 +10441,11 @@
         "seed_price": 5112000.0,
         "bloom_price": 5127000.0,
         "bloom_uuid": "a37bfdb5-e842-4f7e-9df4-f56e30dca77b",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-07-25T00:14:10+09:00",
+        "bloom_size": 10909.53822,
+        "bloom_fee": 5.45476911,
+        "profit": 21.024320730000372
     },
     {
         "seed_id": "ETH-423",
