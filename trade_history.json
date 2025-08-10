@@ -34402,10 +34402,10 @@
         "btc_amount": 4.996e-05,
         "buy_price": 162100000,
         "buy_total": 8103,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 162572000,
+        "sell_total": 8118,
+        "sell_date": "2025-08-11T00:00:27+09:00",
         "position": 24
     },
     "2887": {
@@ -34414,10 +34414,10 @@
         "btc_amount": 4.994e-05,
         "buy_price": 162133000,
         "buy_total": 8101,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 162571000,
+        "sell_total": 8114,
+        "sell_date": "2025-08-11T00:00:30+09:00",
         "position": 25
     },
     "2888": {
@@ -34438,10 +34438,10 @@
         "btc_amount": 4.994e-05,
         "buy_price": 162155000,
         "buy_total": 8103,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 162571000,
+        "sell_total": 8114,
+        "sell_date": "2025-08-11T00:00:33+09:00",
         "position": 27
     },
     "2890": {
@@ -34450,10 +34450,10 @@
         "btc_amount": 4.995e-05,
         "buy_price": 162136000,
         "buy_total": 8103,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 162571000,
+        "sell_total": 8116,
+        "sell_date": "2025-08-11T00:00:35+09:00",
         "position": 27
     },
     "2891": {
@@ -34503,5 +34503,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 30
+    },
+    "2895": {
+        "uuid": "81554c7b-1b5e-4e7d-bc33-9984241ae1d7",
+        "date": "2025-08-11T00:00:04+09:00",
+        "btc_amount": 4.974e-05,
+        "buy_price": 162560000,
+        "buy_total": 8090,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 31
     }
 }
