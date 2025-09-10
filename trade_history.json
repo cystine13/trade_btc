@@ -37894,10 +37894,10 @@
         "btc_amount": 5.547e-05,
         "buy_price": 157605000,
         "buy_total": 8747,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 158048000,
+        "sell_total": 8762,
+        "sell_date": "2025-09-10T22:11:36+09:00",
         "position": 63
     },
     "3178": {
@@ -38002,10 +38002,10 @@
         "btc_amount": 5.556e-05,
         "buy_price": 157573000,
         "buy_total": 8760,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 158011000,
+        "sell_total": 8774,
+        "sell_date": "2025-09-10T22:11:40+09:00",
         "position": 64
     },
     "3187": {
@@ -38374,10 +38374,10 @@
         "btc_amount": 5.577e-05,
         "buy_price": 157592000,
         "buy_total": 8794,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 158035000,
+        "sell_total": 8809,
+        "sell_date": "2025-09-10T22:11:49+09:00",
         "position": 65
     },
     "3218": {
@@ -38422,10 +38422,10 @@
         "btc_amount": 5.604e-05,
         "buy_price": 157197000,
         "buy_total": 8814,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 158046000,
+        "sell_total": 8852,
+        "sell_date": "2025-09-10T22:11:53+09:00",
         "position": 67
     },
     "3222": {
@@ -38578,10 +38578,10 @@
         "btc_amount": 5.6370000000000004e-05,
         "buy_price": 156856290.40269643,
         "buy_total": 8847,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 158046000,
+        "sell_total": 8904,
+        "sell_date": "2025-09-10T22:11:58+09:00",
         "position": 67
     },
     "3235": {
