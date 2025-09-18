@@ -39015,5 +39015,17 @@
         "sell_total": 8608,
         "sell_date": "2025-09-18T13:11:36+09:00",
         "position": 40
+    },
+    "3271": {
+        "uuid": "fc582a0f-beda-454c-8503-d5577fcf536e",
+        "date": "2025-09-18T15:11:37+09:00",
+        "btc_amount": 5.281e-05,
+        "buy_price": 162721000,
+        "buy_total": 8598,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 40
     }
 }
