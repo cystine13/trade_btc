@@ -15218,7 +15218,11 @@
         "seed_price": 6003000.000000001,
         "bloom_price": 6021000.0,
         "bloom_uuid": "84cb8ef1-0ab4-419a-afba-d1f4da9dc91d",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-09-30T05:35:05+09:00",
+        "bloom_size": 18476.82333,
+        "bloom_fee": 9.238411665,
+        "profit": 36.78793523999745
     },
     {
         "seed_id": "ETH-704",
