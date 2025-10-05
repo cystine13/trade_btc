@@ -14877,7 +14877,11 @@
         "seed_price": 6471000.000000001,
         "bloom_price": 6490000.0,
         "bloom_uuid": "78058622-2784-4845-866b-af5304ce0ed7",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-10-05T12:00:48+09:00",
+        "bloom_size": 17891.1128,
+        "bloom_fee": 8.9455564,
+        "profit": 34.51275603999778
     },
     {
         "seed_id": "ETH-683",
