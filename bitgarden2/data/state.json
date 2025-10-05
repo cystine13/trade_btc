@@ -16048,9 +16048,13 @@
         "bloom_amount": 0.00313558,
         "seed_fee": 10.14987246,
         "seed_price": 6474000.000000001,
-        "bloom_price": 6493000.0,
+        "bloom_price": 6493000.000000001,
         "bloom_uuid": "37326380-4203-4244-babe-f29fcc429dfd",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-10-05T12:01:00+09:00",
+        "bloom_size": 20359.32094,
+        "bloom_fee": 10.17966047,
+        "profit": 39.24648707000043
     },
     {
         "seed_id": "ETH-752",
