@@ -40954,10 +40954,10 @@
         "btc_amount": 4.763e-05,
         "buy_price": 177610000,
         "buy_total": 8464,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 178141000,
+        "sell_total": 8480,
+        "sell_date": "2025-10-06T23:11:33+09:00",
         "position": 3
     },
     "3433": {
@@ -40966,10 +40966,10 @@
         "btc_amount": 4.764e-05,
         "buy_price": 177597000,
         "buy_total": 8465,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 178110000,
+        "sell_total": 8480,
+        "sell_date": "2025-10-06T23:11:35+09:00",
         "position": 4
     },
     "3434": {
@@ -40978,10 +40978,10 @@
         "btc_amount": 4.754e-05,
         "buy_price": 177788000,
         "buy_total": 8457,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 178120000,
+        "sell_total": 8463,
+        "sell_date": "2025-10-06T23:11:37+09:00",
         "position": 5
     },
     "3435": {
@@ -41086,10 +41086,10 @@
         "btc_amount": 4.767e-05,
         "buy_price": 177647000,
         "buy_total": 8473,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 178111000,
+        "sell_total": 8486,
+        "sell_date": "2025-10-06T23:11:41+09:00",
         "position": 8
     },
     "3444": {
@@ -41103,5 +41103,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 7
+    },
+    "3445": {
+        "uuid": "777c70aa-9c22-4712-8a73-5b31de04cea2",
+        "date": "2025-10-06T23:11:44+09:00",
+        "btc_amount": 4.741e-05,
+        "buy_price": 178156000,
+        "buy_total": 8451,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 4
     }
 }
