@@ -43743,5 +43743,17 @@
         "sell_total": 9322,
         "sell_date": "2025-10-21T06:12:41+09:00",
         "position": 38
+    },
+    "3665": {
+        "uuid": "78be22ba-9cc4-4263-9360-ea253cae29e3",
+        "date": "2025-10-21T08:12:41+09:00",
+        "btc_amount": 5.621e-05,
+        "buy_price": 165901000,
+        "buy_total": 9330,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 38
     }
 }
