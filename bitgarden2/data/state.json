@@ -19124,9 +19124,13 @@
         "bloom_amount": 3.822e-05,
         "seed_fee": 2.99627601,
         "seed_price": 156791000.0,
-        "bloom_price": 157261000.0,
+        "bloom_price": 157260999.99999997,
         "bloom_uuid": "5e4e2c17-052d-46ac-8e2f-92a305f1734e",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-11-10T09:38:39+09:00",
+        "bloom_size": 6010.51542,
+        "bloom_fee": 3.00525771,
+        "profit": 11.961866279999638
     },
     {
         "seed_id": "ETH-903",
