@@ -20870,9 +20870,13 @@
         "bloom_amount": 3.826e-05,
         "seed_fee": 2.49967884,
         "seed_price": 130667999.99999999,
-        "bloom_price": 131060000.0,
+        "bloom_price": 131059999.99999999,
         "bloom_uuid": "fabed424-b2d5-47e4-bf14-107d38db4173",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-11-23T21:17:20+09:00",
+        "bloom_size": 5014.3556,
+        "bloom_fee": 2.5071778,
+        "profit": 9.991063359999796
     },
     {
         "seed_id": "ETH-966",
