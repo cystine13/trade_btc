@@ -20819,9 +20819,13 @@
         "bloom_amount": 3.838e-05,
         "seed_fee": 2.49970859,
         "seed_price": 130261000.0,
-        "bloom_price": 130651000.0,
+        "bloom_price": 130650999.99999999,
         "bloom_uuid": "b603d21e-7812-4a9c-90ce-b0aa2c50872b",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-11-23T13:18:03+09:00",
+        "bloom_size": 5014.38538,
+        "bloom_fee": 2.50719269,
+        "profit": 9.961298719999341
     },
     {
         "seed_id": "ETH-964",
