@@ -21996,9 +21996,13 @@
         "bloom_amount": 3.677e-05,
         "seed_fee": 2.49977168,
         "seed_price": 135967999.99999997,
-        "bloom_price": 136376000.0,
+        "bloom_price": 136375999.99999997,
         "bloom_uuid": "403586b7-8fc9-4a25-8795-693055746733",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-11-30T10:18:03+09:00",
+        "bloom_size": 5014.54552,
+        "bloom_fee": 2.50727276,
+        "profit": 9.995115560000002
     },
     {
         "seed_id": "ETH-1000",
