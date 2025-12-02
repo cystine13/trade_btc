@@ -22568,7 +22568,11 @@
         "seed_price": 4400000.0,
         "bloom_price": 4413000.0,
         "bloom_uuid": "92978d0b-9179-4d77-89df-a4abf199faf8",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-12-03T00:13:28+09:00",
+        "bloom_size": 5014.75668,
+        "bloom_fee": 2.50737834,
+        "profit": 9.765309660000035
     },
     {
         "seed_id": "BTC-243",
@@ -22581,6 +22585,19 @@
         "seed_price": 135399000.0,
         "bloom_price": 135805000.0,
         "bloom_uuid": "9ae53726-56c5-42cc-b054-1da50ffd3215",
+        "status": "growing"
+    },
+    {
+        "seed_id": "ETH-1019",
+        "coin": "ETH",
+        "seed_uuid": "3f61a166-08bc-4703-b682-f30912935822",
+        "seed_time": "2025-12-03T00:14:14+09:00",
+        "seed_size": 4999.96593,
+        "bloom_amount": 0.00113147,
+        "seed_fee": 2.499982965,
+        "seed_price": 4419000.0,
+        "bloom_price": 4432000.0,
+        "bloom_uuid": "22f8bdcf-02a7-4a0e-977e-68c6ace47d3a",
         "status": "growing"
     }
 ]
