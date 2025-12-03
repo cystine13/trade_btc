@@ -23022,7 +23022,11 @@
         "seed_price": 139682000.0,
         "bloom_price": 140101000.0,
         "bloom_uuid": "29ea991d-0351-42d3-bf12-77b1ed773776",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-12-03T15:29:12+09:00",
+        "bloom_size": 5014.21479,
+        "bloom_fee": 2.507107395,
+        "profit": 9.989293214999842
     },
     {
         "seed_id": "ETH-1034",
