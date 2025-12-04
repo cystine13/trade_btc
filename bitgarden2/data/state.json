@@ -23282,5 +23282,18 @@
         "bloom_price": 4813000.0,
         "bloom_uuid": "400b91e3-04b3-4e80-acbe-0b6860f46ad3",
         "status": "growing"
+    },
+    {
+        "seed_id": "BTC-255",
+        "coin": "BTC",
+        "seed_uuid": "03addea4-b8c4-4777-bcfb-8e0e45416018",
+        "seed_time": "2025-12-05T00:30:14+09:00",
+        "seed_size": 4999.5239,
+        "bloom_amount": 3.631e-05,
+        "seed_fee": 2.49976195,
+        "seed_price": 137690000.0,
+        "bloom_price": 138103000.0,
+        "bloom_uuid": "a320dbec-f289-4d05-9a9f-b96c628d94a6",
+        "status": "growing"
     }
 ]
