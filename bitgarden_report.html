@@ -121,7 +121,11 @@ fetch('bitgarden2/data/state.json')
         mt.innerHTML += `<tr><td>${ym}</td><td>${v.seeds}</td><td>${v.blooms}</td><td>${avgTime}</td><td>₩${formatInt(v.profit)}</td></tr>`;
       }
 
-      const tableData = filtered.sort((a, b) => b.seed_id.localeCompare(a.seed_id));
+      const tableData = filtered.sort((a, b) => {
+        const aNum = parseInt(a.seed_id.split('-')[1], 10);
+        const bNum = parseInt(b.seed_id.split('-')[1], 10);
+        return bNum - aNum;
+      });
       dt.clear().rows.add(tableData).draw();
     }
 
@@ -157,3 +161,4 @@ fetch('bitgarden2/data/state.json')
 </script>
 </body>
 </html>
+
