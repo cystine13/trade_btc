@@ -16,12 +16,23 @@
     </p>  
 
   <!-- Coin Filter -->
-  <div class="mb-3">
+<div class="mb-3 d-flex align-items-end gap-3 flex-wrap">
+  <div>
     <label for="coinFilter" class="form-label">코인 필터:</label>
-    <select id="coinFilter" class="form-select" style="width:auto; display:inline-block;">
+    <select id="coinFilter" class="form-select" style="width:auto;">
       <option value="all">전체</option>
     </select>
   </div>
+
+  <div>
+    <label for="statusFilter" class="form-label">Status:</label>
+    <select id="statusFilter" class="form-select" style="width:auto;">
+      <option value="all">All</option>
+      <option value="bloomed">Bloomed</option>
+      <option value="growing">Growing</option>
+    </select>
+  </div>
+</div>
 
   <!-- Summary -->
   <div class="row mb-4" id="summary"></div>
@@ -37,14 +48,6 @@
 
   <!-- Seed Details -->
   <h3 class="mt-5">🌼 Seed Details</h3>
-  <div class="mb-3">
-    <label for="statusFilter" class="form-label">Status:</label>
-    <select id="statusFilter" class="form-select" style="width:auto; display:inline-block;">
-      <option value="all">All</option>
-      <option value="bloomed">Bloomed</option>
-      <option value="growing">Growing</option>
-    </select>
-  </div>
   <table class="table table-striped" id="detailsTable">
     <thead>
       <tr>
@@ -73,6 +76,10 @@ function formatK(value) {
 fetch('bitgarden2/data/state.json')
   .then(res => res.json())
   .then(data => {
+        // ✅ seed_time을 정렬용 timestamp로 미리 변환
+    data.forEach(d => {
+      d._seed_ts = Date.parse(d.seed_time);
+    });
     const allCoins = [...new Set(data.map(d => d.coin))];
     const coinSelect = document.getElementById("coinFilter");
     allCoins.forEach(coin => {
@@ -121,9 +128,10 @@ fetch('bitgarden2/data/state.json')
         mt.innerHTML += `<tr><td>${ym}</td><td>${v.seeds}</td><td>${v.blooms}</td><td>${avgTime}</td><td>₩${formatInt(v.profit)}</td></tr>`;
       }
 
-      const tableData = filtered.sort(
-        (a, b) => new Date(b.seed_time) - new Date(a.seed_time)
+      const tableData = [...filtered].sort(
+        (a, b) => b._seed_ts - a._seed_ts
       );
+      
       dt.clear().rows.add(tableData).draw();
     }
 
@@ -159,5 +167,6 @@ fetch('bitgarden2/data/state.json')
 </script>
 </body>
 </html>
+
 
 
