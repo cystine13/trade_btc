@@ -46462,10 +46462,10 @@
         "btc_amount": 8.802e-05,
         "buy_price": 129300000,
         "buy_total": 11387,
-        "status": "holding",
-        "sell_price": null,
-        "sell_total": null,
-        "sell_date": null,
+        "status": "sold",
+        "sell_price": 129522000,
+        "sell_total": 11394,
+        "sell_date": "2025-12-25T08:13:40+09:00",
         "position": 58
     }
 }
