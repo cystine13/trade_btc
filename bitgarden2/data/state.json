@@ -25500,9 +25500,13 @@
         "bloom_amount": 0.00116713,
         "seed_fee": 2.49999246,
         "seed_price": 4284000.0,
-        "bloom_price": 4296000.0,
+        "bloom_price": 4296000.000000001,
         "bloom_uuid": "cee81265-e130-40cf-90e5-b8bac6c165dd",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2025-12-28T07:14:17+09:00",
+        "bloom_size": 5013.99048,
+        "bloom_fee": 2.50699524,
+        "profit": 8.998572300000514
     },
     {
         "seed_id": "BTC-312",
