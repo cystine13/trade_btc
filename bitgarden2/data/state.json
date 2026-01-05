@@ -26516,7 +26516,11 @@
         "seed_price": 4668000.0,
         "bloom_price": 4682000.0,
         "bloom_uuid": "775f9e90-4b6c-474e-936b-94e5ff25ebb9",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-01-06T05:03:50+09:00",
+        "bloom_size": 5014.98384,
+        "bloom_fee": 2.50749192,
+        "profit": 9.988193999999993
     },
     {
         "seed_id": "BTC-341",
