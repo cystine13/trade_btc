@@ -46611,5 +46611,17 @@
         "sell_total": 11137,
         "sell_date": "2026-01-06T01:13:41+09:00",
         "position": 56
+    },
+    "3904": {
+        "uuid": "95983f60-7596-4b44-aef5-c4e76a6552f1",
+        "date": "2026-01-06T09:13:42+09:00",
+        "btc_amount": 8.158e-05,
+        "buy_price": 135774000,
+        "buy_total": 11082,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 56
     }
 }
