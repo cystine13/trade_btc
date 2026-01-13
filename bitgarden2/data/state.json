@@ -27122,9 +27122,13 @@
         "bloom_amount": 0.00107342,
         "seed_fee": 2.49999518,
         "seed_price": 4658000.0,
-        "bloom_price": 4671000.0,
+        "bloom_price": 4670999.999999999,
         "bloom_uuid": "283d1325-363d-4d62-9f10-33f1523bd5c6",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-01-14T00:55:32+09:00",
+        "bloom_size": 5013.94482,
+        "bloom_fee": 2.50697241,
+        "profit": 8.947492409999928
     },
     {
         "seed_id": "BTC-357",
