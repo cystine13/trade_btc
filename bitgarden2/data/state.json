@@ -33743,9 +33743,13 @@
         "bloom_amount": 4.654e-05,
         "seed_fee": 2.49954705,
         "seed_price": 107415000.00000001,
-        "bloom_price": 107737000.0,
+        "bloom_price": 107737000.00000001,
         "bloom_uuid": "e9f9bcdf-d342-40ae-b9c3-1499bcb46ed6",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-03-13T23:00:45+09:00",
+        "bloom_size": 5014.07998,
+        "bloom_fee": 2.50703999,
+        "profit": 9.97929296000018
     },
     {
         "seed_id": "ETH-1389",
