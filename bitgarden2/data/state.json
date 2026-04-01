@@ -37655,9 +37655,13 @@
         "bloom_amount": 0.00155714,
         "seed_fee": 2.49998827,
         "seed_price": 3210999.9999999995,
-        "bloom_price": 3220000.0,
+        "bloom_price": 3219999.9999999995,
         "bloom_uuid": "5f1884da-1252-4f25-8159-dbba6954548d",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-04-01T15:09:17+09:00",
+        "bloom_size": 5013.9908,
+        "bloom_fee": 2.5069954,
+        "profit": 9.007276329999922
     },
     {
         "seed_id": "BTC-629",
