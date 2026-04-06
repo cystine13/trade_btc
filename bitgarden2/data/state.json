@@ -37070,7 +37070,11 @@
         "seed_price": 105171000.0,
         "bloom_price": 105486000.0,
         "bloom_uuid": "37c1b413-39ea-4535-ba7c-c095164e2c8b",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-04-07T01:48:12+09:00",
+        "bloom_size": 5014.80444,
+        "bloom_fee": 2.50740222,
+        "profit": 9.967783109999658
     },
     {
         "seed_id": "ETH-1504",
