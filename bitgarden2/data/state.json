@@ -39136,5 +39136,18 @@
         "bloom_size": 5014.397,
         "bloom_fee": 2.5071985,
         "profit": 9.982097499999579
+    },
+    {
+        "seed_id": "BTC-665",
+        "coin": "BTC",
+        "seed_uuid": "179320ae-4c05-4b94-b0cc-9dc92eb1dc37",
+        "seed_time": "2026-04-11T05:31:30+09:00",
+        "seed_size": 4999.35942,
+        "bloom_amount": 4.598e-05,
+        "seed_fee": 2.49967971,
+        "seed_price": 108729000.0,
+        "bloom_price": 109055000.0,
+        "bloom_uuid": "1ceedc83-857e-4c7b-b064-0c01a99e5948",
+        "status": "growing"
     }
 ]
