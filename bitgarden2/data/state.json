@@ -40934,9 +40934,13 @@
         "bloom_amount": 0.00143102,
         "seed_fee": 2.49999194,
         "seed_price": 3493999.9999999995,
-        "bloom_price": 3504000.0,
+        "bloom_price": 3503999.9999999995,
         "bloom_uuid": "210dc56b-edc3-45b4-a7ec-7dc123b76be5",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-04-22T11:56:41+09:00",
+        "bloom_size": 5014.29408,
+        "bloom_fee": 2.50714704,
+        "profit": 9.303061019999895
     },
     {
         "seed_id": "BTC-709",
