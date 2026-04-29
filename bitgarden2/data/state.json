@@ -41650,7 +41650,11 @@
         "seed_price": 114183000.0,
         "bloom_price": 114525000.0,
         "bloom_uuid": "f2886567-148f-4ed9-86e1-699e3beb149a",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-04-29T13:32:51+09:00",
+        "bloom_size": 8156.4705,
+        "bloom_fee": 4.07823525,
+        "profit": 16.212948120000277
     },
     {
         "seed_id": "ETH-1661",
