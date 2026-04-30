@@ -41800,5 +41800,18 @@
         "bloom_price": 3387000.0,
         "bloom_uuid": "2f4959b5-0e7a-464f-ae6d-5eacaefd1418",
         "status": "growing"
+    },
+    {
+        "seed_id": "BTC-730",
+        "coin": "BTC",
+        "seed_uuid": "7737cafc-768f-447c-b5ec-c6402ed09176",
+        "seed_time": "2026-04-30T22:41:19+09:00",
+        "seed_size": 8160.94224,
+        "bloom_amount": 7.164e-05,
+        "seed_fee": 4.08047112,
+        "seed_price": 113916000.0,
+        "bloom_price": 114257000.0,
+        "bloom_uuid": "d02df7fd-c293-4c26-b3d8-ce4e14b1711e",
+        "status": "growing"
     }
 ]
