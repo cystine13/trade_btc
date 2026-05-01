@@ -41850,7 +41850,11 @@
         "seed_price": 3400000.0000000005,
         "bloom_price": 3410000.0,
         "bloom_uuid": "0cd706b6-ffec-4730-aa95-49ecc42af32d",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-05-01T12:23:05+09:00",
+        "bloom_size": 10173.8032,
+        "bloom_fee": 5.0869016,
+        "profit": 19.67631439999953
     },
     {
         "seed_id": "BTC-732",
