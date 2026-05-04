@@ -42202,7 +42202,11 @@
         "seed_price": 3473999.9999999995,
         "bloom_price": 3484000.0,
         "bloom_uuid": "761ab049-7fea-44bb-868d-9ef12ec2dd9e",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-05-04T11:00:01+09:00",
+        "bloom_size": 10212.3008,
+        "bloom_fee": 5.1061504,
+        "profit": 19.114355200001715
     },
     {
         "seed_id": "BTC-741",
