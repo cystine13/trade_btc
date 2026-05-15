@@ -43222,9 +43222,13 @@
         "bloom_amount": 0.00184536,
         "seed_fee": 3.05499348,
         "seed_price": 3311000.0,
-        "bloom_price": 3320000.0,
+        "bloom_price": 3319999.9999999995,
         "bloom_uuid": "785ef81f-de19-4639-8eb4-e95fea6fd9ed",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-05-16T03:13:41+09:00",
+        "bloom_size": 6126.5952,
+        "bloom_fee": 3.0632976,
+        "profit": 10.489948919999568
     },
     {
         "seed_id": "BTC-771",
@@ -43237,6 +43241,19 @@
         "seed_price": 118014000.0,
         "bloom_price": 118368000.0,
         "bloom_uuid": "985b6c46-0516-4a94-95a4-4879a218bc99",
+        "status": "growing"
+    },
+    {
+        "seed_id": "ETH-1711",
+        "coin": "ETH",
+        "seed_uuid": "07c13a20-d92a-431b-b407-f4d0f8e5cac3",
+        "seed_time": "2026-05-16T03:14:58+09:00",
+        "seed_size": 6109.98029,
+        "bloom_amount": 0.00184091,
+        "seed_fee": 3.054990145,
+        "seed_price": 3319000.0,
+        "bloom_price": 3328000.0,
+        "bloom_uuid": "c44c8722-b9f8-4078-b546-4ba70e10b4f6",
         "status": "growing"
     }
 ]
