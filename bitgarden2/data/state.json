@@ -46309,5 +46309,18 @@
         "bloom_price": 97225000.0,
         "bloom_uuid": "4686a753-1ef2-43fa-9385-b953bef2cd74",
         "status": "growing"
+    },
+    {
+        "seed_id": "ETH-1819",
+        "coin": "ETH",
+        "seed_uuid": "74d270e7-a835-44aa-8e01-c2ddf057aeef",
+        "seed_time": "2026-06-14T00:03:20+09:00",
+        "seed_size": 4999.9776,
+        "bloom_amount": 0.0019716,
+        "seed_fee": 2.4999888,
+        "seed_price": 2536000.0,
+        "bloom_price": 2543000.0,
+        "bloom_uuid": "5ed76b5c-3877-448c-b84b-d2bdcc0b4c45",
+        "status": "growing"
     }
 ]
