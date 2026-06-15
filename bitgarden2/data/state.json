@@ -46603,9 +46603,13 @@
         "bloom_amount": 5.395e-05,
         "seed_fee": 2.67726875,
         "seed_price": 99250000.00000001,
-        "bloom_price": 99547000.0,
+        "bloom_price": 99547000.00000001,
         "bloom_uuid": "50291e60-019e-482f-a144-d8e4079fdcf9",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-06-15T20:26:32+09:00",
+        "bloom_size": 5370.56065,
+        "bloom_fee": 2.685280325,
+        "profit": 10.660600924999986
     },
     {
         "seed_id": "ETH-1829",
