@@ -47099,7 +47099,11 @@
         "seed_price": 2578000.0,
         "bloom_price": 2585000.0,
         "bloom_uuid": "40716407-b58e-4baf-b9ef-b678418fe762",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-06-20T08:37:42+09:00",
+        "bloom_size": 5013.5558,
+        "bloom_fee": 2.5067779,
+        "profit": 8.569592380000023
     },
     {
         "seed_id": "BTC-869",
