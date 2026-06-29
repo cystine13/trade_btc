@@ -48735,5 +48735,17 @@
         "sell_total": null,
         "sell_date": null,
         "position": 68
+    },
+    "4081": {
+        "uuid": "5e54b912-e56a-489f-829b-0f949fd8d918",
+        "date": "2026-06-29T16:14:26+09:00",
+        "btc_amount": 0.00014924,
+        "buy_price": 90899130.79603323,
+        "buy_total": 13573,
+        "status": "holding",
+        "sell_price": null,
+        "sell_total": null,
+        "sell_date": null,
+        "position": 69
     }
 }
