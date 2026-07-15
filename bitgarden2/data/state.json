@@ -50733,7 +50733,11 @@
         "seed_price": 2778000.0,
         "bloom_price": 2786000.0,
         "bloom_uuid": "ccb95562-baab-4228-bd46-8278e4a35d24",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-07-15T15:35:18+09:00",
+        "bloom_size": 5014.3821,
+        "bloom_fee": 2.50719105,
+        "profit": 9.391617299999938
     },
     {
         "seed_id": "BTC-955",
