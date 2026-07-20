@@ -51290,7 +51290,11 @@
         "seed_price": 2760000.0,
         "bloom_price": 2768000.0,
         "bloom_uuid": "6f41d6b8-e52f-4be6-a402-43b9128bf21c",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-07-20T09:10:26+09:00",
+        "bloom_size": 5014.48112,
+        "bloom_fee": 2.50724056,
+        "profit": 9.485485240000191
     },
     {
         "seed_id": "BTC-969",
@@ -51320,6 +51324,23 @@
         "seed_price": 95204000.00000001,
         "bloom_price": 95489000.0,
         "bloom_uuid": "0123cc19-ffa5-4a03-8c4c-34cdd88a3325",
+        "status": "bloomed",
+        "bloom_time": "2026-07-20T09:12:29+09:00",
+        "bloom_size": 5014.12739,
+        "bloom_fee": 2.507063695,
+        "profit": 9.958705284999489
+    },
+    {
+        "seed_id": "ETH-1995",
+        "coin": "ETH",
+        "seed_uuid": "dedbb472-2e65-4116-a3cd-d623c52a6e93",
+        "seed_time": "2026-07-20T09:11:47+09:00",
+        "seed_size": 4999.9963,
+        "bloom_amount": 0.0018031,
+        "seed_fee": 2.49999815,
+        "seed_price": 2773000.0,
+        "bloom_price": 2781000.0,
+        "bloom_uuid": "cd513a04-d80f-4083-aea3-71309a6100fc",
         "status": "growing"
     }
 ]
