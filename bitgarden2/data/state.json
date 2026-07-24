@@ -51839,5 +51839,18 @@
         "bloom_price": 96057000.0,
         "bloom_uuid": "bd907f5a-ea38-4f9c-b358-f4005dc61e77",
         "status": "growing"
+    },
+    {
+        "seed_id": "ETH-2010",
+        "coin": "ETH",
+        "seed_uuid": "f36a5285-2c98-47ef-a7e6-3db5b02fe354",
+        "seed_time": "2026-07-24T23:08:39+09:00",
+        "seed_size": 4999.98736,
+        "bloom_amount": 0.00183688,
+        "seed_fee": 2.49999368,
+        "seed_price": 2722000.0,
+        "bloom_price": 2730000.0,
+        "bloom_uuid": "8f1120b4-92c4-4b23-a643-5a67d99e214b",
+        "status": "growing"
     }
 ]
