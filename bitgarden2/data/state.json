@@ -54606,7 +54606,11 @@
         "seed_price": 3156000.0,
         "bloom_price": 3165000.0,
         "bloom_uuid": "2336d296-8e8f-49b4-91a9-08bebdc50121",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-08-20T18:10:37+09:00",
+        "bloom_size": 5014.2462,
+        "bloom_fee": 2.5071231,
+        "profit": 9.251403059999408
     },
     {
         "seed_id": "BTC-1054",
