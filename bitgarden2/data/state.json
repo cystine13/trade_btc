@@ -43202,7 +43202,11 @@
         "seed_price": 3413000.0,
         "bloom_price": 3423000.0,
         "bloom_uuid": "0934395c-9fed-4ed2-9191-5a25eabffa39",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-08-22T06:52:09+09:00",
+        "bloom_size": 6963.34044,
+        "bloom_fee": 3.48167022,
+        "profit": 13.389630960000352
     },
     {
         "seed_id": "BTC-770",
