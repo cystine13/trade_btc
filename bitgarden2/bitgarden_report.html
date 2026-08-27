@@ -44,7 +44,7 @@
   <table class="table table-striped" id="detailsTable">
     <thead>
       <tr>
-        <th>Coin</th><th>Seed ID</th><th>Status</th><th>Seed Time</th><th>Seed Price</th><th>Seed Size</th>
+        <th>Coin</th><th>Seed ID</th><th>Status</th><th>Growing#</th><th>Seed Time</th><th>Seed Price</th><th>Seed Size</th>
         <th>Bloom Time</th><th>Bloom Price</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
       </tr>
     </thead>
@@ -84,10 +84,19 @@ fetch('data/state.json')
 
       const summaryBox = document.getElementById("summary");
       const totalProfit = filtered.reduce((sum, d) => sum + (d.profit || 0), 0);
+      const currentGrowing = filtered.filter(d => d.status === 'growing').length;
+      // growing_count_at_plant is only recorded on seeds planted after the tracking update,
+      // so older records won't have it — filter those out before taking the max.
+      const growingCounts = filtered
+        .map(d => d.growing_count_at_plant)
+        .filter(v => v !== undefined && v !== null);
+      const maxGrowingAtPlant = growingCounts.length ? Math.max(...growingCounts) : null;
       summaryBox.innerHTML = `
         <div class="col-md-4"><div class="card text-bg-primary mb-3"><div class="card-body"><h5>Total Seeds</h5><p class="card-text fs-4">${filtered.length}</p></div></div></div>
         <div class="col-md-4"><div class="card text-bg-success mb-3"><div class="card-body"><h5>Total Blooms</h5><p class="card-text fs-4">${bloomed.length}</p></div></div></div>
         <div class="col-md-4"><div class="card text-bg-secondary mb-3"><div class="card-body"><h5>Total Profit</h5><p class="card-text fs-4">₩${formatInt(totalProfit)}</p></div></div></div>
+        <div class="col-md-4"><div class="card text-bg-warning mb-3"><div class="card-body"><h5>Currently Growing</h5><p class="card-text fs-4">${currentGrowing}</p></div></div></div>
+        <div class="col-md-4"><div class="card text-bg-danger mb-3"><div class="card-body"><h5>Max Concurrent (peak)</h5><p class="card-text fs-4">${maxGrowingAtPlant === null ? '-' : maxGrowingAtPlant}</p></div></div></div>
       `;
 
       const monthly = {};
@@ -129,6 +138,7 @@ fetch('data/state.json')
         { data: 'coin' },
         { data: 'seed_id' },
         { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
+        { data: 'growing_count_at_plant', render: v => (v === undefined || v === null) ? '-' : v },
         { data: 'seed_time', render: formatDateTime },
         { data: 'seed_price', render: v => formatK(v) },
         { data: 'seed_size', render: v => formatInt(v) },
