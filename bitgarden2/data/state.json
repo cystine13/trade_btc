@@ -56257,10 +56257,14 @@
         "bloom_amount": 0.0024095,
         "seed_fee": 4.10699275,
         "seed_price": 3409000.0,
-        "bloom_price": 3419000.0,
+        "bloom_price": 3418999.9999999995,
         "bloom_uuid": "7924ac8a-fd50-456b-be7c-284d919c1532",
-        "status": "growing",
-        "growing_count_at_plant": 30
+        "status": "bloomed",
+        "growing_count_at_plant": 30,
+        "bloom_time": "2026-08-30T08:53:13+09:00",
+        "bloom_size": 8238.0805,
+        "bloom_fee": 4.11904025,
+        "profit": 15.868966999999344
     },
     {
         "seed_id": "BTC-1092",
