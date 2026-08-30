@@ -56171,10 +56171,14 @@
         "bloom_amount": 0.00262564,
         "seed_fee": 4.58699308,
         "seed_price": 3494000.0000000005,
-        "bloom_price": 3504000.0,
+        "bloom_price": 3504000.0000000005,
         "bloom_uuid": "2d788bee-a11c-43fc-93bc-0839a9a30ff2",
-        "status": "growing",
-        "growing_count_at_plant": 29
+        "status": "bloomed",
+        "growing_count_at_plant": 29,
+        "bloom_time": "2026-08-31T01:40:50+09:00",
+        "bloom_size": 9200.24256,
+        "bloom_fee": 4.60012128,
+        "profit": 17.069285640000214
     },
     {
         "seed_id": "BTC-1090",
