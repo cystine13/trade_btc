@@ -56725,10 +56725,14 @@
         "bloom_amount": 5.638e-05,
         "seed_fee": 3.07535986,
         "seed_price": 109094000.0,
-        "bloom_price": 109421000.0,
+        "bloom_price": 109421000.00000001,
         "bloom_uuid": "432debff-d442-4eda-93e3-03efa44dece0",
-        "status": "growing",
-        "growing_count_at_plant": 30
+        "status": "bloomed",
+        "growing_count_at_plant": 30,
+        "bloom_time": "2026-09-06T01:55:48+09:00",
+        "bloom_size": 6169.15598,
+        "bloom_fee": 3.08457799,
+        "profit": 12.276322150000404
     },
     {
         "seed_id": "ETH-2171",
