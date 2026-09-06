@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비트가든 · 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10140D; --panel:#161C12; --panel-2:#1C231A; --line:#2B3325;
+    --soil:#5C4830; --soil-light:#7A5F3F; --moss:#93A583; --text:#EDE9DC;
+    --text-dim:#9AA08D; --bloom:#E2795A; --bloom-dim:#6B4A3C; --gold:#CDA55C; --danger:#C4574A;
+    --btc:#CDA55C; --eth:#8FA9C9;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);}
+  body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text); padding:28px 20px 60px;}
+  .wrap{max-width:1080px; margin:0 auto;}
+
+  .head{display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:22px; gap:16px; flex-wrap:wrap;}
+  .head h1{font-family:'Newsreader',serif; font-weight:500; font-size:29px; margin:0 0 4px;}
+  .head .sub{color:var(--text-dim); font-size:12.5px;}
+  .datepick{display:flex; align-items:center; gap:8px;}
+  .datepick input{background:var(--panel-2); border:1px solid var(--line); color:var(--text); padding:7px 9px; border-radius:3px; font-family:inherit; font-size:13px;}
+  .datepick button{background:transparent; border:1px solid var(--line); color:var(--text-dim); padding:7px 10px; border-radius:3px; cursor:pointer; font-family:inherit; font-size:12px;}
+  .datepick button:hover{border-color:var(--moss); color:var(--moss);}
+
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:20px; margin-bottom:20px;}
+  .panel h2{font-size:12px; color:var(--text-dim); margin:0 0 14px; font-weight:600;}
+  .panel h2 .tag{color:var(--text-dim); font-weight:400; font-size:11px;}
+
+  /* 누적 현황 */
+  .cum-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  @media (max-width:760px){ .cum-row{grid-template-columns:repeat(2,1fr);} }
+  .cum-card .v{font-family:'Newsreader',serif; font-size:21px;}
+  .cum-card .l{color:var(--text-dim); font-size:11px; margin-top:4px;}
+  .cum-card .sub{color:var(--text-dim); font-size:10.5px; margin-top:6px; line-height:1.5;}
+
+  /* garden bed */
+  .bed{display:grid; grid-template-columns:repeat(10,1fr); gap:7px; margin-top:4px;}
+  .cell{aspect-ratio:1; border-radius:3px; border:1px dashed var(--line);}
+  .cell.btc{background:var(--soil); border:1px solid var(--btc);}
+  .cell.eth{background:var(--bloom-dim); border:1px solid var(--eth);}
+  .bed-legend{display:flex; gap:16px; margin-top:12px; font-size:11px; color:var(--text-dim); flex-wrap:wrap;}
+  .bed-legend span{display:inline-flex; align-items:center; gap:6px;}
+  .dot{width:9px; height:9px; border-radius:2px; display:inline-block;}
+
+  /* daily table */
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{text-align:right; color:var(--text-dim); font-weight:500; font-size:11px; padding:0 10px 10px 0; border-bottom:1px solid var(--line);}
+  th:first-child, td:first-child{text-align:left;}
+  td{padding:10px 10px 10px 0; border-bottom:1px solid var(--line); text-align:right; font-family:'Newsreader',serif; font-size:15px;}
+  tr:last-child td{border-bottom:none;}
+  tr.total td{font-weight:600;}
+  .coin-label{font-family:'Pretendard',sans-serif; font-size:13px; display:flex; align-items:center; gap:7px;}
+  .swatch{width:8px; height:8px; border-radius:2px; display:inline-block;}
+  .pos{color:var(--moss);} .neg{color:var(--danger);}
+
+  /* chart */
+  .chart-legend{display:flex; gap:18px; margin-bottom:10px; font-size:11.5px; color:var(--text-dim);}
+  .chart-legend span{display:inline-flex; align-items:center; gap:6px;}
+  .line-sw{width:14px; height:2px; display:inline-block; border-radius:1px;}
+  svg text{font-family:'Pretendard',sans-serif; fill:var(--text-dim);}
+
+  .empty{color:var(--text-dim); font-size:12.5px; padding:6px 0;}
+  .footnote{color:var(--text-dim); font-size:11px; margin-top:10px; line-height:1.6;}
+  .status-msg{color:var(--text-dim); font-size:12.5px; text-align:center; padding:40px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <h1>비트가든 · 대시보드</h1>
+      <div class="sub">시드 · 블룸 · 저수지 — events.json 기반</div>
+    </div>
+    <div class="datepick">
+      <button id="prevDay">◀</button>
+      <input type="date" id="datePick">
+      <button id="nextDay">▶</button>
+      <button id="todayBtn">오늘</button>
+    </div>
+  </div>
+
+  <div id="statusMsg" class="status-msg">데이터를 불러오는 중...</div>
+
+  <div id="content" style="display:none;">
+
+    <div class="panel">
+      <h2>누적 현황 <span class="tag">전체 기간 기준, 날짜 선택과 무관</span></h2>
+      <div class="cum-row" style="grid-template-columns:repeat(3,1fr);">
+        <div class="cum-card">
+          <div class="v" id="cumDistTotal">-</div>
+          <div class="l">누적 수익 (전체)</div>
+        </div>
+        <div class="cum-card">
+          <div class="v" id="cumDistBtc">-</div>
+          <div class="l">누적 수익 (BTC)</div>
+        </div>
+        <div class="cum-card">
+          <div class="v" id="cumDistEth">-</div>
+          <div class="l">누적 수익 (ETH)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>정원 현황 <span class="tag" id="bedDateLabel"></span></h2>
+      <div class="bed" id="bed"></div>
+      <div class="bed-legend">
+        <span><span class="dot" style="background:var(--soil); border:1px solid var(--btc);"></span>BTC 활성 시드</span>
+        <span><span class="dot" style="background:var(--bloom-dim); border:1px solid var(--eth);"></span>ETH 활성 시드</span>
+        <span id="bedTotalLabel"></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>일별 요약 <span class="tag" id="tableDateLabel"></span></h2>
+      <table>
+        <thead>
+          <tr><th>코인</th><th>매수</th><th>매도</th><th>수익</th><th>활성 시드</th><th>저수지 누적(BTC)</th></tr>
+        </thead>
+        <tbody id="dailyTableBody"></tbody>
+      </table>
+      <div class="footnote">활성 시드 · 저수지 누적은 선택한 날짜까지의 누적 기준 수치입니다.</div>
+    </div>
+
+    <div class="panel">
+      <h2>최근 30일 손익 추이</h2>
+      <div class="chart-legend">
+        <span><span class="line-sw" style="background:var(--text);"></span>전체</span>
+        <span><span class="line-sw" style="background:var(--btc);"></span>비트코인</span>
+        <span><span class="line-sw" style="background:var(--eth);"></span>이더리움</span>
+      </div>
+      <svg id="lineChart" viewBox="0 0 960 260" style="width:100%; height:auto;"></svg>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ====== 데이터 경로 설정 ======
+   GitHub Pages에 이 index.html과 함께 events.json 을 같은 위치(또는 아래 경로)에 두면 자동으로 fetch합니다.
+   다른 저장소/경로에 둘 경우 아래 DATA_BASE만 수정하세요. (해당 리포는 공개 상태여야 브라우저에서 접근 가능)
+*/
+const DATA_BASE = './';
+
+let EVENTS = [];
+
+function toDateStr(iso){ return iso.slice(0,10); }
+function won(n){ return '₩' + Math.round(n).toLocaleString('ko-KR'); }
+function btc(n){ return n.toFixed(8) + ' BTC'; }
+
+async function loadData(){
+  const evRes = await fetch(DATA_BASE + 'events.json');
+  if(!evRes.ok) throw new Error('events.json 로드 실패');
+  EVENTS = await evRes.json();
+}
+
+function renderCumulative(){
+  const sums = { ALL:0, BTC:0, ETH:0 };
+  for(const e of EVENTS){
+    if(e.type !== 'bloom') continue;
+    sums.ALL += (e.profit||0);
+    if(e.coin==='BTC') sums.BTC += (e.profit||0);
+    if(e.coin==='ETH') sums.ETH += (e.profit||0);
+  }
+  document.getElementById('cumDistTotal').textContent = won(sums.ALL);
+  document.getElementById('cumDistBtc').textContent = won(sums.BTC);
+  document.getElementById('cumDistEth').textContent = won(sums.ETH);
+}
+
+function activeAsOfDate(coin, dateStr){
+  let seeds = 0, blooms = 0;
+  for(const e of EVENTS){
+    if(e.coin !== coin) continue;
+    const d = toDateStr(e.order_time);
+    if(d > dateStr) continue;
+    if(e.type === 'seed') seeds++;
+    else if(e.type === 'bloom') blooms++;
+  }
+  return seeds - blooms;
+}
+
+function reservoirBtcAsOfDate(dateStr){
+  let sum = 0;
+  for(const e of EVENTS){
+    if(e.type !== 'reservoir') continue;
+    if(toDateStr(e.order_time) > dateStr) continue;
+    sum += e.order_amount || 0;
+  }
+  return sum;
+}
+
+function dailyStats(coin, dateStr){
+  let seedCount = 0, bloomCount = 0, profit = 0;
+  for(const e of EVENTS){
+    if(coin !== 'ALL' && e.coin !== coin) continue;
+    if(toDateStr(e.order_time) !== dateStr) continue;
+    if(e.type === 'seed') seedCount++;
+    else if(e.type === 'bloom'){ bloomCount++; profit += (e.profit || 0); }
+  }
+  return { seedCount, bloomCount, profit };
+}
+
+function renderBed(dateStr){
+  const btcActive = Math.max(0, activeAsOfDate('BTC', dateStr));
+  const ethActive = Math.max(0, activeAsOfDate('ETH', dateStr));
+  const bed = document.getElementById('bed');
+  bed.innerHTML = '';
+  const total = btcActive + ethActive;
+  const cells = Math.max(20, Math.ceil((total||1)/10)*10);
+  for(let i=0;i<cells;i++){
+    const c = document.createElement('div');
+    if(i < btcActive) c.className = 'cell btc';
+    else if(i < btcActive+ethActive) c.className = 'cell eth';
+    else c.className = 'cell';
+    bed.appendChild(c);
+  }
+  document.getElementById('bedDateLabel').textContent = `${dateStr} 기준`;
+  document.getElementById('bedTotalLabel').textContent = `총 ${total}개 (BTC ${btcActive} · ETH ${ethActive})`;
+}
+
+function renderDailyTable(dateStr){
+  const rows = [
+    { key:'ALL', label:'전체', sw:'var(--text)' },
+    { key:'BTC', label:'비트코인', sw:'var(--btc)' },
+    { key:'ETH', label:'이더리움', sw:'var(--eth)' }
+  ];
+  const resBtc = reservoirBtcAsOfDate(dateStr);
+  const body = document.getElementById('dailyTableBody');
+  body.innerHTML = rows.map(r=>{
+    const s = dailyStats(r.key, dateStr);
+    const active = r.key === 'ALL'
+      ? Math.max(0,activeAsOfDate('BTC',dateStr)) + Math.max(0,activeAsOfDate('ETH',dateStr))
+      : Math.max(0, activeAsOfDate(r.key, dateStr));
+    const resCell = r.key === 'ALL' ? btc(resBtc) : (r.key === 'BTC' ? btc(resBtc) : '-');
+    return `<tr class="${r.key==='ALL'?'total':''}">
+      <td class="coin-label"><span class="swatch" style="background:${r.sw};"></span>${r.label}</td>
+      <td>${s.seedCount}</td>
+      <td>${s.bloomCount}</td>
+      <td class="${s.profit>=0?'pos':'neg'}">${won(s.profit)}</td>
+      <td>${active}</td>
+      <td>${resCell}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tableDateLabel').textContent = dateStr;
+}
+
+function last30Dates(endDateStr){
+  const end = new Date(endDateStr+'T00:00:00');
+  const dates = [];
+  for(let i=29;i>=0;i--){
+    const d = new Date(end);
+    d.setDate(d.getDate()-i);
+    dates.push(d.toISOString().slice(0,10));
+  }
+  return dates;
+}
+
+function renderChart(endDateStr){
+  const dates = last30Dates(endDateStr);
+  const perDate = {};
+  dates.forEach(d=> perDate[d] = { ALL:0, BTC:0, ETH:0 });
+  for(const e of EVENTS){
+    if(e.type !== 'bloom') continue;
+    const d = toDateStr(e.order_time);
+    if(!perDate[d]) continue;
+    perDate[d].ALL += (e.profit||0);
+    if(e.coin==='BTC') perDate[d].BTC += (e.profit||0);
+    if(e.coin==='ETH') perDate[d].ETH += (e.profit||0);
+  }
+  const series = { ALL: dates.map(d=>perDate[d].ALL), BTC: dates.map(d=>perDate[d].BTC), ETH: dates.map(d=>perDate[d].ETH) };
+  const allVals = [...series.ALL, ...series.BTC, ...series.ETH];
+  let min = Math.min(0, ...allVals), max = Math.max(0, ...allVals);
+  if(min===max){ min-=1; max+=1; }
+  const W=960, H=260, padL=54, padR=10, padT=14, padB=26;
+  const innerW = W-padL-padR, innerH = H-padT-padB;
+  const x = i => padL + (i/(dates.length-1))*innerW;
+  const y = v => padT + innerH - ((v-min)/(max-min))*innerH;
+
+  function path(vals){
+    return vals.map((v,i)=> (i===0?'M':'L') + x(i).toFixed(1) + ' ' + y(v).toFixed(1)).join(' ');
+  }
+
+  const zeroY = y(0);
+  const gridLines = 4;
+  let gridSvg = '';
+  for(let g=0; g<=gridLines; g++){
+    const v = min + (max-min)*(g/gridLines);
+    const gy = y(v);
+    gridSvg += `<line x1="${padL}" y1="${gy.toFixed(1)}" x2="${W-padR}" y2="${gy.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
+    gridSvg += `<text x="${padL-8}" y="${(gy+3).toFixed(1)}" font-size="9" text-anchor="end">${Math.round(v).toLocaleString('ko-KR')}</text>`;
+  }
+  let dateSvg = '';
+  const step = Math.ceil(dates.length/6);
+  dates.forEach((d,i)=>{
+    if(i % step === 0 || i===dates.length-1){
+      dateSvg += `<text x="${x(i).toFixed(1)}" y="${H-8}" font-size="9" text-anchor="middle">${d.slice(5)}</text>`;
+    }
+  });
+
+  const svg = document.getElementById('lineChart');
+  svg.innerHTML = `
+    ${gridSvg}
+    <line x1="${padL}" y1="${zeroY.toFixed(1)}" x2="${W-padR}" y2="${zeroY.toFixed(1)}" stroke="var(--text-dim)" stroke-width="1" stroke-dasharray="2,2"/>
+    <path d="${path(series.BTC)}" fill="none" stroke="var(--btc)" stroke-width="1.6"/>
+    <path d="${path(series.ETH)}" fill="none" stroke="var(--eth)" stroke-width="1.6"/>
+    <path d="${path(series.ALL)}" fill="none" stroke="var(--text)" stroke-width="2"/>
+    ${dateSvg}
+  `;
+}
+
+function renderAll(dateStr){
+  renderBed(dateStr);
+  renderDailyTable(dateStr);
+  renderChart(dateStr);
+}
+
+function init(){
+  const todayStr = new Date().toISOString().slice(0,10);
+  const picker = document.getElementById('datePick');
+  picker.value = todayStr;
+  picker.max = todayStr;
+
+  document.getElementById('statusMsg').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  renderCumulative();
+  renderAll(todayStr);
+
+  picker.addEventListener('change', ()=> renderAll(picker.value));
+  document.getElementById('todayBtn').addEventListener('click', ()=>{ picker.value = todayStr; renderAll(todayStr); });
+  document.getElementById('prevDay').addEventListener('click', ()=>{
+    const d = new Date(picker.value+'T00:00:00'); d.setDate(d.getDate()-1);
+    picker.value = d.toISOString().slice(0,10); renderAll(picker.value);
+  });
+  document.getElementById('nextDay').addEventListener('click', ()=>{
+    const d = new Date(picker.value+'T00:00:00'); d.setDate(d.getDate()+1);
+    if(d.toISOString().slice(0,10) > todayStr) return;
+    picker.value = d.toISOString().slice(0,10); renderAll(picker.value);
+  });
+}
+
+loadData().then(init).catch(err=>{
+  document.getElementById('statusMsg').textContent =
+    'data 로드 실패: ' + err.message + ' — events.json / reservoir_state.json / total_profit.json 이 이 페이지와 같은 경로에 있는지 확인하세요.';
+});
+</script>
+</body>
+</html>
