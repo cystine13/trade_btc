@@ -75,7 +75,7 @@
   <div class="head">
     <div>
       <h1>비트가든 · 대시보드</h1>
-      <div class="sub">시드 · 블룸 · 저수지 — events.json 기반</div>
+      <div class="sub">시드 · 블룸 · 저수지 — state.json 기반</div>
     </div>
     <div class="datepick">
       <button id="prevDay">◀</button>
@@ -93,16 +93,17 @@
       <h2>누적 현황 <span class="tag">전체 기간 기준, 날짜 선택과 무관</span></h2>
       <div class="cum-row" style="grid-template-columns:repeat(3,1fr);">
         <div class="cum-card">
-          <div class="v" id="cumDistTotal">-</div>
+          <div class="v" id="cumProfit">-</div>
           <div class="l">누적 수익 (전체)</div>
         </div>
         <div class="cum-card">
-          <div class="v" id="cumDistBtc">-</div>
-          <div class="l">누적 수익 (BTC)</div>
+          <div class="v" id="cumReservoir">-</div>
+          <div class="l">누적 적립금</div>
+          <div class="sub" id="cumReservoirNote"></div>
         </div>
         <div class="cum-card">
-          <div class="v" id="cumDistEth">-</div>
-          <div class="l">누적 수익 (ETH)</div>
+          <div class="v" id="cumDistributed">-</div>
+          <div class="l">누적 분배금</div>
         </div>
       </div>
     </div>
@@ -121,11 +122,11 @@
       <h2>일별 요약 <span class="tag" id="tableDateLabel"></span></h2>
       <table>
         <thead>
-          <tr><th>코인</th><th>매수</th><th>매도</th><th>수익</th><th>활성 시드</th><th>저수지 누적(BTC)</th></tr>
+          <tr><th>코인</th><th>매수</th><th>매도</th><th>수익</th><th>적립금</th><th>분배금</th><th>활성 시드</th></tr>
         </thead>
         <tbody id="dailyTableBody"></tbody>
       </table>
-      <div class="footnote">활성 시드 · 저수지 누적은 선택한 날짜까지의 누적 기준 수치입니다.</div>
+      <div class="footnote" id="dailyFootnote"></div>
     </div>
 
     <div class="panel">
@@ -143,67 +144,89 @@
 
 <script>
 /* ====== 데이터 경로 설정 ======
-   GitHub Pages에 이 index.html과 함께 events.json 을 같은 위치(또는 아래 경로)에 두면 자동으로 fetch합니다.
+   GitHub Pages에 이 index.html과 함께 state.json 을 같은 위치(또는 아래 경로)에 두면 자동으로 fetch합니다.
    다른 저장소/경로에 둘 경우 아래 DATA_BASE만 수정하세요. (해당 리포는 공개 상태여야 브라우저에서 접근 가능)
+
+   적립금/분배금 필드명 설정:
+   state.json의 bloom(체결완료) 항목에 적립금/분배금을 나중에 추가하실 때, 아래 두 상수를
+   실제로 쓰는 필드명과 맞춰주세요. 이 필드가 없는(과거) 데이터는 자동으로
+   적립금 0 / 분배금 = profit 전액으로 처리됩니다.
 */
 const DATA_BASE = './';
+const FIELD_RESERVOIR = 'reservoir_amount';   // 적립금 필드명
+const FIELD_DISTRIBUTED = 'distributed_amount'; // 분배금 필드명
 
-let EVENTS = [];
+let STATE = [];
 
 function toDateStr(iso){ return iso.slice(0,10); }
 function won(n){ return '₩' + Math.round(n).toLocaleString('ko-KR'); }
-function btc(n){ return n.toFixed(8) + ' BTC'; }
+
+function getReservoir(e){
+  return (e[FIELD_RESERVOIR] != null) ? e[FIELD_RESERVOIR] : 0;
+}
+function getDistributed(e){
+  return (e[FIELD_DISTRIBUTED] != null) ? e[FIELD_DISTRIBUTED] : (e.profit || 0);
+}
 
 async function loadData(){
-  const evRes = await fetch(DATA_BASE + 'events.json');
-  if(!evRes.ok) throw new Error('events.json 로드 실패');
-  EVENTS = await evRes.json();
+  const res = await fetch(DATA_BASE + 'state.json');
+  if(!res.ok) throw new Error('state.json 로드 실패');
+  STATE = await res.json();
+}
+
+function hasReservoirField(){
+  return STATE.some(e => e.status === 'bloomed' && e[FIELD_RESERVOIR] != null);
 }
 
 function renderCumulative(){
-  const sums = { ALL:0, BTC:0, ETH:0 };
-  for(const e of EVENTS){
-    if(e.type !== 'bloom') continue;
-    sums.ALL += (e.profit||0);
-    if(e.coin==='BTC') sums.BTC += (e.profit||0);
-    if(e.coin==='ETH') sums.ETH += (e.profit||0);
+  let profit = 0, reservoir = 0, distributed = 0;
+  for(const e of STATE){
+    if(e.status !== 'bloomed') continue;
+    profit += (e.profit || 0);
+    reservoir += getReservoir(e);
+    distributed += getDistributed(e);
   }
-  document.getElementById('cumDistTotal').textContent = won(sums.ALL);
-  document.getElementById('cumDistBtc').textContent = won(sums.BTC);
-  document.getElementById('cumDistEth').textContent = won(sums.ETH);
+  document.getElementById('cumProfit').textContent = won(profit);
+  document.getElementById('cumReservoir').textContent = won(reservoir);
+  document.getElementById('cumDistributed').textContent = won(distributed);
+  document.getElementById('cumReservoirNote').textContent =
+    hasReservoirField() ? '' : `${FIELD_RESERVOIR} 필드가 아직 없어 0으로 표시 중`;
 }
 
 function activeAsOfDate(coin, dateStr){
   let seeds = 0, blooms = 0;
-  for(const e of EVENTS){
+  for(const e of STATE){
     if(e.coin !== coin) continue;
-    const d = toDateStr(e.order_time);
-    if(d > dateStr) continue;
-    if(e.type === 'seed') seeds++;
-    else if(e.type === 'bloom') blooms++;
+    if(toDateStr(e.seed_time) <= dateStr) seeds++;
+    if(e.status === 'bloomed' && toDateStr(e.bloom_time) <= dateStr) blooms++;
   }
   return seeds - blooms;
 }
 
-function reservoirBtcAsOfDate(dateStr){
+function reservoirCumAsOfDate(coin, dateStr){
   let sum = 0;
-  for(const e of EVENTS){
-    if(e.type !== 'reservoir') continue;
-    if(toDateStr(e.order_time) > dateStr) continue;
-    sum += e.order_amount || 0;
+  for(const e of STATE){
+    if(e.status !== 'bloomed') continue;
+    if(coin !== 'ALL' && e.coin !== coin) continue;
+    if(toDateStr(e.bloom_time) > dateStr) continue;
+    sum += getReservoir(e);
   }
   return sum;
 }
 
 function dailyStats(coin, dateStr){
-  let seedCount = 0, bloomCount = 0, profit = 0;
-  for(const e of EVENTS){
+  let seedCount = 0, bloomCount = 0, profit = 0, reservoir = 0, distributed = 0;
+  for(const e of STATE){
     if(coin !== 'ALL' && e.coin !== coin) continue;
-    if(toDateStr(e.order_time) !== dateStr) continue;
-    if(e.type === 'seed') seedCount++;
-    else if(e.type === 'bloom'){ bloomCount++; profit += (e.profit || 0); }
+    if(toDateStr(e.seed_time) === dateStr) seedCount++;
+    if(e.status === 'bloomed' && toDateStr(e.bloom_time) === dateStr){
+      bloomCount++;
+      profit += (e.profit || 0);
+      reservoir += getReservoir(e);
+      distributed += getDistributed(e);
+    }
   }
-  return { seedCount, bloomCount, profit };
+  return { seedCount, bloomCount, profit, reservoir, distributed };
 }
 
 function renderBed(dateStr){
@@ -230,24 +253,26 @@ function renderDailyTable(dateStr){
     { key:'BTC', label:'비트코인', sw:'var(--btc)' },
     { key:'ETH', label:'이더리움', sw:'var(--eth)' }
   ];
-  const resBtc = reservoirBtcAsOfDate(dateStr);
   const body = document.getElementById('dailyTableBody');
   body.innerHTML = rows.map(r=>{
     const s = dailyStats(r.key, dateStr);
     const active = r.key === 'ALL'
       ? Math.max(0,activeAsOfDate('BTC',dateStr)) + Math.max(0,activeAsOfDate('ETH',dateStr))
       : Math.max(0, activeAsOfDate(r.key, dateStr));
-    const resCell = r.key === 'ALL' ? btc(resBtc) : (r.key === 'BTC' ? btc(resBtc) : '-');
     return `<tr class="${r.key==='ALL'?'total':''}">
       <td class="coin-label"><span class="swatch" style="background:${r.sw};"></span>${r.label}</td>
       <td>${s.seedCount}</td>
       <td>${s.bloomCount}</td>
       <td class="${s.profit>=0?'pos':'neg'}">${won(s.profit)}</td>
+      <td>${won(s.reservoir)}</td>
+      <td>${won(s.distributed)}</td>
       <td>${active}</td>
-      <td>${resCell}</td>
     </tr>`;
   }).join('');
   document.getElementById('tableDateLabel').textContent = dateStr;
+  document.getElementById('dailyFootnote').textContent = hasReservoirField()
+    ? '활성 시드는 선택한 날짜까지의 누적 기준입니다.'
+    : `활성 시드는 선택한 날짜까지의 누적 기준입니다. 아직 state.json에 ${FIELD_RESERVOIR}/${FIELD_DISTRIBUTED} 필드가 없어, 적립금은 0 · 분배금은 수익 전액으로 표시됩니다.`;
 }
 
 function last30Dates(endDateStr){
@@ -265,9 +290,9 @@ function renderChart(endDateStr){
   const dates = last30Dates(endDateStr);
   const perDate = {};
   dates.forEach(d=> perDate[d] = { ALL:0, BTC:0, ETH:0 });
-  for(const e of EVENTS){
-    if(e.type !== 'bloom') continue;
-    const d = toDateStr(e.order_time);
+  for(const e of STATE){
+    if(e.status !== 'bloomed') continue;
+    const d = toDateStr(e.bloom_time);
     if(!perDate[d]) continue;
     perDate[d].ALL += (e.profit||0);
     if(e.coin==='BTC') perDate[d].BTC += (e.profit||0);
@@ -347,7 +372,7 @@ function init(){
 
 loadData().then(init).catch(err=>{
   document.getElementById('statusMsg').textContent =
-    'data 로드 실패: ' + err.message + ' — events.json / reservoir_state.json / total_profit.json 이 이 페이지와 같은 경로에 있는지 확인하세요.';
+    'data 로드 실패: ' + err.message + ' — state.json 이 이 페이지와 같은 경로에 있는지 확인하세요.';
 });
 </script>
 </body>
