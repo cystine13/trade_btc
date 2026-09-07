@@ -162,9 +162,15 @@ function renderCumulative(){
     .slice()
     .sort((a,b) => a.bloom_time < b.bloom_time ? -1 : (a.bloom_time > b.bloom_time ? 1 : 0));
 
-  const MILESTONE_STEP = 50000;
-  const MILESTONE_COUNT = 10;
-  const targets = Array.from({length: MILESTONE_COUNT}, (_,i) => (i+1)*MILESTONE_STEP);
+  const totalProfit = blooms.reduce((s,e)=> s + (e.profit||0), 0);
+
+  // 마일스톤 목표: 100 -> 1천 -> 5천 -> 1만 -> 2만 -> 3만 -> 5만 -> 10만, 이후 5만원 단위로 계속
+  const targets = [100, 1000, 5000, 10000, 20000, 30000, 50000, 100000];
+  let next = 150000;
+  while(next <= totalProfit + 250000){ // 현재 누적액보다 몇 단계 앞까지 여유있게 생성
+    targets.push(next);
+    next += 50000;
+  }
 
   let running = 0, ti = 0;
   const results = [];
@@ -175,15 +181,19 @@ function renderCumulative(){
       ti++;
     }
   }
-  while(ti < targets.length){
-    results.push({ amount: targets[ti], date: null });
-    ti++;
+  const achievedCount = results.length;
+  if(ti < targets.length){
+    results.push({ amount: targets[ti], date: null }); // 바로 다음 미달성 마일스톤 1개만 추가
   }
 
   document.getElementById('cumProfit').textContent = won(running);
 
+  // 최근 것 기준으로 5개만 표시 (미달성 1개 포함)
+  const sliceStart = Math.max(0, achievedCount - 4);
+  const visible = results.slice(sliceStart, sliceStart + 5);
+
   const list = document.getElementById('milestoneList');
-  list.innerHTML = results.map(r=>{
+  list.innerHTML = visible.map(r=>{
     if(r.date){
       return `<div class="ms-item done">
         <div class="ms-amt">${won(r.amount)}</div>
