@@ -31,12 +31,21 @@
   .panel h2{font-size:15px; color:var(--text-dim); margin:0 0 18px; font-weight:600;}
   .panel h2 .tag{color:var(--text-dim); font-weight:400; font-size:13px;}
 
-  /* 누적 현황 */
-  .cum-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
-  @media (max-width:760px){ .cum-row{grid-template-columns:repeat(2,1fr);} }
-  .cum-card .v{font-family:'Newsreader',serif; font-size:27px;}
-  .cum-card .l{color:var(--text-dim); font-size:13.5px; margin-top:5px;}
-  .cum-card .sub{color:var(--text-dim); font-size:12.5px; margin-top:7px; line-height:1.5;}
+  /* 누적 현황 + 마일스톤 */
+  .cum-wrap{display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap;}
+  .cum-hero{min-width:160px;}
+  .cum-hero .v{font-family:'Newsreader',serif; font-size:34px;}
+  .cum-hero .l{color:var(--text-dim); font-size:13.5px; margin-top:6px;}
+  .ms-list{flex:1; display:grid; grid-template-columns:repeat(5,1fr); gap:12px; min-width:280px;}
+  @media (max-width:760px){ .ms-list{grid-template-columns:repeat(2,1fr);} }
+  .ms-item{border:1px solid var(--line); border-radius:4px; padding:12px 10px; background:var(--panel-2);}
+  .ms-item.done{border-color:var(--moss);}
+  .ms-item .ms-amt{font-family:'Newsreader',serif; font-size:17px;}
+  .ms-item.done .ms-amt{color:var(--moss);}
+  .ms-item .ms-date{font-size:12px; color:var(--text-dim); margin-top:5px;}
+  .ms-item.done .ms-date{color:var(--gold);}
+  .ms-bar{height:4px; background:var(--panel); border-radius:2px; margin-top:8px; overflow:hidden;}
+  .ms-bar-fill{height:100%; background:var(--bloom);}
 
   /* daily table */
   table{width:100%; border-collapse:collapse; font-size:16px;}
@@ -102,21 +111,13 @@
     </div>
 
     <div class="panel">
-      <h2>누적 현황 <span class="tag">전체 기간 기준, 날짜 선택과 무관</span></h2>
-      <div class="cum-row" style="grid-template-columns:repeat(3,1fr);">
-        <div class="cum-card">
+      <h2>누적 현황</h2>
+      <div class="cum-wrap">
+        <div class="cum-hero">
           <div class="v" id="cumProfit">-</div>
-          <div class="l">누적 수익 (전체)</div>
+          <div class="l">누적 수익</div>
         </div>
-        <div class="cum-card">
-          <div class="v" id="cumReservoir">-</div>
-          <div class="l">누적 적립금</div>
-          <div class="sub" id="cumReservoirNote"></div>
-        </div>
-        <div class="cum-card">
-          <div class="v" id="cumDistributed">-</div>
-          <div class="l">누적 분배금</div>
-        </div>
+        <div class="ms-list" id="milestoneList"></div>
       </div>
     </div>
 
@@ -155,23 +156,47 @@ async function loadData(){
   STATE = await res.json();
 }
 
-function hasReservoirField(){
-  return STATE.some(e => e.status === 'bloomed' && e[FIELD_RESERVOIR] != null);
-}
-
 function renderCumulative(){
-  let profit = 0, reservoir = 0, distributed = 0;
-  for(const e of STATE){
-    if(e.status !== 'bloomed') continue;
-    profit += (e.profit || 0);
-    reservoir += getReservoir(e);
-    distributed += getDistributed(e);
+  const blooms = STATE
+    .filter(e => e.status === 'bloomed')
+    .slice()
+    .sort((a,b) => a.bloom_time < b.bloom_time ? -1 : (a.bloom_time > b.bloom_time ? 1 : 0));
+
+  const MILESTONE_STEP = 50000;
+  const MILESTONE_COUNT = 10;
+  const targets = Array.from({length: MILESTONE_COUNT}, (_,i) => (i+1)*MILESTONE_STEP);
+
+  let running = 0, ti = 0;
+  const results = [];
+  for(const e of blooms){
+    running += (e.profit || 0);
+    while(ti < targets.length && running >= targets[ti]){
+      results.push({ amount: targets[ti], date: toDateStr(e.bloom_time) });
+      ti++;
+    }
   }
-  document.getElementById('cumProfit').textContent = won(profit);
-  document.getElementById('cumReservoir').textContent = won(reservoir);
-  document.getElementById('cumDistributed').textContent = won(distributed);
-  document.getElementById('cumReservoirNote').textContent =
-    hasReservoirField() ? '' : `${FIELD_RESERVOIR} 필드가 아직 없어 0으로 표시 중`;
+  while(ti < targets.length){
+    results.push({ amount: targets[ti], date: null });
+    ti++;
+  }
+
+  document.getElementById('cumProfit').textContent = won(running);
+
+  const list = document.getElementById('milestoneList');
+  list.innerHTML = results.map(r=>{
+    if(r.date){
+      return `<div class="ms-item done">
+        <div class="ms-amt">${won(r.amount)}</div>
+        <div class="ms-date">${r.date} 달성</div>
+      </div>`;
+    }
+    const pct = Math.max(0, Math.min(100, (running / r.amount) * 100));
+    return `<div class="ms-item">
+      <div class="ms-amt">${won(r.amount)}</div>
+      <div class="ms-date">미달성</div>
+      <div class="ms-bar"><div class="ms-bar-fill" style="width:${pct.toFixed(1)}%;"></div></div>
+    </div>`;
+  }).join('');
 }
 
 function activeAsOfDate(coin, dateStr){
@@ -182,17 +207,6 @@ function activeAsOfDate(coin, dateStr){
     if(e.status === 'bloomed' && toDateStr(e.bloom_time) <= dateStr) blooms++;
   }
   return seeds - blooms;
-}
-
-function reservoirCumAsOfDate(coin, dateStr){
-  let sum = 0;
-  for(const e of STATE){
-    if(e.status !== 'bloomed') continue;
-    if(coin !== 'ALL' && e.coin !== coin) continue;
-    if(toDateStr(e.bloom_time) > dateStr) continue;
-    sum += getReservoir(e);
-  }
-  return sum;
 }
 
 function dailyStats(coin, dateStr){
