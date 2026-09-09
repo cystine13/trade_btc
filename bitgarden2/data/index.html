@@ -145,6 +145,13 @@ const FIELD_DISTRIBUTED = 'distributed_amount'; // 분배금 필드명
 
 let STATE = [];
 
+function ymd(dt){
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth()+1).padStart(2,'0');
+  const d = String(dt.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+
 function toDateStr(iso){ return iso.slice(0,10); }
 function won(n){ return '₩' + Math.round(n).toLocaleString('ko-KR'); }
 
@@ -260,7 +267,7 @@ function renderDailyTable(dateStr){
     </tr>`;
   }).join('');
   document.getElementById('tableDateLabel').textContent = dateStr;
-  document.getElementById('dailyFootnote').textContent = '활성 시드는 선택한 날짜까지의 누적 기준입니다.';
+  document.getElementById('dailyFootnote').textContent = '활성 시드는 선택한 날짜 24:00(자정, KST) 기준 누적 수치입니다.';
 }
 
 function last30Dates(endDateStr){
@@ -269,7 +276,7 @@ function last30Dates(endDateStr){
   for(let i=29;i>=0;i--){
     const d = new Date(end);
     d.setDate(d.getDate()-i);
-    dates.push(d.toISOString().slice(0,10));
+    dates.push(ymd(d));
   }
   return dates;
 }
@@ -333,7 +340,7 @@ function renderAll(dateStr){
 }
 
 function init(){
-  const todayStr = new Date().toISOString().slice(0,10);
+  const todayStr = ymd(new Date());
   const picker = document.getElementById('datePick');
   picker.value = todayStr;
   picker.max = todayStr;
@@ -348,12 +355,12 @@ function init(){
   document.getElementById('todayBtn').addEventListener('click', ()=>{ picker.value = todayStr; renderAll(todayStr); });
   document.getElementById('prevDay').addEventListener('click', ()=>{
     const d = new Date(picker.value+'T00:00:00'); d.setDate(d.getDate()-1);
-    picker.value = d.toISOString().slice(0,10); renderAll(picker.value);
+    picker.value = ymd(d); renderAll(picker.value);
   });
   document.getElementById('nextDay').addEventListener('click', ()=>{
     const d = new Date(picker.value+'T00:00:00'); d.setDate(d.getDate()+1);
-    if(d.toISOString().slice(0,10) > todayStr) return;
-    picker.value = d.toISOString().slice(0,10); renderAll(picker.value);
+    if(ymd(d) > todayStr) return;
+    picker.value = ymd(d); renderAll(picker.value);
   });
 }
 
