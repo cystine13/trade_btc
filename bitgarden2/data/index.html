@@ -32,12 +32,13 @@
   .panel h2 .tag{color:var(--text-dim); font-weight:400; font-size:clamp(10px,2.8vw,13px);}
 
   /* 누적 현황 + 마일스톤 */
-  .cum-wrap{display:flex; gap:clamp(16px,4vw,32px); align-items:flex-start; flex-wrap:wrap;}
-  .cum-hero{min-width:120px;}
-  .cum-hero .v{font-family:'Newsreader',serif; font-size:clamp(24px,7.5vw,34px);}
+  .cum-block{display:flex; flex-direction:column; gap:20px;}
+  .cum-row{display:flex; gap:clamp(16px,4vw,32px); align-items:center;}
+  .cum-hero{min-width:120px; flex-shrink:0;}
+  .cum-hero .v{font-family:'Newsreader',serif; font-size:clamp(22px,6.5vw,30px);}
   .cum-hero .l{color:var(--text-dim); font-size:clamp(11px,3vw,13.5px); margin-top:6px;}
+  .cum-hero .sub{color:var(--text-dim); font-size:clamp(9.5px,2.6vw,11px); margin-top:5px; line-height:1.5;}
   .ms-list{flex:1; display:grid; grid-template-columns:repeat(5,1fr); gap:clamp(6px,2vw,12px); min-width:0;}
-  @media (max-width:760px){ .ms-list{grid-template-columns:repeat(2,1fr);} }
   .ms-item{border:1px solid var(--line); border-radius:4px; padding:clamp(8px,2.5vw,12px) clamp(6px,2vw,10px); background:var(--panel-2);}
   .ms-item.done{border-color:var(--moss);}
   .ms-item .ms-amt{font-family:'Newsreader',serif; font-size:clamp(13px,3.6vw,17px);}
@@ -46,6 +47,12 @@
   .ms-item.done .ms-date{color:var(--gold);}
   .ms-bar{height:4px; background:var(--panel); border-radius:2px; margin-top:8px; overflow:hidden;}
   .ms-bar-fill{height:100%; background:var(--bloom);}
+
+  @media (max-width:760px){
+    .cum-block{flex-direction:row; gap:16px;}
+    .cum-row{flex:1; flex-direction:column; align-items:flex-start;}
+    .ms-list{display:none;}
+  }
 
   /* daily table */
   table{width:100%; border-collapse:collapse; font-size:clamp(13px,3.6vw,16px);}
@@ -95,6 +102,27 @@
   <div id="content" style="display:none;">
 
     <div class="panel">
+      <h2>누적 현황</h2>
+      <div class="cum-block">
+        <div class="cum-row">
+          <div class="cum-hero">
+            <div class="v" id="cumProfit">-</div>
+            <div class="l">누적 수익</div>
+          </div>
+          <div class="ms-list" id="milestoneListProfit"></div>
+        </div>
+        <div class="cum-row">
+          <div class="cum-hero">
+            <div class="v" id="cumReservoir">-</div>
+            <div class="l">저수지 누적</div>
+            <div class="sub" id="cumReservoirNote"></div>
+          </div>
+          <div class="ms-list" id="milestoneListReservoir"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
       <h2>일별 요약 <span class="tag" id="tableDateLabel"></span></h2>
       <table>
         <thead>
@@ -113,17 +141,6 @@
         <span><span class="line-sw" style="background:var(--eth);"></span>이더리움</span>
       </div>
       <svg id="lineChart" viewBox="0 0 960 260" style="width:100%; height:auto;"></svg>
-    </div>
-
-    <div class="panel">
-      <h2>누적 현황</h2>
-      <div class="cum-wrap">
-        <div class="cum-hero">
-          <div class="v" id="cumProfit">-</div>
-          <div class="l">누적 수익</div>
-        </div>
-        <div class="ms-list" id="milestoneList"></div>
-      </div>
     </div>
 
   </div>
@@ -168,57 +185,76 @@ async function loadData(){
   STATE = await res.json();
 }
 
-function renderCumulative(){
-  const blooms = STATE
-    .filter(e => e.status === 'bloomed')
-    .slice()
-    .sort((a,b) => a.bloom_time < b.bloom_time ? -1 : (a.bloom_time > b.bloom_time ? 1 : 0));
-
-  const totalProfit = blooms.reduce((s,e)=> s + (e.profit||0), 0);
-
-  // 마일스톤 목표: 100 -> 1천 -> 5천 -> 1만 -> 2만 -> 3만 -> 5만 -> 10만, 이후 5만원 단위로 계속
+function buildMilestoneTargets(total){
   const targets = [100, 1000, 5000, 10000, 20000, 30000, 50000, 100000];
   let next = 150000;
-  while(next <= totalProfit + 250000){ // 현재 누적액보다 몇 단계 앞까지 여유있게 생성
+  while(next <= total + 250000){
     targets.push(next);
     next += 50000;
   }
+  return targets;
+}
 
-  let running = 0, ti = 0;
+function computeMilestoneTrack(blooms, valueFn){
+  let running = 0;
+  const increments = blooms.map(e=>{ running += valueFn(e); return { date: toDateStr(e.bloom_time), cum: running }; });
+  const total = running;
+  const targets = buildMilestoneTargets(total);
+  let ti = 0;
   const results = [];
-  for(const e of blooms){
-    running += (e.profit || 0);
-    while(ti < targets.length && running >= targets[ti]){
-      results.push({ amount: targets[ti], date: toDateStr(e.bloom_time) });
+  for(const inc of increments){
+    while(ti < targets.length && inc.cum >= targets[ti]){
+      results.push({ amount: targets[ti], date: inc.date });
       ti++;
     }
   }
   const achievedCount = results.length;
   if(ti < targets.length){
-    results.push({ amount: targets[ti], date: null }); // 바로 다음 미달성 마일스톤 1개만 추가
+    results.push({ amount: targets[ti], date: null });
   }
-
-  document.getElementById('cumProfit').textContent = won(running);
-
-  // 최근 것 기준으로 5개만 표시 (미달성 1개 포함)
   const sliceStart = Math.max(0, achievedCount - 4);
   const visible = results.slice(sliceStart, sliceStart + 5);
+  return { total, visible };
+}
 
-  const list = document.getElementById('milestoneList');
-  list.innerHTML = visible.map(r=>{
+function renderMilestoneList(containerId, track){
+  const list = document.getElementById(containerId);
+  list.innerHTML = track.visible.map(r=>{
     if(r.date){
       return `<div class="ms-item done">
         <div class="ms-amt">${won(r.amount)}</div>
         <div class="ms-date">${r.date} 달성</div>
       </div>`;
     }
-    const pct = Math.max(0, Math.min(100, (running / r.amount) * 100));
+    const pct = Math.max(0, Math.min(100, (track.total / r.amount) * 100));
     return `<div class="ms-item">
       <div class="ms-amt">${won(r.amount)}</div>
       <div class="ms-date">미달성</div>
       <div class="ms-bar"><div class="ms-bar-fill" style="width:${pct.toFixed(1)}%;"></div></div>
     </div>`;
   }).join('');
+}
+
+function hasReservoirField(){
+  return STATE.some(e => e.status === 'bloomed' && e[FIELD_RESERVOIR] != null);
+}
+
+function renderCumulative(){
+  const blooms = STATE
+    .filter(e => e.status === 'bloomed')
+    .slice()
+    .sort((a,b) => a.bloom_time < b.bloom_time ? -1 : (a.bloom_time > b.bloom_time ? 1 : 0));
+
+  const profitTrack = computeMilestoneTrack(blooms, e => e.profit || 0);
+  const reservoirTrack = computeMilestoneTrack(blooms, e => getReservoir(e));
+
+  document.getElementById('cumProfit').textContent = won(profitTrack.total);
+  document.getElementById('cumReservoir').textContent = won(reservoirTrack.total);
+  document.getElementById('cumReservoirNote').textContent =
+    hasReservoirField() ? '' : `${FIELD_RESERVOIR} 필드가 아직 없어 0으로 표시 중`;
+
+  renderMilestoneList('milestoneListProfit', profitTrack);
+  renderMilestoneList('milestoneListReservoir', reservoirTrack);
 }
 
 function activeAsOfDate(coin, dateStr){
