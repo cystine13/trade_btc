@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BitGarden Detail</title>
+  <title>BitGarden Dashboard 1</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
 <div class="container py-5">
-  <h1 class="mb-4">🌱 BitGarden Detail</h1>
+  <h1 class="mb-4">🌱 BitGarden Dashboard</h1>
+
   <div class="mb-3 d-flex flex-nowrap gap-2 overflow-auto pb-1">
     <a href="index.html" class="btn btn-outline-primary btn-sm text-nowrap">Trade Dashboard</a>
     <a href="bitgarden.html" class="btn btn-outline-success btn-sm text-nowrap">📊 BitGarden-mk1</a>
@@ -17,23 +18,23 @@
   </div>
 
   <!-- Coin Filter -->
-<div class="mb-3 d-flex align-items-end gap-3 flex-wrap">
-  <div>
-    <label for="coinFilter" class="form-label">코인 필터:</label>
-    <select id="coinFilter" class="form-select" style="width:auto;">
-      <option value="all">전체</option>
-    </select>
-  </div>
+  <div class="mb-3 d-flex align-items-end gap-3 flex-wrap">
+    <div>
+      <label for="coinFilter" class="form-label">코인 필터:</label>
+      <select id="coinFilter" class="form-select" style="width:auto;">
+        <option value="all">전체</option>
+      </select>
+    </div>
 
-  <div>
-    <label for="statusFilter" class="form-label">Status:</label>
-    <select id="statusFilter" class="form-select" style="width:auto;">
-      <option value="all">All</option>
-      <option value="bloomed">Bloomed</option>
-      <option value="growing">Growing</option>
-    </select>
+    <div>
+      <label for="statusFilter" class="form-label">Status:</label>
+      <select id="statusFilter" class="form-select" style="width:auto;">
+        <option value="all">All</option>
+        <option value="bloomed">Bloomed</option>
+        <option value="growing">Growing</option>
+      </select>
+    </div>
   </div>
-</div>
 
   <!-- Summary -->
   <div class="row mb-4" id="summary"></div>
@@ -55,6 +56,15 @@
         <th>Seed ID</th><th>Status</th><th>Growing#</th><th>Seed Time</th><th>Seed Price</th><th>Seed Size</th>
         <th>Bloom Time</th><th>Bloom Price</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
       </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Cash Ratio History -->
+  <h3 class="mt-5">💰 Cash Ratio History</h3>
+  <table class="table table-bordered" id="cashTable">
+    <thead class="table-light">
+      <tr><th>Date</th><th>Total (KRW)</th><th>Cash (KRW)</th><th>Cash Ratio</th></tr>
     </thead>
     <tbody></tbody>
   </table>
@@ -80,10 +90,47 @@ function formatInt(value) {
 function formatK(value) {
   return value ? Math.round(value / 1000).toLocaleString() + "K" : '-';
 }
-fetch('bitgarden2/data/state.json')
-  .then(res => res.json())
-  .then(data => {
-        // ✅ seed_time을 정렬용 timestamp로 미리 변환
+
+const dt = $('#detailsTable').DataTable({
+  data: [],
+  pageLength: 20,
+  ordering: false,
+  columns: [
+    { data: 'seed_id' },
+    { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
+    { data: 'growing_count_at_plant', render: v => (v === undefined || v === null) ? '-' : v },
+    { data: 'seed_time', render: formatDateTime, className: 'text-nowrap' },
+    { data: 'seed_price', render: v => formatK(v) },
+    { data: 'seed_size', render: v => formatInt(v) },
+    { data: 'bloom_time', render: t => t ? formatDateTime(t) : '-', className: 'text-nowrap' },
+    { data: 'bloom_price', render: v => formatK(v) },
+    { data: 'bloom_size', render: v => v ? formatInt(v) : '-' },
+    { data: null, render: d => formatInt((d.seed_fee || 0) + (d.bloom_fee || 0)) },
+    { data: 'profit', render: v => v !== undefined ? formatInt(v) : '-' }
+  ]
+});
+
+const mdt = $('#monthlyTable').DataTable({
+  data: [],
+  pageLength: 12,
+  ordering: false,
+  searching: false,
+  lengthChange: false,
+  columns: [
+    { data: 'month' },
+    { data: 'seeds' },
+    { data: 'blooms' },
+    { data: 'avgTime' },
+    { data: 'profit', render: v => `₩${formatInt(v)}` }
+  ]
+});
+
+Promise.all([
+  fetch('bitgarden2/data/state.json').then(res => res.json()),
+  fetch('bitgarden2/data/cash_history.json').then(res => res.json())
+])
+  .then(([data, cashHistory]) => {
+    // ✅ seed_time을 정렬용 timestamp로 미리 변환
     data.forEach(d => {
       d._seed_ts = Date.parse(d.seed_time);
     });
@@ -94,6 +141,14 @@ fetch('bitgarden2/data/state.json')
       opt.value = coin;
       opt.textContent = coin;
       coinSelect.appendChild(opt);
+    });
+
+    // 현금 비중은 코인 필터와 무관하게 한 번만 계산
+    const latestCash = cashHistory[cashHistory.length - 1];
+
+    const ct = document.querySelector('#cashTable tbody');
+    [...cashHistory].reverse().forEach(c => {
+      ct.innerHTML += `<tr><td>${c.date}</td><td>₩${formatInt(c.total_krw)}</td><td>₩${formatInt(c.cash_krw)}</td><td>${(c.cash_ratio*100).toFixed(1)}%</td></tr>`;
     });
 
     function updateDashboard(coinFilter) {
@@ -115,6 +170,7 @@ fetch('bitgarden2/data/state.json')
         <div class="col-md-4"><div class="card text-bg-secondary mb-3"><div class="card-body"><h5>Total Profit</h5><p class="card-text fs-4">₩${formatInt(totalProfit)}</p></div></div></div>
         <div class="col-md-4"><div class="card text-bg-warning mb-3"><div class="card-body"><h5>Currently Growing</h5><p class="card-text fs-4">${currentGrowing}</p></div></div></div>
         <div class="col-md-4"><div class="card text-bg-danger mb-3"><div class="card-body"><h5>Max Concurrent (peak)</h5><p class="card-text fs-4">${maxGrowingAtPlant === null ? '-' : maxGrowingAtPlant}</p></div></div></div>
+        <div class="col-md-4"><div class="card text-bg-info mb-3"><div class="card-body"><h5>현금 비중</h5><p class="card-text fs-4">${(latestCash.cash_ratio*100).toFixed(1)}%</p><small>₩${formatInt(latestCash.cash_krw)} / ₩${formatInt(latestCash.total_krw)}</small></div></div></div>
       `;
 
       const monthly = {};
@@ -135,47 +191,28 @@ fetch('bitgarden2/data/state.json')
         monthly[bloomYm].durations.push(diff);
       });
 
-      const mt = document.querySelector('#monthlyTable tbody');
-      mt.innerHTML = "";
-      const sortedMonths = Object.keys(monthly).sort();
-      for (const ym of sortedMonths) {
+      // 최근 달이 먼저 오도록 내림차순 정렬 후 DataTable에 반영 (12개씩 페이징)
+      const sortedMonths = Object.keys(monthly).sort().reverse();
+      const monthlyRows = sortedMonths.map(ym => {
         const v = monthly[ym];
         const avgTime = v.durations.length ? Math.round(v.durations.reduce((a,b)=>a+b,0)/v.durations.length/60000) + ' min' : '-';
-        mt.innerHTML += `<tr><td>${ym}</td><td>${v.seeds}</td><td>${v.blooms}</td><td>${avgTime}</td><td>₩${formatInt(v.profit)}</td></tr>`;
-      }
+        return { month: ym, seeds: v.seeds, blooms: v.blooms, avgTime, profit: v.profit };
+      });
+      mdt.clear().rows.add(monthlyRows).draw();
 
       const tableData = [...filtered].sort(
         (a, b) => b._seed_ts - a._seed_ts
       );
-      
+
       dt.clear().rows.add(tableData).draw();
     }
-
-    const dt = $('#detailsTable').DataTable({
-      data: [],
-      pageLength: 20,
-      ordering: false,
-      columns: [
-        { data: 'seed_id' },
-        { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
-        { data: 'growing_count_at_plant', render: v => (v === undefined || v === null) ? '-' : v },
-        { data: 'seed_time', render: formatDateTime },
-        { data: 'seed_price', render: v => formatK(v) },
-        { data: 'seed_size', render: v => formatInt(v) },
-        { data: 'bloom_time', render: t => t ? formatDateTime(t) : '-' },
-        { data: 'bloom_price', render: v => formatK(v) },
-        { data: 'bloom_size', render: v => v ? formatInt(v) : '-' },
-        { data: null, render: d => formatInt((d.seed_fee || 0) + (d.bloom_fee || 0)) },
-        { data: 'profit', render: v => v !== undefined ? formatInt(v) : '-' }
-      ]
-    });
 
     document.getElementById("coinFilter").addEventListener("change", e => {
       updateDashboard(e.target.value);
     });
     document.getElementById("statusFilter").addEventListener("change", e => {
       const val = e.target.value;
-      dt.column(2).search(val === "all" ? "" : val).draw();
+      dt.column(1).search(val === "all" ? "" : val).draw();
     });
 
     updateDashboard("all");
