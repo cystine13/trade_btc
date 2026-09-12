@@ -16,13 +16,17 @@
   }
   *{box-sizing:border-box;}
   html,body{margin:0;background:var(--bg);}
-  body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text); padding:32px 24px 70px; font-size:clamp(13px,3.6vw,16px);}
+  body{font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text); padding:0 24px 70px; font-size:clamp(13px,3.6vw,16px);}
   .wrap{max-width:1120px; margin:0 auto;}
 
-  .head{display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--line); padding-bottom:20px; margin-bottom:26px; gap:16px; flex-wrap:wrap;}
-  .head h1{font-family:'Newsreader',serif; font-weight:500; font-size:clamp(22px,7.5vw,38px); margin:0 0 6px; white-space:nowrap;}
+  .head{
+    display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--line);
+    padding:20px 0; margin-bottom:26px; gap:16px; flex-wrap:wrap;
+    position:sticky; top:0; z-index:20; background:var(--bg);
+  }
+  .head h1{font-family:'Newsreader',serif; font-weight:500; font-size:clamp(20px,6.5vw,34px); margin:0 0 6px; white-space:nowrap;}
   .head .sub{color:var(--text-dim); font-size:clamp(11px,3vw,15px); white-space:nowrap;}
-  .datepick{display:flex; align-items:center; gap:clamp(4px,1.5vw,10px);}
+  .datepick{display:flex; align-items:center; gap:clamp(4px,1.5vw,10px); flex-wrap:wrap;}
   .datepick input{background:var(--panel-2); border:1px solid var(--line); color:var(--text); padding:clamp(5px,1.5vw,9px) clamp(6px,2vw,11px); border-radius:3px; font-family:inherit; font-size:clamp(12px,3.2vw,16px);}
   .datepick button{background:transparent; border:1px solid var(--line); color:var(--text-dim); padding:clamp(5px,1.5vw,9px) clamp(7px,2.2vw,13px); border-radius:3px; cursor:pointer; font-family:inherit; font-size:clamp(11px,3vw,15px);}
   .datepick button:hover{border-color:var(--moss); color:var(--moss);}
@@ -77,12 +81,27 @@
   .line-sw{width:14px; height:2px; display:inline-block; border-radius:1px;}
   svg text{font-family:'Pretendard',sans-serif; fill:var(--text-dim); font-size:12px;}
 
+  /* 현금 비중 패널 */
+  .cash-layout{display:flex; gap:24px; align-items:stretch;}
+  .cash-card{min-width:150px; flex-shrink:0; display:flex; flex-direction:column; justify-content:center; gap:10px;}
+  .cash-card .cc-row{display:flex; justify-content:space-between; gap:16px;}
+  .cash-card .cc-row .cc-label{color:var(--text-dim); font-size:clamp(11px,3vw,13.5px);}
+  .cash-card .cc-row .cc-val{font-family:'Newsreader',serif; font-size:clamp(14px,4vw,18px);}
+  .cash-card .cc-ratio{color:var(--moss); font-weight:600;}
+  .cash-chart-wrap{flex:1; min-width:0;}
+
+  @media (max-width:760px){
+    .cash-layout{flex-direction:column;}
+    .cash-chart-wrap{display:none;}
+    .cc-row.cc-total{display:none;}
+  }
+
   .empty{color:var(--text-dim); font-size:clamp(12px,3.2vw,15px); padding:6px 0;}
   .footnote{color:var(--text-dim); font-size:clamp(11px,3vw,13.5px); margin-top:12px; line-height:1.6;}
   .status-msg{color:var(--text-dim); font-size:clamp(12px,3.2vw,15px); text-align:center; padding:40px 0;}
 
   @media (max-width:480px){
-    body{padding:20px 14px 50px;}
+    body{padding:0 14px 50px;}
     .head{align-items:flex-start;}
   }
 </style>
@@ -100,7 +119,7 @@
       <input type="date" id="datePick">
       <button id="nextDay">▶</button>
       <button id="todayBtn">오늘</button>
-      <a href="https://cystine13.github.io/trade_btc/bitgarden_report.html" class="report-link">리포트 ↗</a>      
+      <a href="https://cystine13.github.io/trade_btc/bitgarden_report.html" class="report-link">리포트 ↗</a>
     </div>
   </div>
 
@@ -150,6 +169,20 @@
       <svg id="lineChart" viewBox="0 0 960 260" style="width:100%; height:auto;"></svg>
     </div>
 
+    <div class="panel" id="cashPanel" style="display:none;">
+      <h2>현금 비중 <span class="tag" id="cashDateLabel"></span></h2>
+      <div class="cash-layout">
+        <div class="cash-card">
+          <div class="cc-row cc-total"><span class="cc-label">총 보유자산</span><span class="cc-val" id="cashTotal">-</span></div>
+          <div class="cc-row"><span class="cc-label">현금</span><span class="cc-val" id="cashKrw">-</span></div>
+          <div class="cc-row"><span class="cc-label">현금 비중</span><span class="cc-val cc-ratio" id="cashRatio">-</span></div>
+        </div>
+        <div class="cash-chart-wrap">
+          <svg id="cashChart" viewBox="0 0 960 180" style="width:100%; height:auto;"></svg>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -162,12 +195,18 @@
    state.json의 bloom(체결완료) 항목에 적립금/분배금을 나중에 추가하실 때, 아래 두 상수를
    실제로 쓰는 필드명과 맞춰주세요. 이 필드가 없는(과거) 데이터는 자동으로
    적립금 0 / 분배금 = profit 전액으로 처리됩니다.
+
+   현금 비중(cash_history.json):
+   run_reservoir.py가 매일 KST 자정 배치 실행 후 기록하는 일별 스냅샷입니다.
+   [{ date, total_krw, cash_krw, cash_ratio }, ...] 형태이며, 같은 경로(DATA_BASE)에 없으면
+   현금 비중 패널은 자동으로 숨겨집니다.
 */
 const DATA_BASE = './';
 const FIELD_RESERVOIR = 'reservoir_amount';   // 적립금 필드명
 const FIELD_DISTRIBUTED = 'distributed_amount'; // 분배금 필드명
 
 let STATE = [];
+let CASH_HISTORY = [];
 
 function ymd(dt){
   const y = dt.getFullYear();
@@ -190,6 +229,13 @@ async function loadData(){
   const res = await fetch(DATA_BASE + 'state.json');
   if(!res.ok) throw new Error('state.json 로드 실패');
   STATE = await res.json();
+
+  try{
+    const cashRes = await fetch(DATA_BASE + 'cash_history.json');
+    CASH_HISTORY = cashRes.ok ? await cashRes.json() : [];
+  }catch(e){
+    CASH_HISTORY = [];
+  }
 }
 
 function buildMilestoneTargets(total){
@@ -377,9 +423,64 @@ function renderChart(endDateStr){
   `;
 }
 
+function renderCashPanel(dateStr){
+  const panel = document.getElementById('cashPanel');
+
+  const entry = CASH_HISTORY.find(e => e.date === dateStr);
+  if(!entry){
+    panel.style.display = 'none';
+    return;
+  }
+  panel.style.display = 'block';
+
+  document.getElementById('cashDateLabel').textContent = entry.date;
+  document.getElementById('cashTotal').textContent = won(entry.total_krw);
+  document.getElementById('cashKrw').textContent = won(entry.cash_krw);
+  document.getElementById('cashRatio').textContent = (entry.cash_ratio*100).toFixed(1) + '%';
+
+  renderCashChart(dateStr);
+}
+
+function renderCashChart(endDateStr){
+  const svg = document.getElementById('cashChart');
+  const history = CASH_HISTORY.filter(e => e.date <= endDateStr).slice(-30);
+  if(history.length < 2){ svg.innerHTML=''; return; }
+
+  const W=960, H=180, padL=50, padR=10, padT=10, padB=26;
+  const innerH = H-padT-padB;
+  const x = i => padL + (i/(history.length-1))*(W-padL-padR);
+  const y = v => padT + innerH - (v*innerH);
+
+  const linePath = history.map((e,i)=> (i===0?'M':'L') + x(i).toFixed(1) + ' ' + y(e.cash_ratio).toFixed(1)).join(' ');
+  const areaPath = linePath + ` L ${x(history.length-1).toFixed(1)} ${(padT+innerH).toFixed(1)} L ${x(0).toFixed(1)} ${(padT+innerH).toFixed(1)} Z`;
+
+  let gridSvg = '';
+  [0,0.25,0.5,0.75,1].forEach(g=>{
+    const gy = y(g);
+    gridSvg += `<line x1="${padL}" y1="${gy.toFixed(1)}" x2="${W-padR}" y2="${gy.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
+    gridSvg += `<text x="${padL-8}" y="${(gy+4).toFixed(1)}" font-size="12" text-anchor="end">${Math.round(g*100)}%</text>`;
+  });
+
+  let dateSvg = '';
+  const step = Math.ceil(history.length/6);
+  history.forEach((e,i)=>{
+    if(i % step === 0 || i===history.length-1){
+      dateSvg += `<text x="${x(i).toFixed(1)}" y="${H-6}" font-size="12" text-anchor="middle">${e.date.slice(5)}</text>`;
+    }
+  });
+
+  svg.innerHTML = `
+    ${gridSvg}
+    <path d="${areaPath}" fill="var(--moss)" fill-opacity="0.18" stroke="none"/>
+    <path d="${linePath}" fill="none" stroke="var(--moss)" stroke-width="2"/>
+    ${dateSvg}
+  `;
+}
+
 function renderAll(dateStr){
   renderDailyTable(dateStr);
   renderChart(dateStr);
+  renderCashPanel(dateStr);
 }
 
 function init(){
