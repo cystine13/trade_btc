@@ -51,7 +51,7 @@
   <table class="table table-striped" id="detailsTable">
     <thead>
       <tr>
-        <th>Coin</th><th>Seed ID</th><th>Status</th><th>Growing#</th><th>Seed Time</th><th>Seed Price</th><th>Seed Size</th>
+        <th>Seed ID</th><th>Status</th><th>Growing#</th><th>Seed Time</th><th>Seed Price</th><th>Seed Size</th>
         <th>Bloom Time</th><th>Bloom Price</th><th>Bloom Size</th><th>Fee</th><th>Profit</th>
       </tr>
     </thead>
@@ -65,13 +65,19 @@
 <script>
 function formatDateTime(t) {
   const d = new Date(t);
-  return isNaN(d) ? t : d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0') + '-' + d.getDate().toString().padStart(2,'0') + ' ' + d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  if (isNaN(d)) return t;
+  const yy = String(d.getFullYear()).slice(2);
+  const mm = (d.getMonth()+1).toString().padStart(2,'0');
+  const dd = d.getDate().toString().padStart(2,'0');
+  const hh = d.getHours().toString().padStart(2,'0');
+  const mi = d.getMinutes().toString().padStart(2,'0');
+  return `${yy}.${mm}.${dd} ${hh}:${mi}`;
 }
 function formatInt(value) {
   return Math.round(value).toLocaleString();
 }
 function formatK(value) {
-  return value ? Math.round(value / 1000) + "K" : '-';
+  return value ? Math.round(value / 1000).toLocaleString() + "K" : '-';
 }
 fetch('bitgarden2/data/state.json')
   .then(res => res.json())
@@ -149,7 +155,6 @@ fetch('bitgarden2/data/state.json')
       pageLength: 20,
       ordering: false,
       columns: [
-        { data: 'coin' },
         { data: 'seed_id' },
         { data: 'status', render: s => `<span class="badge bg-${s==='bloomed'?'success':'warning text-dark'}">${s}</span>` },
         { data: 'growing_count_at_plant', render: v => (v === undefined || v === null) ? '-' : v },
