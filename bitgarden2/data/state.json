@@ -57793,7 +57793,11 @@
         "seed_price": 3492000.0,
         "bloom_price": 3502000.0,
         "bloom_uuid": "d51e260b-9b44-4041-baca-50dc111e5cab",
-        "status": "growing",
-        "growing_count_at_plant": 25
+        "status": "bloomed",
+        "growing_count_at_plant": 25,
+        "bloom_time": "2026-09-15T05:22:45+09:00",
+        "bloom_size": 13202.68008,
+        "bloom_fee": 6.60134004,
+        "profit": 24.516570119999717
     }
 ]
