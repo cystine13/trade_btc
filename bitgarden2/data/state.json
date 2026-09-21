@@ -44241,9 +44241,13 @@
         "bloom_amount": 6.299e-05,
         "seed_fee": 3.541770225,
         "seed_price": 112455000.0,
-        "bloom_price": 112792000.0,
+        "bloom_price": 112791999.99999999,
         "bloom_uuid": "91ee3116-1afe-4417-980a-98ae0f9891a4",
-        "status": "growing"
+        "status": "bloomed",
+        "bloom_time": "2026-09-21T17:38:24+09:00",
+        "bloom_size": 7104.76808,
+        "bloom_fee": 3.55238404,
+        "profit": 14.133475734999408
     },
     {
         "seed_id": "ETH-1743",
