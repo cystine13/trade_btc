@@ -60461,10 +60461,14 @@
         "bloom_amount": 0.0033442,
         "seed_fee": 6.1499838,
         "seed_price": 3678000.0,
-        "bloom_price": 3689000.0,
+        "bloom_price": 3689000.0000000005,
         "bloom_uuid": "513ef81b-7689-4ca9-8e8b-a1f86e6cebe1",
-        "status": "growing",
-        "growing_count_at_plant": 26
+        "status": "bloomed",
+        "growing_count_at_plant": 26,
+        "bloom_time": "2026-10-02T08:59:13+09:00",
+        "bloom_size": 12336.7538,
+        "bloom_fee": 6.1683769,
+        "profit": 24.467839300000463
     },
     {
         "seed_id": "BTC-1191",
