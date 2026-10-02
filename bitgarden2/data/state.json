@@ -60637,7 +60637,11 @@
         "seed_price": 3706000.0,
         "bloom_price": 3717000.0,
         "bloom_uuid": "442cf790-12ee-4f64-b8ae-fc7d091555e8",
-        "status": "growing",
-        "growing_count_at_plant": 25
+        "status": "bloomed",
+        "growing_count_at_plant": 25,
+        "bloom_time": "2026-10-02T13:28:07+09:00",
+        "bloom_size": 13340.46168,
+        "bloom_fee": 6.67023084,
+        "profit": 26.158718040000977
     }
 ]
