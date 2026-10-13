@@ -61465,8 +61465,12 @@
         "seed_price": 113163423.93162392,
         "bloom_price": 113503000.0,
         "bloom_uuid": "6d5d25cc-13a9-41f8-ac02-4fdc620a8182",
-        "status": "growing",
-        "growing_count_at_plant": 27
+        "status": "bloomed",
+        "growing_count_at_plant": 27,
+        "bloom_time": "2026-10-13T17:14:16+09:00",
+        "bloom_size": 7303.91805,
+        "bloom_fee": 3.651959025,
+        "profit": 14.558727810000569
     },
     {
         "seed_id": "ETH-2316",
