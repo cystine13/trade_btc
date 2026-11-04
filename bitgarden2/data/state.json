@@ -62645,10 +62645,14 @@
         "bloom_amount": 0.00196523,
         "seed_fee": 3.16598553,
         "seed_price": 3221999.9999999995,
-        "bloom_price": 3231000.0,
+        "bloom_price": 3230999.9999999995,
         "bloom_uuid": "262a4589-e59f-4e34-9bab-53f3566388b8",
-        "status": "growing",
-        "growing_count_at_plant": 32
+        "status": "bloomed",
+        "growing_count_at_plant": 32,
+        "bloom_time": "2026-11-05T00:03:29+09:00",
+        "bloom_size": 6349.65813,
+        "bloom_fee": 3.174829065,
+        "profit": 11.346255404999948
     },
     {
         "seed_id": "BTC-1246",
