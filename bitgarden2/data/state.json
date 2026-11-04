@@ -63197,8 +63197,12 @@
         "seed_price": 3198000.0,
         "bloom_price": 3207000.0,
         "bloom_uuid": "7706b812-698d-4def-8912-538e9e788a7e",
-        "status": "growing",
-        "growing_count_at_plant": 33
+        "status": "bloomed",
+        "growing_count_at_plant": 33,
+        "bloom_time": "2026-11-05T00:00:47+09:00",
+        "bloom_size": 5347.9932,
+        "bloom_fee": 2.6739966,
+        "profit": 9.66791099999971
     },
     {
         "seed_id": "BTC-1260",
