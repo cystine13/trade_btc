@@ -406,5 +406,11 @@
         "cash_krw": 64558,
         "cash_ratio": 0.07,
         "date": "2026-11-17"
+    },
+    {
+        "total_krw": 914919,
+        "cash_krw": 54630,
+        "cash_ratio": 0.0597,
+        "date": "2026-11-18"
     }
 ]
